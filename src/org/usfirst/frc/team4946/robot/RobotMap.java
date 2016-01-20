@@ -1,4 +1,8 @@
 package org.usfirst.frc.team4946.robot;
+
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Victor;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -16,8 +20,13 @@ public class RobotMap {
     // public static int rangefinderPort = 1;
     // public static int rangefinderModule = 1;
 	
+	public static final int k_frontRightPort = 0;
+	public static final int k_frontLeftPort = 1;
+	public static final int k_backRightPort = 2;
+	public static final int k_backLeftPort = 3;
 	
+	public static final int k_joystickPort = 0;
 	
-	
-	
+	public static final int k_joystickXAxisPort = 0;
+	public static final int k_joystickYAxisPort = 1;
 }
