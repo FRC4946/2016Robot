@@ -23,7 +23,7 @@ public class OI {
     // Once you have a button, it's trivial to bind it to a button in one of
     // three ways:
     
-    // Start the command when the button is pressed and let it run the command
+    // Start the command when the button is pressed andsd let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenPressed(new ExfampleCommand());
     
