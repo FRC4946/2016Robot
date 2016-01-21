@@ -20,13 +20,18 @@ public class RobotMap {
     // public static int rangefinderPort = 1;
     // public static int rangefinderModule = 1;
 	
-	public static final int k_frontRightPort = 0;
-	public static final int k_frontLeftPort = 1;
-	public static final int k_backRightPort = 2;
-	public static final int k_backLeftPort = 3;
+	public static final int k_frontRightMotorPort = 0;
+	public static final int k_frontLeftMotorPort = 1;
+	public static final int k_backRightMotorPort = 2;
+	public static final int k_backLeftMotorPort = 3;
+	public static final int k_strafeMotorPort = 4;
+	
 	
 	public static final int k_joystickPort = 0;
 	
 	public static final int k_joystickXAxisPort = 0;
 	public static final int k_joystickYAxisPort = 1;
+	public static final int k_joystickZAxisPort = 2;
+	
+	
 }

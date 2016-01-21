@@ -17,11 +17,12 @@ public class DriveTrainSubsystem extends Subsystem {
 	
 	
 	
-	public  Victor m_frontRightMotor = new Victor(RobotMap.k_frontRightPort);
-	public  Victor m_frontLeftMotor = new Victor(RobotMap.k_frontLeftPort);
-	public  Victor m_backRightMotor = new Victor(RobotMap.k_backRightPort);
-	public  Victor m_backLeftMotor = new Victor(RobotMap.k_backLeftPort);
+	public  Victor m_frontRightMotor = new Victor(RobotMap.k_frontRightMotorPort);
+	public  Victor m_frontLeftMotor = new Victor(RobotMap.k_frontLeftMotorPort);
+	public  Victor m_backRightMotor = new Victor(RobotMap.k_backRightMotorPort);
+	public  Victor m_backLeftMotor = new Victor(RobotMap.k_backLeftMotorPort);
 	
+	public Victor m_strafeMotor = new Victor(RobotMap.k_strafeMotorPort);
 	
 	public RobotDrive m_robotDrive = new RobotDrive(m_frontRightMotor, m_frontLeftMotor, m_backRightMotor , m_backLeftMotor);
 	
@@ -59,7 +60,9 @@ public class DriveTrainSubsystem extends Subsystem {
     	
     }
     
-    
+    public void strafe(double speed){
+    	m_strafeMotor.set(speed);
+    }
     
 }
 

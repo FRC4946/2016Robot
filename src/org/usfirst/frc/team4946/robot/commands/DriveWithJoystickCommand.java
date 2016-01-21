@@ -33,6 +33,7 @@ public class DriveWithJoystickCommand extends Command {
     	
     	
     	Robot.driveTrainSubsystem.drive(Robot.oi.getLeftStick(),Robot.oi.getRightStick());
+    	Robot.driveTrainSubsystem.strafe(Robot.oi.getZStick());
     	
     }
 
