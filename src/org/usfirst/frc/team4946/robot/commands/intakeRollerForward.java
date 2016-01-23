@@ -7,6 +7,8 @@ import org.usfirst.frc.team4946.robot.Robot;
  *
  */
 public class intakeRollerForward extends Command {
+	
+	int forwardCounter = 0;
 
     public intakeRollerForward() {
         // Use requires() here to declare subsystem dependencies
@@ -16,15 +18,22 @@ public class intakeRollerForward extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	forwardCounter = 0;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    }
+    	Robot.m_intakeSubsystem.setInRollerSpeed(1.0);
+    	forwardCounter ++;
+    	   }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	if(forwardCounter == 1) {
+    		return true;
+    	} else {
         return false;
+    	}
     }
 
     // Called once after isFinished returns true
