@@ -1,18 +1,17 @@
-
 package org.usfirst.frc.team4946.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc.team4946.robot.Robot;
-
 /**
  *
  */
-public class ExampleCommand extends Command {
+public class intakeRollerForward extends Command {
 
-    public ExampleCommand() {
+    public intakeRollerForward() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.m_exampleSubsystem);
+        // eg. requires(chassis);
+    	requires(Robot.m_intakeSubsystem);
     }
 
     // Called just before this Command runs the first time
