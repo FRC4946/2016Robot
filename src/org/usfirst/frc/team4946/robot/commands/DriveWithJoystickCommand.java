@@ -1,8 +1,6 @@
 package org.usfirst.frc.team4946.robot.commands;
 
-import org.usfirst.frc.team4946.robot.OI;
 import org.usfirst.frc.team4946.robot.Robot;
-import org.usfirst.frc.team4946.robot.subsystems.DriveTrainSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -29,11 +27,10 @@ public class DriveWithJoystickCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
+    	Robot.driveTrainSubsystem.drive(Robot.oi.getXAxis(),
+    									Robot.oi.getYAxis());
     	
-    	
-    	
-    	Robot.driveTrainSubsystem.drive(Robot.oi.getLeftStick(),Robot.oi.getRightStick());
-    	Robot.driveTrainSubsystem.strafe(Robot.oi.getZStick());
+    	Robot.driveTrainSubsystem.strafe(Robot.oi.getZAxis());
     	
     }
 

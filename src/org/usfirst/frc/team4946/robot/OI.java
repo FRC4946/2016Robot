@@ -49,13 +49,13 @@ public class OI {
 		
 	}
 	
-	public double getLeftStick(){
+	public double getXAxis(){
 		
 		return m_driveStick.getRawAxis(RobotMap.k_joystickXAxisPort);
 		
 	}
 	
-	public double getRightStick(){
+	public double getYAxis(){
 		
 		
 		return m_driveStick.getRawAxis(RobotMap.k_joystickYAxisPort);
@@ -63,7 +63,7 @@ public class OI {
 	}
 	
 	
-	public double getZStick(){
+	public double getZAxis(){
 		
 		return m_driveStick.getRawAxis(RobotMap.k_joystickZAxisPort);
 		

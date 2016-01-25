@@ -5,6 +5,7 @@ import org.usfirst.frc.team4946.robot.RobotMap;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.Encoder;
 
 /**
  *
@@ -13,19 +14,20 @@ public class DriveTrainSubsystem extends Subsystem {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-
 	
 	
 	
-	public  Victor m_frontRightMotor = new Victor(RobotMap.k_frontRightMotorPort);
-	public  Victor m_frontLeftMotor = new Victor(RobotMap.k_frontLeftMotorPort);
-	public  Victor m_backRightMotor = new Victor(RobotMap.k_backRightMotorPort);
-	public  Victor m_backLeftMotor = new Victor(RobotMap.k_backLeftMotorPort);
+	
+	public Victor m_frontRightMotor = new Victor(RobotMap.k_frontRightMotorPort);
+	public Victor m_frontLeftMotor = new Victor(RobotMap.k_frontLeftMotorPort);
+	public Victor m_backRightMotor = new Victor(RobotMap.k_backRightMotorPort);
+	public Victor m_backLeftMotor = new Victor(RobotMap.k_backLeftMotorPort);
 	
 	public Victor m_strafeMotor = new Victor(RobotMap.k_strafeMotorPort);
 	
 	public RobotDrive m_robotDrive = new RobotDrive(m_frontRightMotor, m_frontLeftMotor, m_backRightMotor , m_backLeftMotor);
 	
+	public Encoder m_encoder = new Encoder(RobotMap.k_encoder1, RobotMap.k_encoder2);
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -35,7 +37,7 @@ public class DriveTrainSubsystem extends Subsystem {
     
     public void drive(double x, double y){
     	
-    	m_robotDrive.drive(x, y);
+    	m_robotDrive.arcadeDrive(x, y);
     	
     	
     }
