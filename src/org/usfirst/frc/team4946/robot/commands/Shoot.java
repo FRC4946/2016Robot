@@ -26,7 +26,7 @@ public class Shoot extends Command {
     	double airDensity = 1.255; //Approximate with a constant (kg/m^3)
     	double shootingAngle = 30; //Degrees
     	double goalDistance; //Comes from Camera 
-    	double goalHeight = 0.4064; //(metres)
+    	double goalLength = 0.4064; //(metres)
     	double dragCoefficient = 0.5; //(physics  u m )
     	
     	double drag; //approximate with a constant
