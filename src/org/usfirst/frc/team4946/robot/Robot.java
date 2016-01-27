@@ -1,12 +1,11 @@
-
 package org.usfirst.frc.team4946.robot;
 
+import org.usfirst.frc.team4946.robot.commands.autonomous.AutonomousWrapper;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.frc.team4946.robot.commands.ExampleCommand;
-import org.usfirst.frc.team4946.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,90 +18,115 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 
-    Command autonomousCommand;
-    SendableChooser chooser;
+	private CommandGroup m_autonomousCommandGroup;
+	private SendableChooser m_autoDefense;
+	private SendableChooser m_autoPosition;
 
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
-    public void robotInit() {
-		oi = new OI();
-        chooser = new SendableChooser();
-        chooser.addDefault("Default Auto", new ExampleCommand());
-//        chooser.addObject("My Auto", new MyAutoCommand());
-        SmartDashboard.putData("Auto mode", chooser);
-    }
-	
 	/**
-     * This function is called once each time the robot enters Disabled mode.
-     * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
-     */
-    public void disabledInit(){
+	 * A simple class to enumerate each defense to simplify passing information
+	 * about each defense
+	 * 
+	 * @author Matthew Reynolds
+	 *
+	 */
+	public static class Defenses {
+		public static final int LOW_BAR = 0;
+		public static final int PORTCULLIS = 1;
+		public static final int CHEVAL_DE_FRISE = 2;
+		public static final int MOAT = 3;
+		public static final int RAMPARTS = 4;
+		public static final int DRAWBRIDGE = 5;
+		public static final int SALLY_PORT = 6;
+		public static final int ROCK_WALL = 7;
+		public static final int ROUGH_TERRAIN = 8;
+	}
 
-    }
-	
+	/**
+	 * This function is run when the robot is first started up and should be
+	 * used for any initialization code.
+	 */
+	public void robotInit() {
+		oi = new OI();
+
+		// Create the selector on the SmartDashboard for the defense to traverse
+		m_autoDefense = new SendableChooser();
+		m_autoDefense.addDefault("Low Bar", Defenses.LOW_BAR);
+		m_autoDefense.addObject("Portcullis", Defenses.PORTCULLIS);
+		m_autoDefense.addObject("Cheval de Frise", Defenses.CHEVAL_DE_FRISE);
+		m_autoDefense.addObject("Moat", Defenses.MOAT);
+		m_autoDefense.addObject("Ramparts", Defenses.RAMPARTS);
+		m_autoDefense.addObject("Drawbridge", Defenses.DRAWBRIDGE);
+		m_autoDefense.addObject("Sally Port", Defenses.SALLY_PORT);
+		m_autoDefense.addObject("Rock Wall", Defenses.ROCK_WALL);
+		m_autoDefense.addObject("Rough Terrain", Defenses.ROUGH_TERRAIN);
+
+		// Create the selector on the SmartDashboard for the starting position
+		m_autoPosition = new SendableChooser();
+		m_autoDefense.addDefault("Pos 1 (Low Bar)", 1);
+		m_autoDefense.addObject("Pos 2", 2);
+		m_autoDefense.addObject("Pos 3", 3);
+		m_autoDefense.addObject("Pos 4", 4);
+		m_autoDefense.addObject("Pos 5 (Next to Secret Passage)", 5);
+
+		// Place the two selectors on the SmartDashboard
+		SmartDashboard.putData("Autonomous - Defense", m_autoDefense);
+		SmartDashboard
+				.putData("Autonomous - Starting Position", m_autoPosition);
+	}
+
+	/**
+	 * This function is called once each time the robot enters Disabled mode.
+	 * You can use it to reset any subsystem information you want to clear when
+	 * the robot is disabled.
+	 */
+	public void disabledInit() {
+
+	}
+
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
 
+	public void autonomousInit() {
+
+		// Get the user-selected position and defense
+		int defense = (int) m_autoDefense.getSelected();
+		int position = (int) m_autoPosition.getSelected();
+
+		// Create the autonomous command using the user-selected values
+		m_autonomousCommandGroup = new AutonomousWrapper(defense, position);
+
+		// Start the autonomous command
+		m_autonomousCommandGroup.start();
+	}
+
 	/**
-	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
-	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
-	 * Dashboard, remove all of the chooser code and uncomment the getString code to get the auto name from the text box
-	 * below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional commands to the chooser code above (like the commented example)
-	 * or additional comparisons to the switch structure below with additional strings & commands.
+	 * This function is called periodically during autonomous
 	 */
-    public void autonomousInit() {
-        autonomousCommand = (Command) chooser.getSelected();
-        
-		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		switch(autoSelected) {
-		case "My Auto":
-			autonomousCommand = new MyAutoCommand();
-			break;
-		case "Default Auto":
-		default:
-			autonomousCommand = new ExampleCommand();
-			break;
-		} */
-    	
-    	// schedule the autonomous command (example)
-        if (autonomousCommand != null) autonomousCommand.start();
-    }
+	public void autonomousPeriodic() {
+		Scheduler.getInstance().run();
+	}
 
-    /**
-     * This function is called periodically during autonomous
-     */
-    public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
-    }
-
-    public void teleopInit() {
+	public void teleopInit() {
 		// This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to 
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
-        if (autonomousCommand != null) autonomousCommand.cancel();
-    }
+		// teleop starts running.
+		if (m_autonomousCommandGroup != null)
+			m_autonomousCommandGroup.cancel();
+	}
 
-    /**
-     * This function is called periodically during operator control
-     */
-    public void teleopPeriodic() {
-        Scheduler.getInstance().run();
-    }
-    
-    /**
-     * This function is called periodically during test mode
-     */
-    public void testPeriodic() {
-        LiveWindow.run();
-    }
+	/**
+	 * This function is called periodically during operator control
+	 */
+	public void teleopPeriodic() {
+		Scheduler.getInstance().run();
+	}
+
+	/**
+	 * This function is called periodically during test mode
+	 */
+	public void testPeriodic() {
+		LiveWindow.run();
+	}
 }
