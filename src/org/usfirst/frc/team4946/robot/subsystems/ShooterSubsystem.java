@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class ShooterSubsystem extends Subsystem {
 
     //Initialize the two motors used to shoot the ball
-	CANTalon m_LeftShooterTalon = new CANTalon(RobotMap.k_PWN_SHOOTER_CANTALON_LEFT);
-    CANTalon m_RightShooterTalon = new CANTalon(RobotMap.k_PWN_SHOOTER_CANTALON_RIGHT);
+	CANTalon leftShooterTalon = new CANTalon(RobotMap.PWN_SHOOTER_CANTALON_LEFT);
+    CANTalon rightShooterTalon = new CANTalon(RobotMap.PWN_SHOOTER_CANTALON_RIGHT);
 	
 	// Initialize your subsystem here
-    private static double kP = 0.1; 
-    private static double kI = 0.0;
-    private static double kF = 0.0;
+    double kP = 0.1; 
+    double kI = 0.0;
+    double kF = 0.0;
     
 	double gravity = 9.8; //(m / s^2)
 	double ballMass = 0.294835; //(kg)
@@ -47,16 +47,18 @@ public class ShooterSubsystem extends Subsystem {
 		
 	}
     
-    public void ShootBall(double fRPM) {
+    public void shootBall(double fRPM) {
     	
     	/**
     	 * Sets motor speed needed to shoot ball
     	 */
         
     	//Sets the 6 constants used in the PID Controller 
-		m_LeftShooterTalon.setPID(kP, kI, 0, kF, 0, 12, 0);
+		  leftShooterTalon.setPID(kP, kI, 0, kF, 0, 12, 0);
+		  rightShooterTalon.setPID(kP, kI, 0, kF, 0, 12, 0);
 		//Sets the RPM of that the motor should be at
-		m_LeftShooterTalon.setSetpoint(fRPM);
+		  leftShooterTalon.setSetpoint(-fRPM);
+		  rightShooterTalon.setSetpoint(fRPM);
 
     }
     

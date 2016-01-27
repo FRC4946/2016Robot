@@ -9,13 +9,13 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class Shoot extends Command {
 
-	double fRPM = Robot.m_shooterPIDSubsystem.calcSpeedRPM();
-	double fVel = Robot.m_shooterPIDSubsystem.calcSpeedVel();
+	double fRPM = Robot.shooterPIDSubsystem.calcSpeedRPM();
+	double fVel = Robot.shooterPIDSubsystem.calcSpeedVel();
 	
     public Shoot() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.m_shooterPIDSubsystem);
+    	requires(Robot.shooterPIDSubsystem);
     }
 
     // Called just before this Command runs the first time
@@ -27,7 +27,7 @@ public class Shoot extends Command {
     protected void execute() {
     	
     	//Set the setpoint of the ShooterSubsystem
-    	Robot.m_shooterPIDSubsystem.ShootBall(fRPM);
+    	Robot.shooterPIDSubsystem.shootBall(fRPM);
     }
 
     // Make this return true when this Command no longer needs to run execute()

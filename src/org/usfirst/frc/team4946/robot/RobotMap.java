@@ -16,10 +16,10 @@ public class RobotMap {
     // public static int rangefinderPort = 1;
     // public static int rangefinderModule = 1;
 	
-	public static final int k_PWN_SHOOTER_CANTALON_LEFT = 0;
-	public static final int k_PWN_SHOOTER_CANTALON_RIGHT = 1;
+	public static final int PWN_SHOOTER_CANTALON_LEFT = 0;
+	public static final int PWN_SHOOTER_CANTALON_RIGHT = 1;
 	
-	public static final int k_JOYSTICK_PORT = 0;
+	public static final int JOYSTICK_PORT = 0;
 	
 	
 }
