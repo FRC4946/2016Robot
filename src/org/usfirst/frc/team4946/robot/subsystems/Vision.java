@@ -14,7 +14,7 @@ public class Vision extends Subsystem {
 	final static double k_angleDeg = 60; // 60deg
 	final static double k_angleRad = Math.toRadians(60);
 	final static double k_targetHeight = 2.4384; // The height of the tower
-	final static double k_wheelDia = 0.1016; // Wheel diameter
+	final static double k_wheelDia = 0.1016; // Shooter wheel diameter
 
 	private AnalogInput m_distanceSensor = new AnalogInput(
 			RobotMap.k_ANA_RANGE_FINDER);
@@ -79,5 +79,17 @@ public class Vision extends Subsystem {
 	 */
 	public double velToRPM(double vel) {
 		return 60 / k_wheelDia * vel;
+	}
+	
+	/**
+	 * Convert a wheel speed to the projectile's initial velocity
+	 * 
+	 * @param RPM
+	 *            the wheel speed, in RPM
+	 * @return the initial velocity, in m/s
+	 */
+	public double RPMToVel(double RPM) {
+		
+		return RPM / (60 / k_wheelDia);
 	}
 }
