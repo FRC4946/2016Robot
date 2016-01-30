@@ -19,7 +19,7 @@ public class IntakeSubsystem extends Subsystem {
 	else if (RollerSpeed == 1.0) {
 		intakeRollerVictorSP.set(1.0);
 	}
-	else {
+	else if (RollerSpeed == 0.0) {
 		intakeRollerVictorSP.set(0.0);
 	}
 		
