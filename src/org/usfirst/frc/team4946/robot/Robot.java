@@ -27,6 +27,7 @@ public class Robot extends IterativeRobot {
 
 	Command autonomousCommand;
 	SendableChooser chooser;
+	
 
 
 	/**
@@ -39,7 +40,7 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
-		networkTable = NetworkTable.getTable("SmartDashboard");
+		networkTable = NetworkTable.getTable("RoboRealm");
 	}
 
 	/**

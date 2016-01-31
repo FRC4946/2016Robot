@@ -23,7 +23,7 @@ public class Vision extends Subsystem {
 
 	private AnalogInput m_distanceSensor = new AnalogInput(
 			RobotMap.k_ANA_RANGE_FINDER);
-
+	
 	/**
 	 * Checks whether or not the camera has successfully found 4 corners
 	 * 
