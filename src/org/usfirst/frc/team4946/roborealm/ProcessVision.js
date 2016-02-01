@@ -31,7 +31,8 @@ function calculateSlope(startX, startY, endX, endY) {
 }
 
 /**
- * Calculate the x intercept of the line from point [startX, startY] to [endX, endY]
+ * Calculate the x intercept of the line from point [startX, startY] to [endX,
+ * endY]
  * 
  * @returns the x val of the x intercept (double)
  */
@@ -40,13 +41,13 @@ function calculateIntercept(startX, startY, endX, endY) {
 	return ((slope * startX) - startY) * -1;
 }
 
-
 /**
- * Calculate the distance from [pX, pY] to the line [startX, startY]-[endX, endY]
+ * Calculate the distance from [pX, pY] to the line [startX, startY]-[endX,
+ * endY]
  * 
  * @returns the distance (double)
  */
-function getDistance(pX, pY, startX, startY, endX, endY) {
+function getPointDistance(pX, pY, startX, startY, endX, endY) {
 
 	// Calculate the eqn of the line [startX, startY] [endX, endY]
 	var slope = calculateSlope(startX, startY, endX, endY);
@@ -56,7 +57,8 @@ function getDistance(pX, pY, startX, startY, endX, endY) {
 	var inverseSlope = -1 / slope;
 	var inverseIntercept = ((inverseSlope * pX) - pY) * -1;
 
-	// Calculate the intersection point of the two lines, and the distance from that intersection point to the setpoint
+	// Calculate the intersection point of the two lines, and the distance from
+	// that intersection point to the setpoint
 	var xInt = (intercept - inverseIntercept) / (inverseSlope - slope);
 	var yInt = (slope * xInt) + intercept;
 	var distance = sqrt((pX - xInt) * (pX - xInt) + (pY - yInt) * (pY - yInt));
@@ -68,7 +70,6 @@ function getDistance(pX, pY, startX, startY, endX, endY) {
 
 	return distance;
 }
-
 
 // =*=*=*=*=*= MAIN ENTRY POINT =*=*=*=*=*= \\
 
@@ -95,20 +96,16 @@ else {
 	SetVariable("HAS_CORNERS", true);
 	SetVariable("EDGE_PROXIMITY", false);
 
-	
 	// Pull all of the points from the RoboRealm to a local JS array
-	for(var i = 0; i < length; i++){
+	for (var i = 0; i < length; i++) {
 		corners[i] = GetVariable("HARRIS_CORNERS:" + i);
 	}
-	
-	// Get the first and the last point to use as the initial line
-	var startX = GetVariable("HARRIS_CORNERS:0"); // corners[0];
-	var startY = GetVariable("HARRIS_CORNERS:1"); // corners[1];
-	var endX = GetVariable("HARRIS_CORNERS:" + (length - 1)); // corners[length-1];
-	var endY = GetVariable("HARRIS_CORNERS:" + (length - 2)); // corners[length-2];
-	
 
-	
+	// Get the first and the last point to use as the initial line
+	var startX = corners[0];
+	var startY = corners[1];
+	var endX = corners[length - 1];
+	var endY = corners[length - 2];
 
 	// Declare a handful of variables to store the points
 	var topLeftX = 0;
@@ -120,7 +117,6 @@ else {
 	var botLeftY = 0;
 	var botRightY = 0;
 
-	
 	// Loop
 	var iterations = 3;
 	for (var loop = 0; loop < iterations; loop++) {
@@ -134,10 +130,8 @@ else {
 
 		// Iterate through every point
 		for (var i = 0; i < length; i += 2) {
-			corners[i] = GetVariable("HARRIS_CORNERS:" + i);
-			corners[i + 1] = GetVariable("HARRIS_CORNERS:" + (i + 1));
 
-			var distance = getDistance(corners[i], corners[i + 1], startX,
+			var distance = getPointDistance(corners[i], corners[i + 1], startX,
 					startY, endX, endY);
 
 			if (distance > maxDistance) {
@@ -205,10 +199,10 @@ else {
 	SetVariable("BOT_RIGHT_X", botRightX);
 	SetVariable("BOT_RIGHT_Y", botRightY);
 
-	Write("TL: (" + topLeftX + "," + topLeftY + ")\n");
-	Write("TR: (" + topRightX + "," + topRightY + ")\n");
-	Write("BL: (" + botLeftX + "," + botLeftY + ")\n");
-	Write("BR: (" + botRightX + "," + botRightY + ")\n");
+	//Write("TL: (" + topLeftX + "," + topLeftY + ")\n");
+	//Write("TR: (" + topRightX + "," + topRightY + ")\n");
+	//Write("BL: (" + botLeftX + "," + botLeftY + ")\n");
+	//Write("BR: (" + botRightX + "," + botRightY + ")\n");
 
 }
 
