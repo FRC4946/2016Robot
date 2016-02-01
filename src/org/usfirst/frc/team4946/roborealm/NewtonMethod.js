@@ -18,7 +18,7 @@ var hTarget = 2.4384;
  *            is the distance from the target
  * @returns the height as a function of v0
  */
-function height(var v0, var distance){
+function height(v0, distance){
 
 	var term1 = (-2*vt4_g*Math.exp(distance/vt2_g)+2*vt4_g)/v0;
 	var term2 = (vt2_g*Math.sqrt(3)/2*v0)+vt4_g;
@@ -39,7 +39,7 @@ function height(var v0, var distance){
  *            is the distance from the target
  * @returns the slope of the function
  */
-function heightPrime(var v0, var distance){
+function heightPrime(v0, distance){
 	var delta = 0.01;
 
 	var term1 = (height(v0+delta, distance) - height(v0, distance)) / delta;
@@ -49,10 +49,10 @@ function heightPrime(var v0, var distance){
 /**
  * Function to iterate
  */
-function f(var v0, var distance) {
+function f(v0, distance) {
 
 	var term1 = v0-(height(v0, distance)/heightPrime(v0, distance));
-
+	
 	return term1;
 }
 
@@ -63,25 +63,25 @@ function f(var v0, var distance) {
  *            the initial guess of v0
  * @returns the approximation of v0
  */
-function newtonMethod(var tolerance, var v0, var distance){
+function newtonMethod(tolerance, v0, distance){
 
 	// Set a max count for the number of iterations of newton's method
-	var max_count = 100;
+	var max_count = 20;
 
-	for( var i = 1; (Math.abs(f(v0, distance)) > tolerance) && ( i < max_count); i ++)  {
+	for( var i = 1; (Math.abs(height(v0, distance)) > tolerance) && ( i < max_count); i ++)  {
 		v0 = f(v0, distance);
 	}            
 
-	if( Math.abs(f(v0, distance)) <= tolerance) {
-		System.out.println("Zero found at x="+v0);
+	if( Math.abs(height(v0, distance)) <= tolerance) {
+		WSH.Echo("Zero found at x="+v0);
 		return v0;
 	} else {
-		System.out.println("Failed to find a zero");
+		WSH.Echo("Failed to find a zero");
 		return -1;
 	}
 }
 
 
-
+WSH.Echo(newtonMethod(0.000001, 8, 2.92));
 
 //}
