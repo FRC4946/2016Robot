@@ -39,7 +39,7 @@ public class OI {
     // button.whenReleased(new ExampleCommand());
 	
 	Joystick stick = new Joystick(RobotMap.JOYSTICK_PORT);
-	Button shootButton = new JoystickButton(stick, 0);
+	Button shootButton = new JoystickButton(stick, RobotMap.SHOOT_BUTTON);
 	
 	public OI(){
 		shootButton.whenPressed(new Shoot());

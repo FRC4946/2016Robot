@@ -15,33 +15,36 @@ public class ShooterSubsystem extends Subsystem {
     CANTalon rightShooterTalon = new CANTalon(RobotMap.PWN_SHOOTER_CANTALON_RIGHT);
 	
 	// Initialize your subsystem here
-    double kP = 0.1; 
-    double kI = 0.0;
-    double kF = 0.0;
-    
-	double gravity = 9.8; //(m / s^2)
-	double ballMass = 0.294835; //(kg)
-	double ballCrossectionalArea = Math.PI*0.127*0.127; //(pi * radius in metres squared) 
-	double airDensity = 1.255; //Approximate with a constant (kg/m^3)
-	double shootingAngle = 60; //Degrees
-	double shooterHeight = 0.1778; //(metres)
-	double goalHeight = 2.3622; //(metres)
-	double goalLength = 0.4064; //(metres)
-  	double goalDistanceX; //Comes from Camera, how far we are from the goal
-	double goalDistanceY = goalHeight - shooterHeight; //How much higher the goal is than the shooter is
-	double dragCoefficient = 0.5; //(physics  u m )
+    private double kP = 0.1; 
+    private double kI = 0.0;
+    private double kF = 0.0;
+	    
+    private double gravity = 9.8; //(m / s^2)
+    private double ballMass = 0.294835; //(kg)
+    private double ballCrossectionalArea = Math.PI*0.127*0.127; //(pi * radius in metres squared) 
+    private double airDensity = 1.255; //Approximate with a constant (kg/m^3)
+    private double shootingAngle = 60; //Degrees
+    private double shooterHeight = 0.1778; //(metres)
+    private double goalHeight = 2.3622; //(metres)
+    private double goalLength = 0.4064; //(metres)
+    private double goalDistanceX; //Comes from Camera, how far we are from the goal
+    private double goalDistanceY = goalHeight - shooterHeight; //How much higher the goal is than the shooter is
+    private double dragCoefficient = 0.5; //(physics  u m )
+    private double phi = Math.toRadians(shootingAngle);
+		
+    private double drag; //approximate with a constant
 	
-	double drag; //approximate with a constant
-
-	double initHorizontalVelocity;
-	double initVerticalVelocity;
-	double shooterSpeed;
-	double minDistance;
-	double maxDistance;
+    private double initHorizontalVelocity;
+    private double initVerticalVelocity;
+    private double shooterSpeed;
+    private double minDistance;
+    private double maxDistance;
+    private double curVelL;
+    private double curVelR;
+		
+    private double outputVoltage;
 	
-	double outputVoltage;
-
-	boolean canShoot;  
+    private boolean canShoot;  
 	
 	public ShooterSubsystem(){
 		
@@ -74,15 +77,11 @@ public class ShooterSubsystem extends Subsystem {
     	 * Calculates the initial velocity needed to shoot the ball into the goal
     	 */
     	
-    	double d = goalDistanceX;
-    	double phi = shootingAngle;
-    	double h = goalDistanceY;
-    	
     	/*	See dis:
     		https://www.desmos.com/calculator/0x1d4togt0
     	 */
     	
-    	double initVel = Math.sqrt((4.905*d*d)/(Math.cos(phi)*Math.cos(phi)*(d*Math.tan(phi)-h)));
+    	double initVel = Math.sqrt((9.8*goalDistanceX*goalDistanceX)/(2*(Math.cos(phi)*Math.cos(phi)*(goalDistanceX*Math.tan(phi)-goalDistanceY))));
     	
     	//4.905 is half of gravity
     	
@@ -96,11 +95,7 @@ public class ShooterSubsystem extends Subsystem {
     	 * Calculates RPM needed to shoot ball into goal
     	 */
     	
-    	double d = goalDistanceX;
-    	double phi = shootingAngle;
-    	double h = goalDistanceY;
-    	
-    	double initVel = Math.sqrt((4.905*d*d)/(Math.cos(phi)*Math.cos(phi)*(d*Math.tan(phi)-h)));
+    	double initVel = Math.sqrt((9.8*goalDistanceX*goalDistanceX)/((Math.cos(phi)*Math.cos(phi)*(goalDistanceX*Math.tan(phi)-goalDistanceY))));
     	
     	double RPM = initVel*(60.0/0.1016);
     	//60 means 
@@ -108,5 +103,17 @@ public class ShooterSubsystem extends Subsystem {
     	
     	return RPM;
     	
+    }
+    
+    public double getLVel(){
+    	
+    	curVelL = leftShooterTalon.getEncVelocity();
+    	return curVelL;
+    }
+    
+    public double getRVel(){
+    	
+    	curVelR = rightShooterTalon.getEncVelocity();
+    	return curVelR;
     }
 }

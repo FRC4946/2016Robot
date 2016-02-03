@@ -20,6 +20,6 @@ public class RobotMap {
 	public static final int PWN_SHOOTER_CANTALON_RIGHT = 1;
 	
 	public static final int JOYSTICK_PORT = 0;
-	
+	public static final char SHOOT_BUTTON = 's';
 	
 }
