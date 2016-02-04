@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4946.robot;
 
-import org.usfirst.frc.team4946.robot.commands.Shoot;
+import org.usfirst.frc.team4946.robot.commands.JoystickShoot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -42,7 +42,11 @@ public class OI {
 	Button shootButton = new JoystickButton(stick, RobotMap.SHOOT_BUTTON);
 	
 	public OI(){
-		shootButton.whenPressed(new Shoot());
+		shootButton.whenPressed(new JoystickShoot());
+	}
+	
+	public Joystick getDriveStick(){
+		return stick;
 	}
 }
 
