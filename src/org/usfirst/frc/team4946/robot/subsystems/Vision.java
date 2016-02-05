@@ -199,12 +199,58 @@ public class Vision {
 	// }
 
 	/**
+	 * Get the distance away from the target from the network tables
+	 * 
+	 * @return the distance, in meters, or {@link Vision#ERROR_NO_TARGET} if an
+	 *         error occurred
+	 */
+	public static double getDistance() {
+		if (!foundTarget()) {
+			return Vision.ERROR_NO_TARGET;
+		}
+
+		return Robot.networkTable.getNumber("DISTANCE_FINAL", Vision.ERROR_NO_TARGET);
+	}
+
+	/**
 	 * Determine the initial velocity required of the ball to be shot into the
-	 * goal from distance <code>x</code>.
+	 * goal from the distance specified by {@link Vision#getDistance()}.
+	 * 
+	 * @return the velocity required, in m/s, or less than 0 in the case of an
+	 *         error
+	 * @see Vision#ERROR_NO_TARGET
+	 * @see Vision#ERROR_NO_VELOCITY
+	 * @see Vision#ERROR_UNKNOWN
+	 */
+	public static double getRequiredVelocity() {
+
+		// Get the required distance from the network tables. If there was an
+		// error, return the error.
+		double dist = getDistance();
+		if (dist < 0) {
+			return dist;
+		}
+
+		// Otherwise, if there is a valid distance, return the required
+		// velocity.
+		return getRequiredVelocity(getDistance());
+	}
+
+	/**
+	 * Determine the initial velocity required of the ball to be shot into the
+	 * goal from distance <code>x</code>. This method utilizes the
+	 * {@link NewtonMethod} class, which implements a newton's method to
+	 * approximate the required initial velocity with a precision of
+	 * {@link NewtonMethod#tolerance}
 	 * 
 	 * @param distance
 	 *            the distance from the goal, in meters
-	 * @return the velocity required, in m/s
+	 * @return the velocity required, in m/s, or less than 0 in the case of an
+	 *         error
+	 * @see NewtonMethod#calculateVelocity(double)
+	 * @see Vision#ERROR_NO_TARGET
+	 * @see Vision#ERROR_NO_VELOCITY
+	 * @see Vision#ERROR_UNKNOWN
 	 */
 	public static double getRequiredVelocity(double distance) {
 
@@ -232,7 +278,12 @@ public class Vision {
 	 * 
 	 * @param distance
 	 *            the distance from the goal, in meters
-	 * @return the wheel speed required, in RPM
+	 * @return the wheel speed required, in RPM, or less than 0 if an error
+	 *         occurred
+	 * @see Vision#getRequiredVelocity();
+	 * @see Vision#ERROR_NO_TARGET
+	 * @see Vision#ERROR_NO_VELOCITY
+	 * @see Vision#ERROR_UNKNOWN
 	 */
 	public static double getRequiredRPM(double distance) {
 
