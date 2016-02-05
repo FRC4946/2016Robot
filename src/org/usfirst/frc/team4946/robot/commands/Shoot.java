@@ -1,8 +1,8 @@
 package org.usfirst.frc.team4946.robot.commands;
 
 import org.usfirst.frc.team4946.robot.Robot;
+import org.usfirst.frc.team4946.robot.subsystems.Vision;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -10,38 +10,41 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class Shoot extends Command {
 
-	//Gets the needed initial velocity and RPM
-	private double fRPM = Robot.shooterPIDSubsystem.getVel();
-	
-    public Shoot() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.shooterPIDSubsystem);
-    }
+	// Gets the needed initial velocity and RPM
+	private double fRPM = Robot.shooterSubsystem.getVel();
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
+	public Shoot() {
+		// Use requires() here to declare subsystem dependencies
+		// eg. requires(chassis);
+		requires(Robot.shooterSubsystem);
+	}
 
-    }
+	// Called just before this Command runs the first time
+	protected void initialize() {
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	Robot.shooterPIDSubsystem.setVelocity(fRPM);
-    }
+	}
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return false;
-    }
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+		fRPM = Vision.getRequiredRPM();
+		if (fRPM > 0) {
+			Robot.shooterSubsystem.setVelocity(fRPM);
+		}
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    	
-    }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return false;
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    	
-    }
+	// Called once after isFinished returns true
+	protected void end() {
+
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+
+	}
 }

@@ -272,6 +272,32 @@ public class Vision {
 		return vel;
 	}
 
+	
+	
+	/**
+	 * Determine the RPM required of the shooter wheels in order for the ball to
+	 * be shot into the goal from distance specified by {@link Vision#getDistance()}.
+	 * 
+	 * @return the wheel speed required, in RPM, or less than 0 if an error
+	 *         occurred
+	 * @see Vision#getRequiredVelocity();
+	 * @see Vision#ERROR_NO_TARGET
+	 * @see Vision#ERROR_NO_VELOCITY
+	 * @see Vision#ERROR_UNKNOWN
+	 */
+	public static double getRequiredRPM() {
+
+		// Get the velocity. If an error code was returned, continue to pass
+		// along the error.
+		double vel = getRequiredVelocity();
+		if (vel < 0) {
+			return vel;
+		}
+
+		// Otherwise, convert the velocity to an RPM and return it.
+		return velToRPM(vel);
+	}
+	
 	/**
 	 * Determine the RPM required of the shooter wheels in order for the ball to
 	 * be shot into the goal from distance <code>x</code>.
@@ -280,7 +306,7 @@ public class Vision {
 	 *            the distance from the goal, in meters
 	 * @return the wheel speed required, in RPM, or less than 0 if an error
 	 *         occurred
-	 * @see Vision#getRequiredVelocity();
+	 * @see Vision#getRequiredVelocity(double)
 	 * @see Vision#ERROR_NO_TARGET
 	 * @see Vision#ERROR_NO_VELOCITY
 	 * @see Vision#ERROR_UNKNOWN

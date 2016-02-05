@@ -13,8 +13,8 @@ public class ShooterSubsystem extends Subsystem {
 
     //Initialize the two motors used to shoot the ball
 	//Change names
-	CANTalon leftShooterTalon = new CANTalon(RobotMap.PWN_SHOOTER_CANTALON_LEFT);
-    CANTalon rightShooterTalon = new CANTalon(RobotMap.PWN_SHOOTER_CANTALON_RIGHT);
+	CANTalon leftShooterTalon = new CANTalon(RobotMap.CAN_TALON_SHOOTER_LEFT);
+    CANTalon rightShooterTalon = new CANTalon(RobotMap.CAN_TALON_SHOOTER_RIGHT);
 	
 	// Initialize your subsystem here
     //Change to actual values 

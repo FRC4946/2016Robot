@@ -15,7 +15,7 @@ public class JoystickShoot extends Command {
     public JoystickShoot() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.shooterPIDSubsystem);
+    	requires(Robot.shooterSubsystem);
     }
 
     // Called just before this Command runs the first time
@@ -24,7 +24,7 @@ public class JoystickShoot extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {    	
-    	Robot.shooterPIDSubsystem.setVelocityJoystick(stick.getRawAxis(2));
+    	Robot.shooterSubsystem.setVelocityJoystick(stick.getRawAxis(2));
     }
 
     // Make this return true when this Command no longer needs to run execute()
