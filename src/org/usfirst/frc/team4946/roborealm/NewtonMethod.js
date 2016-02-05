@@ -1,4 +1,3 @@
-//class Newton  {
 // var g = 9.81; // Gravity. m/s^2
 // var vt = 14.0791674308; // Terminal Velocity
 var vt2 = 198.222955545; // Terminal Velocity Squared
@@ -73,15 +72,20 @@ function newtonMethod(tolerance, v0, distance){
 	}            
 
 	if( Math.abs(height(v0, distance)) <= tolerance) {
-		WSH.Echo("Zero found at x="+v0);
 		return v0;
 	} else {
-		WSH.Echo("Failed to find a zero");
 		return -1;
 	}
 }
 
 
-WSH.Echo(newtonMethod(0.000001, 8, 2.92));
+var dist = GetVariable("TL_TARGET_DISTANCE");
+dist = (4.7533*dist) - 74.949;
+dist *= 0.0254;
+SetVariable("DISTANCE_FINAL", dist);
 
-//}
+var vel = newtonMethod(0.0000001, 8, dist));
+SetVariable("VELOCITY_FINAL", vel);
+
+var rpm = 60 / k_wheelDia * vel;
+SetVariable("RPM_FINAL", rpm);
