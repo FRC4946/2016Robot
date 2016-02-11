@@ -1,4 +1,5 @@
 package org.usfirst.frc.team4946.roborealm;
+
 import javafx.geometry.Point3D;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Line;
@@ -9,18 +10,14 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class DistanceCalcApp {
 
-	private static final double kPhi_deg = 30;
+	private static final double kPhi_deg = 0;
 	private static final double kPhi = Math.toRadians(kPhi_deg);
 	private static final int kAngleErrorMax = 30;
 
-	private static final Vector3D p1 = new Vector3D(0, 0, 2);
-	private static final Vector3D p2 = new Vector3D(0, sin((Math.PI / 2.0)
-			- kPhi), cos((Math.PI / 2.0) - kPhi) + 2);
-
 	public static void main(String[] args) {
-		NetworkTable.setClientMode();
-		NetworkTable.setIPAddress("roboRIO-4946-frc.local");
-		NetworkTable table = NetworkTable.getTable("RoboRealm");
+		// NetworkTable.setClientMode();
+		// NetworkTable.setIPAddress("roboRIO-4946-frc.local");
+		// NetworkTable table = NetworkTable.getTable("RoboRealm");
 
 		while (true) {
 
@@ -32,25 +29,42 @@ public class DistanceCalcApp {
 			}
 
 			// Get all of the point data from RoboRealm/the Network Tables
-			Point3D topLeft = new Point3D(table.getNumber("TOP_LEFT_X", 0),
-					table.getNumber("TOP_LEFT_Y", 0), 3);
-			Point3D topRight = new Point3D(table.getNumber("TOP_RIGHT_X", 0),
-					table.getNumber("TOP_RIGHT_Y", 0), 3);
-//			Point3D botLeft = new Point3D(table.getNumber("BOT_LEFT_X"),
-//					table.getNumber("BOT_LEFT_Y"), 3);
-			Point3D botRight = new Point3D(table.getNumber("BOT_RIGHT_X", 0),
-					table.getNumber("BOT_RIGHT_Y", 0), 3);
+			// Point3D topLeft = new Point3D(table.getNumber("TOP_LEFT_X", 0),
+			// table.getNumber("TOP_LEFT_Y", 0), 3);
+			// Point3D topRight = new Point3D(table.getNumber("TOP_RIGHT_X", 0),
+			// table.getNumber("TOP_RIGHT_Y", 0), 3);
+			// Point3D botLeft = new Point3D(table.getNumber("BOT_LEFT_X", 0),
+			// table.getNumber("BOT_LEFT_Y", 0), 3);
+			// Point3D botRight = new Point3D(table.getNumber("BOT_RIGHT_X", 0),
+			// table.getNumber("BOT_RIGHT_Y", 0), 3);
 
-			
+			Point3D topLeft = new Point3D(25, 75, 3);
+			Point3D topRight = new Point3D(75, 75, 3);
+			Point3D botLeft = new Point3D(25, 25, 3);
+			Point3D botRight = new Point3D(75, 25, 3);
+
+			double horizAvg = (topLeft.getX() + botLeft.getX()
+					+ topRight.getX() + botRight.getX()) / 4;
+			double vertAvg = (topLeft.getY() + botLeft.getY() + topRight.getY() + botRight
+					.getY()) / 4;
+
+			Vector3D p1 = new Vector3D(horizAvg, vertAvg, 2);
+			Vector3D p2 = new Vector3D(p1.getX(), cos(kPhi) + p1.getY(),
+					sin(kPhi) + 2);
+
 			// Calculate the distance and print it
-			double distanceInches = calculateDistance(topLeft, topRight, botRight);
+			double distanceInches = calculateDistance(p1, p2, topLeft,
+					topRight, botRight);
 			System.out.println(distanceInches);
-			
-			//TODO: Convert inches to meters, v0, RPM. Send values back onto the network tables
+
+			// TODO: Convert inches to meters, v0, RPM. Send values back onto
+			// the network tables
+			break;
 		}
 	}
 
-	private static double calculateDistance(Point3D q1, Point3D q2, Point3D q3) {
+	private static double calculateDistance(Vector3D p1, Vector3D p2,
+			Point3D q1, Point3D q2, Point3D q3) {
 
 		// Create vars to hold the best angle found
 		Plane bestPlane = null;
@@ -61,8 +75,8 @@ public class DistanceCalcApp {
 			double alpha = Math.toRadians(i);
 
 			// Find the third point that defines the plane
-			Vector3D p3 = new Vector3D(cos(alpha), -sin(alpha) * sin(kPhi),
-					sin(alpha) * cos(kPhi) + 2);
+			Vector3D p3 = new Vector3D(cos(alpha) + p1.getX(), -sin(alpha)
+					* sin(kPhi) + p1.getY(), sin(alpha) * cos(kPhi) + 2);
 
 			// Find the plane defined by these three points
 			Plane plane = new Plane(p1, p2, p3, 0.01);
@@ -92,7 +106,7 @@ public class DistanceCalcApp {
 		// double height = points[1].distance(points[2]);
 
 		// TODO: Linear eqn to convert arbitrary units to inches or meters
-		return width * 1234;
+		return width;// * 1234;
 
 	}
 
