@@ -12,7 +12,36 @@ public class DistanceCalcApp {
 
 	private static final double kPhi_deg = 0;
 	private static final double kPhi = Math.toRadians(kPhi_deg);
+	private static final double kFOVH_deg = 67;
+	private static final double kFOVH = Math.toRadians(kFOVH_deg);
+	private static final double kFOVV_deg = 67 * 3.0 / 4.0;
+	private static final double kFOVV = Math.toRadians(kFOVV_deg);
+
 	private static final int kAngleErrorMax = 30;
+
+	public static Point3D[] getTestPoints() {
+
+		double angle = Math.random() * 20;
+		System.out.println("Angle:" + angle);
+
+		double height = 85.0 + 6.0;
+		System.out.println("height:" + height);
+
+		double yDist = Math.random() * 50 + 70.0;
+		System.out.println("Distance:" + yDist);
+		double xDist = Math.random() * 50 + 70.0;
+		System.out.println("Distance:" + xDist);
+
+		double a = Math.atan(height / yDist);
+		double aViewBot = kPhi - (kFOVV / 2.0);
+		double centerHeight = (a - kPhi) / (kFOVV / 2.0);
+		// Get
+
+		a = Math.atan(xDist / yDist);
+		double centerXShift = (a) / (kFOVH / 2.0);
+
+		return null;
+	}
 
 	public static void main(String[] args) {
 		// NetworkTable.setClientMode();
@@ -54,7 +83,7 @@ public class DistanceCalcApp {
 
 			// Calculate the distance and print it
 			double distanceInches = calculateDistance(p1, p2, topLeft,
-					topRight, botRight);
+					topRight, botRight, botLeft);
 			System.out.println(distanceInches);
 
 			// TODO: Convert inches to meters, v0, RPM. Send values back onto
@@ -64,7 +93,7 @@ public class DistanceCalcApp {
 	}
 
 	private static double calculateDistance(Vector3D p1, Vector3D p2,
-			Point3D q1, Point3D q2, Point3D q3) {
+			Point3D q1, Point3D q2, Point3D q3, Point3D q4) {
 
 		// Create vars to hold the best angle found
 		Plane bestPlane = null;
@@ -98,15 +127,25 @@ public class DistanceCalcApp {
 		}
 
 		// Otherwise, get the best points as projected on the plane
-		Point3D[] points = { q1, q2, q3 };
+		Point3D[] points = { q1, q2, q3, q4 };
 		points = getPointsOnPlane(bestPlane, points);
 
 		// And calculate the distance between the points, in arbitrary units
-		double width = points[0].distance(points[1]);
-		// double height = points[1].distance(points[2]);
+//		double width = points[0].distance(points[1]);
+		 double height = points[1].distance(points[2]);
+		 
+		 double towerHeight = height*(85/12);
 
+		 double x = (points[2].getX() + points[3].getX())/2;
+		 double y = (points[2].getY() + points[3].getY())/2;
+		 double z = (points[2].getZ() + points[3].getZ())/2;
+
+		 Point3D towerBase = new Point3D(x, y-(cos(kPhi)*towerHeight), z-(sin(kPhi)*towerHeight));
+		 Point3D origin = new Point3D(0,0,0);
+		 double distance = towerBase.distance(origin);
+		 
 		// TODO: Linear eqn to convert arbitrary units to inches or meters
-		return width;// * 1234;
+		return distance;// * 1234;
 
 	}
 
