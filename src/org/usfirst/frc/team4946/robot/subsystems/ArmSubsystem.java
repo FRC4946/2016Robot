@@ -15,7 +15,7 @@ public class ArmSubsystem extends Subsystem {
 
 	private CANTalon m_armMotor = new CANTalon(RobotMap.k_ARM_CANTalon);
 	private Potentiometer m_pot = new AnalogPotentiometer(RobotMap.k_ARMPORT, 320, 0);
-	private PIDController m_armPID = new PIDController(0, 0, 0, m_pot, m_armMotor);
+	private PIDController m_armPID = new PIDController(0.0, 0.0, 0.0, m_pot, m_armMotor);
 
 	public ArmSubsystem() {
 		m_armPID.setContinuous(false);
