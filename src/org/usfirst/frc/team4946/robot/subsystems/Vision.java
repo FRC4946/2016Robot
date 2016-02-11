@@ -153,7 +153,7 @@ public class Vision {
 	 * @return whether the target were found or not
 	 */
 	public static boolean foundTarget() {
-		return Robot.networkTable.getNumber("TL_DETECTED", 0) >= 0;
+		return Robot.networkTable.getNumber("TL_DETECTED", Vision.ERROR_NO_TARGET ) >= 0;
 	}
 
 	//

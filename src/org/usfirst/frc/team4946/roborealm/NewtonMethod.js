@@ -79,13 +79,16 @@ function newtonMethod(tolerance, v0, distance){
 }
 
 
-var dist = GetVariable("TL_TARGET_DISTANCE");
+
+
+// ENTRY POINT
+var dist = GetVariable("TL_TARGET_DISTANCE")/100.0;
 dist = (4.7533*dist) - 74.949;
 dist *= 0.0254;
 SetVariable("DISTANCE_FINAL", dist);
 
-var vel = newtonMethod(0.0000001, 8, dist));
+var vel = newtonMethod(0.0000001, 8, dist);
 SetVariable("VELOCITY_FINAL", vel);
 
-var rpm = 60 / k_wheelDia * vel;
+var rpm = 60 / 0.1016 * vel;
 SetVariable("RPM_FINAL", rpm);

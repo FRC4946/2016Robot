@@ -1,16 +1,4 @@
-<head><version>2.79.16</version></head>
-<Load_Image disabled>
-  <filename>.\Target\0.jpg</filename>
-  <frame_delay>10000</frame_delay>
-  <load_destination>2</load_destination>
-  <load_numbered_images>FALSE</load_numbered_images>
-  <loop_playback>1</loop_playback>
-  <monitor_folder>FALSE</monitor_folder>
-  <numerical_sort>TRUE</numerical_sort>
-  <page_number>1</page_number>
-  <recursive>TRUE</recursive>
-  <reload_on_change>FALSE</reload_on_change>
-</Load_Image>
+<head><version>2.79.17</version></head>
 <Axis_Internet_Camera>
   <auto_back_light>TRUE</auto_back_light>
   <auto_exposure>FALSE</auto_exposure>
@@ -395,9 +383,10 @@ Write("Distance: " + distance);</script>
   <source_mode>gui</source_mode>
   <tab_size_index>1</tab_size_index>
 </JScript_Program>
-<JScript_Program>
+<JScript_Program disabled>
   <auto_reload>TRUE</auto_reload>
   <continue_on_errors>FALSE</continue_on_errors>
+  <filename>.\NewtonMethod.js</filename>
   <script>var y = GetVariable("TL_ROBOT_Y")*GetVariable("TL_ROBOT_Y") * 1.0;
 var x = GetVariable("TL_ROBOT_X")*GetVariable("TL_ROBOT_X");
 var dist = Math.sqrt(x+y);
@@ -405,40 +394,45 @@ dist = (4.7533*dist) - 74.949;
 Write(GetVariable("TL_TARGET_DISTANCE"))
 
 SetVariable("DISTANCE", dist);</script>
-  <source_mode>gui</source_mode>
+  <source_mode>file</source_mode>
+  <tab_size_index>1</tab_size_index>
+</JScript_Program>
+<JScript_Program>
+  <auto_reload>TRUE</auto_reload>
+  <continue_on_errors>FALSE</continue_on_errors>
+  <filename>.\CalculateVelocityWithDist.js</filename>
+  <source_mode>file</source_mode>
   <tab_size_index>1</tab_size_index>
 </JScript_Program>
 <NetworkTables>
   <delay>10</delay>
   <filter_type_index>0</filter_type_index>
-  <hostname>localhost</hostname>
+  <hostname>roboRIO-4946-frc.local</hostname>
   <port>1735</port>
   <prefix>/RoboRealm/</prefix>
-  <variables_to_send>BOT_LEFT_X
-BOT_LEFT_Y
-BOT_RIGHT_X
-BOT_RIGHT_Y
-COG_X
-EDGE_PROXIMITY
-HAS_CORNERS
-TL_ROBOT_X
-TL_ROBOT_Y
+  <variables_to_send>DISTANCE_FINAL
+RPM_FINAL
 TL_TARGET_DISTANCE
-TL_TARGET_HORIZ_ANGLE
-TL_TARGET_VERT_ANGLE
-TOP_LEFT_X
-TOP_LEFT_Y
-TOP_RIGHT_X
-TOP_RIGHT_Y</variables_to_send>
+VELOCITY_FINAL</variables_to_send>
   <variable_type_index>0</variable_type_index>
 </NetworkTables>
-<Display_Variables disabled>
+<Display_Variables>
   <border_color>red</border_color>
   <dim_background>TRUE</dim_background>
   <display_as_annotation>FALSE</display_as_annotation>
   <display_value_only>FALSE</display_value_only>
+  <east>TL_ROBOT_Y
+TL_ROBOT_X
+</east>
   <font_color>white</font_color>
-  <font_size>Ginormous (48pt)</font_size>
+  <font_size>Large (12pt)</font_size>
+  <northwest>TL_Y_ROTATION
+TL_Z_ROTATION
+TL_X_ROTATION
+</northwest>
   <southeast>DISTANCE
 </southeast>
+  <west>VELOCITY_FINAL
+RPM_FINAL
+</west>
 </Display_Variables>
