@@ -1,30 +1,33 @@
 package org.usfirst.frc.team4946.robot.commands;
 
 import org.usfirst.frc.team4946.robot.Robot;
+import org.usfirst.frc.team4946.robot.subsystems.ArmSubsystem;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class JoystickShoot extends Command {
+public class ArmControlWithJoystick extends Command {
 
-	Joystick stick = Robot.oi.getDriveStick();
-	
-    public JoystickShoot() {
+    public ArmControlWithJoystick() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.shooterSubsystem);
+    	requires(Robot.armSubsystem);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	
+    	Robot.armSubsystem.setPIDEnabled(false);
+    	
     }
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {    	
-    	Robot.shooterSubsystem.setVelocityJoystick(stick.getRawAxis(2));
+
+	// Called repeatedly when this Command is scheduled to run
+    protected void execute() {
+    	double speed = Robot.oi.stick.getRawAxis(0);
+    	Robot.armSubsystem.setArmSpeed(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

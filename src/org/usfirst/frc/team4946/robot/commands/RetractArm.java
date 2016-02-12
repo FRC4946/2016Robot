@@ -2,34 +2,47 @@ package org.usfirst.frc.team4946.robot.commands;
 
 import org.usfirst.frc.team4946.robot.Robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  *
  */
-public class JoystickShoot extends Command {
+public class RetractArm extends Command {
 
-	Joystick stick = Robot.oi.getDriveStick();
+	private Timer m_timer = new Timer();
 	
-    public JoystickShoot() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.shooterSubsystem);
+    public RetractArm(boolean isExtend) {
+        
+    	requires(Robot.armSubsystem);
+    	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	
+    	m_timer.start();
+    	m_timer.reset();
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {    	
-    	Robot.shooterSubsystem.setVelocityJoystick(stick.getRawAxis(2));
+    protected void execute() {
+    	
+    	Robot.armSubsystem.retractArm();
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	
+    	double elapsedTime =  m_timer.get(); 
+    	if(elapsedTime<1) {
+    		return false;
+    	} else {
+    		return true;
+    	}
+    	
     }
 
     // Called once after isFinished returns true
