@@ -8,7 +8,7 @@
   <color_level_value>50</color_level_value>
   <compression_index>2</compression_index>
   <contrast_value>100</contrast_value>
-  <ip_address>10.49.46.20</ip_address>
+  <ip_address>10.49.46.15</ip_address>
   <is_active>TRUE</is_active>
   <mirrot>FALSE</mirrot>
   <password>FRC</password>
@@ -104,11 +104,11 @@
   <four_pixel_connectivity>TRUE</four_pixel_connectivity>
   <size>0</size>
 </Fill>
-<Convex_Hull disabled/>
+<Convex_Hull/>
 <Colorize>
   <rgb>#FFFFFF</rgb>
 </Colorize>
-<Harris_Corners disabled>
+<Harris_Corners>
   <color_index>8</color_index>
   <fast_harris>TRUE</fast_harris>
   <harris_corners_array>TRUE</harris_corners_array>
@@ -119,7 +119,7 @@
   <use_color>FALSE</use_color>
   <use_non_maxima>TRUE</use_non_maxima>
 </Harris_Corners>
-<JScript_Program disabled>
+<JScript_Program>
   <auto_reload>TRUE</auto_reload>
   <continue_on_errors>FALSE</continue_on_errors>
   <script>function isWithinRange(x,y){
@@ -301,7 +301,7 @@ SetVariable("COG_X", GetVariable("BLOBS:0")/GetVariable("IMAGE_WIDTH"));</script
   <source_mode>gui</source_mode>
   <tab_size_index>1</tab_size_index>
 </JScript_Program>
-<Target_Localization>
+<Target_Localization disabled>
   <center_map_on_robot>TRUE</center_map_on_robot>
   <center_on_robot>TRUE</center_on_robot>
   <color_index>3</color_index>
@@ -397,7 +397,7 @@ SetVariable("DISTANCE", dist);</script>
   <source_mode>file</source_mode>
   <tab_size_index>1</tab_size_index>
 </JScript_Program>
-<JScript_Program>
+<JScript_Program disabled>
   <auto_reload>TRUE</auto_reload>
   <continue_on_errors>FALSE</continue_on_errors>
   <filename>.\CalculateVelocityWithDist.js</filename>
@@ -410,9 +410,17 @@ SetVariable("DISTANCE", dist);</script>
   <hostname>roboRIO-4946-frc.local</hostname>
   <port>1735</port>
   <prefix>/RoboRealm/</prefix>
-  <variables_to_send>DISTANCE_FINAL
+  <variables_to_send>BOT_LEFT_X
+BOT_LEFT_Y
+BOT_RIGHT_X
+BOT_RIGHT_Y
+DISTANCE_FINAL
 RPM_FINAL
 TL_TARGET_DISTANCE
+TOP_LEFT_X
+TOP_LEFT_Y
+TOP_RIGHT_X
+TOP_RIGHT_Y
 VELOCITY_FINAL</variables_to_send>
   <variable_type_index>0</variable_type_index>
 </NetworkTables>
