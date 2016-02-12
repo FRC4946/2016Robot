@@ -1,18 +1,21 @@
-
 package org.usfirst.frc.team4946.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-
 import org.usfirst.frc.team4946.robot.Robot;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ExampleCommand extends Command {
+public class JoystickShoot extends Command {
 
-    public ExampleCommand() {
+	Joystick stick = Robot.oi.getDriveStick();
+	
+    public JoystickShoot() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.exampleSubsystem);
+        // eg. requires(chassis);
+    	requires(Robot.shooterSubsystem);
     }
 
     // Called just before this Command runs the first time
@@ -20,7 +23,8 @@ public class ExampleCommand extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void execute() {    	
+    	Robot.shooterSubsystem.setVelocityJoystick(stick.getRawAxis(2));
     }
 
     // Make this return true when this Command no longer needs to run execute()
