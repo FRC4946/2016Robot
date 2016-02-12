@@ -1,8 +1,10 @@
 package org.usfirst.frc.team4946.robot;
 
+import org.usfirst.frc.team4946.robot.DriveTrainCommands.ExampleCommand;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
-import org.usfirst.frc.team4946.robot.commands.ExampleCommand;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -36,11 +38,13 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
 	
-	Joystick m_driveStick = new Joystick(RobotMap.k_joystickPort);
+	Joystick driveStick = new Joystick(RobotMap.JOYSTICK_PORT);
+	JoystickButton speedLimiterButton = new JoystickButton(driveStick, RobotMap.JOYSTICK_BUTTON_PORT);
+	
 	
 	public OI(){
 		
-		
+		speedLimiterButton.whileHeld(DriveWithLimitedSpeedCommand);
 		
 		
 		
@@ -49,26 +53,31 @@ public class OI {
 		
 	}
 	
-	public double getXAxis(){
+	public JoystickButton getButton(){
 		
-		return m_driveStick.getRawAxis(RobotMap.k_joystickXAxisPort);
-		
-	}
-	
-	public double getYAxis(){
-		
-		
-		return m_driveStick.getRawAxis(RobotMap.k_joystickYAxisPort);
-		
+		return speedLimiterButton;
 	}
 	
 	
-	public double getZAxis(){
+	public double getLeftStick(){
 		
-		return m_driveStick.getRawAxis(RobotMap.k_joystickZAxisPort);
-		
+		return driveStick.getRawAxis(RobotMap.JOYSTICK_DRIVE_PORT);
 		
 	}
+	
+	public double getRightStick(){
+		
+		
+		return driveStick.getRawAxis(RobotMap.JOYSTICK_CURVE_PORT);
+		
+	}
+	
+	public Joystick getJoystick(){
+		
+		return driveStick;
+	}
+	
+	
 	
 	
 }
