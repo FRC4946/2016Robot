@@ -20,20 +20,29 @@ public class RobotMap {
     // public static int rangefinderPort = 1;
     // public static int rangefinderModule = 1;
 	
-	public static final int k_frontRightMotorPort = 0;
-	public static final int k_frontLeftMotorPort = 1;
-	public static final int k_backRightMotorPort = 2;
-	public static final int k_backLeftMotorPort = 3;
-	public static final int k_strafeMotorPort = 4;
+	public static final int FRONT_RIGHT_MOTOR_PORT = 0;
+	public static final int FRONT_LEFT_MOTOR_PORT = 1;
+	public static final int BACK_RIGHT_MOTOR_PORT = 2;
+	public static final int BACK_LEFT_MOTOR_PORT = 3;
 	
 	
-	public static final int k_joystickPort = 0;
 	
-	public static final int k_joystickXAxisPort = 0;
-	public static final int k_joystickYAxisPort = 1;
-	public static final int k_joystickZAxisPort = 2;
-	public static final int k_encoder1 = 0;
-	public static final int k_encoder2 = 0;
+	public static final int JOYSTICK_PORT = 0;
 	
+	
+	
+	public static final int JOYSTICK_DRIVE_PORT = 0;
+	public static final int JOYSTICK_CURVE_PORT= 1;
+	public static final int JOYSTICK_THROTTLE_PORT = 2;
+	
+	public static final int JOYSTICK_BUTTON_PORT = 3;
+	
+	
+	public static final int ANALOG_GYRO_PORT = 1;
+	public static final int LEFT_ENCODER_CHANNEL_A = 2;
+	public static final int LEFT_ENCODER_CHANNEL_B = 3;
+	
+	public static final int RIGHT_ENCODER_CHANNEL_A = 4;
+	public static final int RIGHT_ENCODER_CHANNEL_B = 5;
 	
 }
