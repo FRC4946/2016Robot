@@ -1,15 +1,13 @@
 package org.usfirst.frc.team4946.robot;
 
-import org.usfirst.frc.team4946.robot.commands.ExtendArm;
+impimport org.usfirst.frc.team4946.robot.commands.ExtendArm;
 import org.usfirst.frc.team4946.robot.commands.ExtendWinch;
 import org.usfirst.frc.team4946.robot.commands.JoystickShoot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-
-/**
- * This class is the glue that binds the controls on the physical operator
+is class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {

@@ -1,7 +1,9 @@
 package org.usfirst.frc.team4946.robot;
 
+import org.usfirst.frc.team4946.robot.is.to.OI;
 import org.usfirst.frc.team4946.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team4946.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team4946.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team4946.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4946.robot.subsystems.WinchSubsystem;
 
@@ -25,6 +27,7 @@ public class Robot extends IterativeRobot {
 	public static final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 	public static final ArmSubsystem armSubsystem = new ArmSubsystem();
 	public static final WinchSubsystem winchSubsystem = new WinchSubsystem();
+	public static IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
 	public static final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 
