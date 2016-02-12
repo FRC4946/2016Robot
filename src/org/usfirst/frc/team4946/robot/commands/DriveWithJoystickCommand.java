@@ -35,7 +35,7 @@ public class DriveWithJoystickCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	Joystick stick = Robot.oi.getJoystick();
+    	Joystick stick = Robot.oi.getDriveStick();
     	
     	
     	

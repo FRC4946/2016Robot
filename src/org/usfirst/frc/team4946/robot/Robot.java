@@ -1,20 +1,14 @@
 package org.usfirst.frc.team4946.robot;
 
 import org.usfirst.frc.team4946.robot.subsystems.ArmSubsystem;
+import org.usfirst.frc.team4946.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team4946.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4946.robot.subsystems.WinchSubsystem;
-import org.usfirst.frc.team4946.robot.commands.ExampleCommand;
-import org.usfirst.frc.team4946.robot.subsystems.ExampleSubsystem;
-import org.usfirst.frc.team4946.robot.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-
-import org.usfirst.frc.team4946.robot.commands.ExampleCommand;
-import org.usfirst.frc.team4946.robot.subsystems.DriveTrainSubsystem;
-import org.usfirst.frc.team4946.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

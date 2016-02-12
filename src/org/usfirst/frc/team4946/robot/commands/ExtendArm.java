@@ -15,7 +15,7 @@ public class ExtendArm extends Command {
     public ExtendArm(boolean isExtend) {
         
     	requires(Robot.armSubsystem);
-    	Robot.armSubsystem.
+//    	Robot.armSubsystem.
     	
     }
 
