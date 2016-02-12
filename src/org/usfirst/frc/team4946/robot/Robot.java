@@ -1,8 +1,8 @@
 package org.usfirst.frc.team4946.robot;
 
-import org.usfirst.frc.team4946.robot.commands.ExampleCommand;
-import org.usfirst.frc.team4946.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team4946.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team4946.robot.subsystems.ShooterSubsystem;
+import org.usfirst.frc.team4946.robot.subsystems.WinchSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -21,8 +21,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+	public static final ArmSubsystem armSubsystem = new ArmSubsystem();
+	public static final WinchSubsystem winchSubsystem = new WinchSubsystem();
+
 	public static OI oi;
 	public static NetworkTable networkTable;
 
@@ -38,7 +40,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		chooser = new SendableChooser();
-		chooser.addDefault("Default Auto", new ExampleCommand());
+		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 		networkTable = NetworkTable.getTable("RoboRealm");
