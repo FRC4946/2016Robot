@@ -1,7 +1,5 @@
 package org.usfirst.frc.team4946.robot;
 
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Victor;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into

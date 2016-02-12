@@ -1,17 +1,14 @@
-package org.usfirst.frc.team4946.robot.DriveTrainCommands;
+package org.usfirst.frc.team4946.robot.commands;
 
-import org.usfirst.frc.team4946.robot.OI;
 import org.usfirst.frc.team4946.robot.Robot;
 import org.usfirst.frc.team4946.robot.RobotMap;
-import org.usfirst.frc.team4946.robot.subsystems.DriveTrainSubsystem;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 /**
- *
+ *	
  */
 public class DriveWithJoystickCommand extends Command {
 

@@ -1,9 +1,8 @@
 package org.usfirst.frc.team4946.robot;
 
-import org.usfirst.frc.team4946.robot.DriveTrainCommands.ExampleCommand;
+import org.usfirst.frc.team4946.robot.commands.DriveWithJoystickLimitedSpeedCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
@@ -44,7 +43,7 @@ public class OI {
 	
 	public OI(){
 		
-		speedLimiterButton.whileHeld(DriveWithLimitedSpeedCommand);
+		speedLimiterButton.whileHeld(new DriveWithJoystickLimitedSpeedCommand());
 		
 		
 		

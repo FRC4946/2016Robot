@@ -1,17 +1,15 @@
 package org.usfirst.frc.team4946.robot.subsystems;
 
 import org.usfirst.frc.team4946.robot.RobotMap;
-import org.usfirst.frc.team4946.robot.DriveTrainCommands.DriveWithJoystickCommand;
+import org.usfirst.frc.team4946.robot.commands.DriveWithJoystickCommand;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
-import edu.wpi.first.wpilibj.AnalogGyro;
 /**
  *
  */
