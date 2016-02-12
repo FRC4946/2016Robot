@@ -3,39 +3,46 @@ package org.usfirst.frc.team4946.robot.commands;
 import org.usfirst.frc.team4946.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  *
  */
-public class intakeRollerOff extends Command {
-	
-	int offCounter = 0;
+public class RetractArm extends Command {
 
-    public intakeRollerOff() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.m_intakeSubsystem);
+	private Timer m_timer = new Timer();
+	
+    public RetractArm(boolean isExtend) {
+        
+    	requires(Robot.armSubsystem);
+    	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	offCounter = 0;
+    	
+    	m_timer.start();
+    	m_timer.reset();
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.m_intakeSubsystem.setInRollerSpeed(0.0);
-    	offCounter ++;
+    	
+    	Robot.armSubsystem.retractArm();
     	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (offCounter == 1) {
-    		return true;
+    	
+    	double elapsedTime =  m_timer.get(); 
+    	if(elapsedTime<1) {
+    		return false;
     	} else {
-        return false;
+    		return true;
     	}
+    	
     }
 
     // Called once after isFinished returns true

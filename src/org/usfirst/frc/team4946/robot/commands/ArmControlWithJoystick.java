@@ -1,41 +1,38 @@
 package org.usfirst.frc.team4946.robot.commands;
 
 import org.usfirst.frc.team4946.robot.Robot;
+import org.usfirst.frc.team4946.robot.subsystems.ArmSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class intakeRollerOff extends Command {
-	
-	int offCounter = 0;
+public class ArmControlWithJoystick extends Command {
 
-    public intakeRollerOff() {
+    public ArmControlWithJoystick() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.m_intakeSubsystem);
+    	requires(Robot.armSubsystem);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	offCounter = 0;
+    	
+    	Robot.armSubsystem.setPIDEnabled(false);
+    	
     }
 
-    // Called repeatedly when this Command is scheduled to run
+
+	// Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.m_intakeSubsystem.setInRollerSpeed(0.0);
-    	offCounter ++;
-    	
+    	double speed = Robot.oi.stick.getRawAxis(0);
+    	Robot.armSubsystem.setArmSpeed(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (offCounter == 1) {
-    		return true;
-    	} else {
         return false;
-    	}
     }
 
     // Called once after isFinished returns true
