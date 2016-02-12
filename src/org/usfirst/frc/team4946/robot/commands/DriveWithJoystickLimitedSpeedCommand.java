@@ -34,7 +34,7 @@ public class DriveWithJoystickLimitedSpeedCommand extends Command {
     	drive = drive*0.75;
     	curve = curve*0.75;
     	
-    	
+    	Robot.driveTrainSubsystem.drive(drive, curve);
     }
 
     // Make this return true when this Command no longer needs to run execute()

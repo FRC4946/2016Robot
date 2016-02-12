@@ -49,7 +49,7 @@ public class DriveWithJoystickCommand extends Command {
     	double throttle = stick.getRawAxis(RobotMap.JOYSTICK_THROTTLE_PORT);
     	
     	
-    	
+    	Robot.driveTrainSubsystem.drive(drive, curve, throttle);
     	
     	
     }
