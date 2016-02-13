@@ -2,7 +2,6 @@ package org.usfirst.frc.team4946.robot;
 
 import org.usfirst.frc.team4946.robot.commands.IntakeRollerBackward;
 import org.usfirst.frc.team4946.robot.commands.IntakeRollerForward;
-import org.usfirst.frc.team4946.robot.commands.RollerSpeedWithJoystick;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
