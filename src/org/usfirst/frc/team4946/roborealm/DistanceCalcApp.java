@@ -10,84 +10,110 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class DistanceCalcApp {
 
-	private static final double kPhi_deg = 0;
+	private static final double kPhi_deg = 45;
 	private static final double kPhi = Math.toRadians(kPhi_deg);
 	private static final double kFOVH_deg = 67;
 	private static final double kFOVH = Math.toRadians(kFOVH_deg);
-	private static final double kFOVV_deg = 67 * 3.0 / 4.0;
+	private static final double kFOVV_deg = 67 * 0.75;
 	private static final double kFOVV = Math.toRadians(kFOVV_deg);
 
 	private static final int kAngleErrorMax = 30;
+	
+	private static double goalAngle;
+	private static double squareAngle;
+	private static double goalRatio;
 
 	public static Point3D[] getTestPoints() {
 
-		double angle = Math.random() * 20;
+		double angle = 0; //Math.random() * 20;
 		System.out.println("Angle:" + angle);
+		angle = Math.toRadians(angle);
 
-		double height = 85.0 + 6.0;
-		System.out.println("height:" + height);
+		double yDist = 85.0 + 6.0;
+		System.out.println("Height: " + yDist);
 
-		double yDist = Math.random() * 50 + 70.0;
-		System.out.println("Distance:" + yDist);
-		double xDist = Math.random() * 50 + 70.0;
-		System.out.println("Distance:" + xDist);
+		double zDist = 50; //Math.random() * 40 + 65.0;
+		System.out.println("Depth: " + zDist);
 
-		double a = Math.atan(height / yDist);
-		double aViewBot = kPhi - (kFOVV / 2.0);
-		double centerHeight = (a - kPhi) / (kFOVV / 2.0);
-		// Get
+		double xDist = 0; //Math.random() * 50;
+		System.out.println("x-Distance: " + xDist);
 
-		a = Math.atan(xDist / yDist);
-		double centerXShift = (a) / (kFOVH / 2.0);
+		Point3D[] goalPoints = {
+		/* TopLeft  */	new Point3D(xDist - 10*cos(angle) , yDist + 6.0 , zDist - 10*sin(angle)),
+		/* TopRight */	new Point3D(xDist + 10*cos(angle) , yDist + 6.0 , zDist + 10*sin(angle)),
+		/* BotLeft  */	new Point3D(xDist - 10*cos(angle) , yDist - 6.0 , zDist - 10*sin(angle)),
+		/* BotRight */	new Point3D(xDist + 10*cos(angle) , yDist - 6.0 , zDist + 10*sin(angle)),
+		};
+		
+		
+		for (int i = 0; i < goalPoints.length; i++) {
+			double a = Math.atan( goalPoints[i].getY() / goalPoints[i].getZ());
+			double yShift = (a - kPhi) / (kFOVV / 2.0);
 
-		return null;
+			a = Math.atan( goalPoints[i].getX() / goalPoints[i].getZ() );
+			double xShift = (a) / (kFOVH / 2.0);
+			
+			goalPoints[i] = new Point3D(xShift, yShift, 3);
+			System.out.println( goalPoints[i].getX() + "\t" + goalPoints[i].getY() );
+		}
+		
+		return goalPoints;
 	}
 
 	public static void main(String[] args) {
-		// NetworkTable.setClientMode();
-		// NetworkTable.setIPAddress("roboRIO-4946-frc.local");
-		// NetworkTable table = NetworkTable.getTable("RoboRealm");
+		NetworkTable.setClientMode();
+		NetworkTable.setIPAddress("roboRIO-4946-frc.local");
+		NetworkTable table = NetworkTable.getTable("RoboRealm");
 
 		while (true) {
 
 			// Delay for a tenth of a second
 			try {
-				Thread.sleep(100);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
+			getTestPoints();
 
 			// Get all of the point data from RoboRealm/the Network Tables
-			// Point3D topLeft = new Point3D(table.getNumber("TOP_LEFT_X", 0),
-			// table.getNumber("TOP_LEFT_Y", 0), 3);
-			// Point3D topRight = new Point3D(table.getNumber("TOP_RIGHT_X", 0),
-			// table.getNumber("TOP_RIGHT_Y", 0), 3);
-			// Point3D botLeft = new Point3D(table.getNumber("BOT_LEFT_X", 0),
-			// table.getNumber("BOT_LEFT_Y", 0), 3);
-			// Point3D botRight = new Point3D(table.getNumber("BOT_RIGHT_X", 0),
-			// table.getNumber("BOT_RIGHT_Y", 0), 3);
+			Point3D topLeft = new Point3D(table.getNumber("TOP_LEFT_X", 0),
+					table.getNumber("TOP_LEFT_Y", 0), 3);
+			Point3D topRight = new Point3D(table.getNumber("TOP_RIGHT_X", 0),
+					table.getNumber("TOP_RIGHT_Y", 0), 3);
+			Point3D botLeft = new Point3D(table.getNumber("BOT_LEFT_X", 0),
+					table.getNumber("BOT_LEFT_Y", 0), 3);
+			Point3D botRight = new Point3D(table.getNumber("BOT_RIGHT_X", 0),
+					table.getNumber("BOT_RIGHT_Y", 0), 3);
+			
+			// Point3D topLeft = new Point3D(25, 75, 3);
+			// Point3D topRight = new Point3D(75, 75, 3);
+			// Point3D botLeft = new Point3D(25, 25, 3);
+			// Point3D botRight = new Point3D(75, 25, 3);
 
-			Point3D topLeft = new Point3D(25, 75, 3);
-			Point3D topRight = new Point3D(75, 75, 3);
-			Point3D botLeft = new Point3D(25, 25, 3);
-			Point3D botRight = new Point3D(75, 25, 3);
-
+			// Translate the points so that the origin (0,0,0) is at the centre of the screen
+			topLeft  = new Point3D( 400 - topLeft.getX() , 300 - topLeft.getY() , 300);
+			topRight = new Point3D( 400 - topRight.getX(), 300 - topRight.getY(), 300);
+			botLeft  = new Point3D( 400 - botLeft.getX() , 300 - botLeft.getY() , 300);
+			botRight = new Point3D( 400 - botRight.getX(), 300 - botRight.getY(), 300);
+			
 			double horizAvg = (topLeft.getX() + botLeft.getX()
-					+ topRight.getX() + botRight.getX()) / 4;
+					+ topRight.getX() + botRight.getX()) / 4.0;
 			double vertAvg = (topLeft.getY() + botLeft.getY() + topRight.getY() + botRight
-					.getY()) / 4;
+					.getY()) / 4.0;
 
-			Vector3D p1 = new Vector3D(horizAvg, vertAvg, 2);
+			Vector3D p1 = new Vector3D(horizAvg, vertAvg, 200);
 			Vector3D p2 = new Vector3D(p1.getX(), cos(kPhi) + p1.getY(),
-					sin(kPhi) + 2);
+					sin(kPhi) + 200);
 
 			// Calculate the distance and print it
 			double distanceInches = calculateDistance(p1, p2, topLeft,
 					topRight, botRight, botLeft);
-			System.out.println(distanceInches);
+			System.out.println(distanceInches + "\t|\t" + squareAngle + "\t|\t" + goalAngle  + "\t|\t" + goalRatio);
 
 			// TODO: Convert inches to meters, v0, RPM. Send values back onto
 			// the network tables
+			
 			break;
 		}
 	}
@@ -105,7 +131,7 @@ public class DistanceCalcApp {
 
 			// Find the third point that defines the plane
 			Vector3D p3 = new Vector3D(cos(alpha) + p1.getX(), -sin(alpha)
-					* sin(kPhi) + p1.getY(), sin(alpha) * cos(kPhi) + 2);
+					* sin(kPhi) + p1.getY(), sin(alpha) * cos(kPhi) + 200);
 
 			// Find the plane defined by these three points
 			Plane plane = new Plane(p1, p2, p3, 0.01);
@@ -118,9 +144,12 @@ public class DistanceCalcApp {
 			if (Math.abs(angle - 90) < Math.abs(bestAngle - 90)) {
 				bestAngle = angle;
 				bestPlane = plane;
+				goalAngle = i;
 			}
 		}
-
+		
+		squareAngle = bestAngle;
+		
 		// If we found no possible planes on which to map the vectors, return -1
 		if (bestPlane == null) {
 			return -1;
@@ -131,31 +160,31 @@ public class DistanceCalcApp {
 		points = getPointsOnPlane(bestPlane, points);
 
 		// And calculate the distance between the points, in arbitrary units
-//		double width = points[0].distance(points[1]);
-		 double height = points[1].distance(points[2]);
-		 
-		 double towerHeight = height*(85/12);
+		// double width = points[0].distance(points[1]);
+		double height = points[1].distance(points[2]);
 
-		 double x = (points[2].getX() + points[3].getX())/2;
-		 double y = (points[2].getY() + points[3].getY())/2;
-		 double z = (points[2].getZ() + points[3].getZ())/2;
+		goalRatio = height / (points[0].distance(points[1]));
+		
+		double towerHeight = height * (70 / 12);
 
-		 Point3D towerBase = new Point3D(x, y-(cos(kPhi)*towerHeight), z-(sin(kPhi)*towerHeight));
-		 Point3D origin = new Point3D(0,0,0);
-		 double distance = towerBase.distance(origin);
-		 
+		double x = (points[2].getX() + points[3].getX()) / 2;
+		double y = (points[2].getY() + points[3].getY()) / 2;
+		double z = (points[2].getZ() + points[3].getZ()) / 2;
+
+		Point3D towerBase = new Point3D(x, y - (cos(kPhi) * towerHeight), z
+				- (sin(kPhi) * towerHeight));
+		Point3D origin = new Point3D(0, 0, 0);
+		double distance = towerBase.distance(origin);
+
 		// TODO: Linear eqn to convert arbitrary units to inches or meters
-		return distance;// * 1234;
+		return distance;
 
 	}
 
 	/**
-	 * Map the intersections of vectors <code>v1,v2,v3</code> and a given plane
-	 * 
-	 * @param plane
-	 *            the plane on which to project the vectors
-	 * @param points
-	 *            The array of vectors to project
+	 * Map the intersections of vectors <code>v1, v2, v3</code> and a given plane
+	 * @param plane the plane on which to project the vectors
+	 * @param points The array of vectors to project
 	 * @return the intersections points, as a {@code Point3D[]}
 	 */
 	public static Point3D[] getPointsOnPlane(Plane plane, Point3D[] points) {
@@ -171,21 +200,15 @@ public class DistanceCalcApp {
 			// Find where these vectors intersect the plane
 			points[i] = vecToPt(plane.intersection(line1));
 		}
-
 		return points;
 	}
 
 	/**
 	 * Get the angle of q1,q2,q3 through q2.
-	 * 
-	 * @param plane
-	 *            the plane on which q1,q2,q3 should be projected
-	 * @param q1
-	 *            An endpoint of the angle to find
-	 * @param q2
-	 *            The vertex of the angle to find
-	 * @param q3
-	 *            An endpoint of the angle to find
+	 * @param plane the plane on which q1,q2,q3 should be projected
+	 * @param q1 An endpoint of the angle to find
+	 * @param q2  The vertex of the angle to find
+	 * @param q3 An endpoint of the angle to find
 	 * @return The angle, in degrees
 	 */
 	public static double getAngle(Plane plane, Point3D q1, Point3D q2,
@@ -202,10 +225,7 @@ public class DistanceCalcApp {
 
 	/**
 	 * Convert an {@link Vector3D} to a {@link Point3D}
-	 * 
-	 * 
-	 * @param vec
-	 *            the {@code Point3D}
+	 * @param vec the {@code Point3D}
 	 * @return the converted {@code Vector3D}
 	 */
 	public static Vector3D ptToVec(Point3D point) {
@@ -214,9 +234,7 @@ public class DistanceCalcApp {
 
 	/**
 	 * Convert an {@link Point3D} to a {@link Vector3D}
-	 * 
-	 * @param vec
-	 *            the {@code Vector3D}
+	 * @param vec the {@code Vector3D}
 	 * @return the converted {@code Point3D}
 	 */
 	public static Point3D vecToPt(Vector3D vec) {
@@ -225,9 +243,7 @@ public class DistanceCalcApp {
 
 	/**
 	 * Cosine of x
-	 * 
-	 * @param x
-	 *            radians
+	 * @param x radians
 	 * @see Math#cos(double)
 	 */
 	public static double cos(double x) {
@@ -236,13 +252,10 @@ public class DistanceCalcApp {
 
 	/**
 	 * Sine of x
-	 * 
-	 * @param x
-	 *            radians
+	 * @param x radians
 	 * @see Math#sin(double)
 	 */
 	public static double sin(double x) {
 		return Math.sin(x);
 	}
-
 }
