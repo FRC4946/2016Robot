@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4946.robot.subsystems;
 
 import org.usfirst.frc.team4946.robot.RobotMap;
+import org.usfirst.frc.team4946.robot.commands.ArmControlWithJoystick;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -13,8 +14,8 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
  */
 public class ArmSubsystem extends Subsystem {
 
-	private CANTalon m_armMotor = new CANTalon(RobotMap.k_ARM_CANTalon);
-	private Potentiometer m_pot = new AnalogPotentiometer(RobotMap.k_ARMPORT, 320, 0);
+	private CANTalon m_armMotor = new CANTalon(RobotMap.CAN_TALON_ARM);
+	private Potentiometer m_pot = new AnalogPotentiometer(RobotMap.ANALOG_POT, 320, 0);
 	private PIDController m_armPID = new PIDController(0.0, 0.0, 0.0, m_pot, m_armMotor);
 
 	public ArmSubsystem() {
@@ -32,11 +33,11 @@ public class ArmSubsystem extends Subsystem {
 	}
 
 	public void initDefaultCommand() {
-
+		setDefaultCommand(new ArmControlWithJoystick());
 	}
 
 	public void setArmPoint() {
-		m_armPID.setSetpoint(34);
+		//m_armPID.setSetpoint(34);
 	}
 
 	public double getArmPos() {

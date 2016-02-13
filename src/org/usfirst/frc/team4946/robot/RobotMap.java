@@ -17,39 +17,29 @@ public class RobotMap {
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
 
-	public static final int FRONT_RIGHT_MOTOR_PORT = 0;
-	public static final int FRONT_LEFT_MOTOR_PORT = 1;
-	public static final int BACK_RIGHT_MOTOR_PORT = 2;
-	public static final int BACK_LEFT_MOTOR_PORT = 3;
-
-	public static final int JOYSTICK_PORT = 0;
-
 	public static final int JOYSTICK_DRIVE_PORT = 0;
-	public static final int JOYSTICK_CURVE_PORT = 1;
-	public static final int JOYSTICK_THROTTLE_PORT = 2;
-
-	public static final int JOYSTICK_BUTTON_PORT = 3;
-
-	public static final int ANALOG_GYRO_PORT = 1;
-	public static final int LEFT_ENCODER_CHANNEL_A = 2;
-	public static final int LEFT_ENCODER_CHANNEL_B = 3;
-
-	public static final int RIGHT_ENCODER_CHANNEL_A = 4;
-	public static final int RIGHT_ENCODER_CHANNEL_B = 5;
+	public static final int JOYSTICK_OPERATOR_PORT = 1;
 
 	// New naming convention: <Interface (eg. CAN, PWM, DIO, etc.)><Device type
 	// (eg. Talon, Encoder, etc)><Channel Description>
 	public static final int CAN_TALON_SHOOTER_LEFT = 0;
 	public static final int CAN_TALON_SHOOTER_RIGHT = 1;
+	public static final int CAN_TALON_ARM = 2;
+	public static final int CAN_TALON_WINCH = 3;
+	public static final int PWM_VICTOR_SP_FRONT_RIGHT_DRIVE = 0;
+	public static final int PWM_VICTOR_SP_FRONT_LEFT_DRIVE = 1+4;
+	public static final int PWM_VICTOR_SP_REAR_RIGHT_DRIVE = 2+4;
+	public static final int PWM_VICTOR_SP_REAR_LEFT_DRIVE = 3+4;
+	public static final int PWM_VICTOR_SP_INTAKE = 3;
+	public static final int PWM_VICTOR_SP_FEEDER_LEFT = 2;
+	public static final int PWM_VICTOR_SP_FEEDER_RIGHT = 1;
 
-	public static final int k_ARM_CANTalon = 0;
-	public static final int k_WINCH_CANTalon = 1;
+	public static final int ANALOG_GYRO = 1;
+	public static final int ANALOG_POT = 2;
+	public static final int LEFT_ENCODER_CHANNEL_A = 2;
+	public static final int LEFT_ENCODER_CHANNEL_B = 3;
 
-	public static int k_ARMPORT = 4;
-	public static int k_LEFT_JOYSTICK = 0;
-	public static int k_ARM_UP_BUTTON = 0;
-	public static int k_ARM_DOWN_BUTTON = 1;
-	public static int k_WINCH_UP_BUTTON = 2;
-	public static int k_WINCH_DOWN_BUTTON = 3;
+	public static final int RIGHT_ENCODER_CHANNEL_A = 4;
+	public static final int RIGHT_ENCODER_CHANNEL_B = 5;
 
 }

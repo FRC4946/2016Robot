@@ -21,10 +21,10 @@ public class DriveTrainSubsystem extends Subsystem {
 	//add 4 encoders
 	
 	
-	public Victor frontRightMotor = new Victor(RobotMap.FRONT_RIGHT_MOTOR_PORT);
-	public  Victor frontLeftMotor = new Victor(RobotMap.FRONT_LEFT_MOTOR_PORT);
-	public  Victor backRightMotor = new Victor(RobotMap.BACK_RIGHT_MOTOR_PORT);
-	public  Victor backLeftMotor = new Victor(RobotMap.BACK_LEFT_MOTOR_PORT);
+	public Victor frontRightMotor = new Victor(RobotMap.PWM_VICTOR_SP_FRONT_RIGHT_DRIVE);
+	public  Victor frontLeftMotor = new Victor(RobotMap.PWM_VICTOR_SP_FRONT_LEFT_DRIVE);
+	public  Victor backRightMotor = new Victor(RobotMap.PWM_VICTOR_SP_REAR_RIGHT_DRIVE);
+	public  Victor backLeftMotor = new Victor(RobotMap.PWM_VICTOR_SP_REAR_LEFT_DRIVE);
 	
 	
 	
@@ -34,7 +34,7 @@ public class DriveTrainSubsystem extends Subsystem {
 	
 	
 	
-	public AnalogGyro driveTrainGyro = new AnalogGyro(RobotMap.ANALOG_GYRO_PORT);
+	public AnalogGyro driveTrainGyro = new AnalogGyro(RobotMap.ANALOG_GYRO);
 	
 	
 	PIDController gyroControl = new PIDController(0.1,0.001,0.0, driveTrainGyro, backLeftMotor);

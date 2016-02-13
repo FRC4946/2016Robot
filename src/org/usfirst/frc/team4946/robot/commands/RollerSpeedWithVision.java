@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class Shoot extends Command {
+public class RollerSpeedWithVision extends Command {
 
 	// Gets the needed initial velocity and RPM
 	private double fRPM = Robot.shooterSubsystem.getVel();
 
-	public Shoot() {
+	public RollerSpeedWithVision() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.shooterSubsystem);

@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class WinchSubsystem extends Subsystem {
 
-	private CANTalon m_winchMotor = new CANTalon(RobotMap.k_WINCH_CANTalon);
+	private CANTalon m_winchMotor = new CANTalon(RobotMap.CAN_TALON_WINCH);
 
 	public void initDefaultCommand() {
 	}

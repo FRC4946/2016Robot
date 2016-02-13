@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4946.robot.subsystems;
 
 import org.usfirst.frc.team4946.robot.RobotMap;
-import org.usfirst.frc.team4946.robot.commands.Shoot;
+import org.usfirst.frc.team4946.robot.commands.RollerSpeedWithJoystick;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -34,7 +34,7 @@ public class ShooterSubsystem extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new Shoot());
+    	setDefaultCommand(new RollerSpeedWithJoystick());
     }
     
     

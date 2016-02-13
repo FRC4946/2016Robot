@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4946.robot.commands;
 
 import org.usfirst.frc.team4946.robot.Robot;
-import org.usfirst.frc.team4946.robot.subsystems.ArmSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -26,7 +25,7 @@ public class ArmControlWithJoystick extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double speed = Robot.oi.stick.getRawAxis(0);
+    	double speed = Robot.oi.getOperatorStick().getRawAxis(0);
     	Robot.armSubsystem.setArmSpeed(speed);
     }
 

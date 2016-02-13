@@ -1,15 +1,13 @@
 package org.usfirst.frc.team4946.robot;
 
-impimport org.usfirst.frc.team4946.robot.commands.ExtendArm;
-import org.usfirst.frc.team4946.robot.commands.ExtendWinch;
-import org.usfirst.frc.team4946.robot.commands.JoystickShoot;
+import org.usfirst.frc.team4946.robot.commands.IntakeRollerBackward;
+import org.usfirst.frc.team4946.robot.commands.IntakeRollerForward;
+import org.usfirst.frc.team4946.robot.commands.RollerSpeedWithJoystick;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-is class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
- */
+
 public class OI {
 	// // CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
@@ -36,36 +34,31 @@ public class OI {
 	// joystick.
 	// You create one by telling it which joystick it's on and which button
 	// number it is.
-	public Joystick stick = new Joystick(RobotMap.k_LEFT_JOYSTICK);
-	private Button armUpButton = new JoystickButton(stick,
-			RobotMap.k_ARM_UP_BUTTON);
-	private Button armDownButton = new JoystickButton(stick,
-			RobotMap.k_ARM_DOWN_BUTTON);
-	private Button winchUpButton = new JoystickButton(stick,
-			RobotMap.k_WINCH_UP_BUTTON);
-	private Button winchDownButton = new JoystickButton(stick,
-			RobotMap.k_WINCH_DOWN_BUTTON);
 
-	// There are a few additional built in buttons you can use. Additionally,
-	// by subclassing Button you can create custom triggers and bind those to
-	// commands the same as any other Button.
+	private Joystick driveStick = new Joystick(RobotMap.JOYSTICK_DRIVE_PORT);
+	private Joystick taskStick = new Joystick(RobotMap.JOYSTICK_OPERATOR_PORT);
 
-	// // TRIGGERING COMMANDS WITH BUTTONS
-	// Once you have a button, it's trivial to bind it to a button in one of
-	// three ways:
+	private Button armUpButton = new JoystickButton(taskStick, 0);
+	private Button armDownButton = new JoystickButton(taskStick, 1);
+	private Button winchUpButton = new JoystickButton(taskStick, 2);
+	private Button winchDownButton = new JoystickButton(taskStick, 3);
+
+	private Button intakeForward = new JoystickButton(taskStick, 1);
+	private Button intakeReverse = new JoystickButton(taskStick, 2);
+
+	private Button shootButton = new JoystickButton(driveStick, 0);
 
 	public OI() {
+		//
+		// armUpButton.whenPressed(new ExtendArm(true));
+		// armDownButton.whenPressed(new ExtendArm(false));
+		// winchUpButton.whenPressed(new ExtendWinch(true));
+		// winchDownButton.whenPressed(new ExtendWinch(false));
 
-		armUpButton.whenPressed(new ExtendArm(true));
+		intakeForward.whileHeld(new IntakeRollerForward());
+		intakeReverse.whileHeld(new IntakeRollerBackward());
 
-		armDownButton.whenPressed(new ExtendArm(false));
-
-		winchUpButton.whenPressed(new ExtendWinch(true));
-
-		winchDownButton.whenPressed(new ExtendWinch(false));
-
-		shootButton.whenPressed(new JoystickShoot());
-
+		//shootButton.whenPressed(new RollerSpeedWithJoystick());
 	}
 
 	// Start the command when the button is pressed and let it run the command
@@ -80,9 +73,11 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 
-	Button shootButton = new JoystickButton(stick, 0);
-
 	public Joystick getDriveStick() {
-		return stick;
+		return driveStick;
+	}
+
+	public Joystick getOperatorStick() {
+		return taskStick;
 	}
 }
