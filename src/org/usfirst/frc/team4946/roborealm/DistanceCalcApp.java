@@ -12,6 +12,7 @@ public class testingVectors {
 	private static final double kFOVH = Math.toRadians(kFOVH_deg);
 	private static final double kFOVV_deg = 67 * 0.75;
 	private static final double kFOVV = Math.toRadians(kFOVV_deg);
+	private static final double arbitraryZ = 3.0;
 
 	private static final int kAngleErrorMax = 30;
 
@@ -21,14 +22,14 @@ public class testingVectors {
 
 	public static Point3D[] getTestPoints() {
 
-		double angle = 20; // Math.random() * 20;
+		double angle = 0; // Math.random() * 20;
 		System.out.println("Angle:" + angle);
 		angle = Math.toRadians(angle);
 
-		double yDist = 85.0 + 6.0;
+		double yDist = 71.5 + 6.0;
 		System.out.println("Height: " + yDist);
 
-		double zDist = 50; // Math.random() * 40 + 65.0;
+		double zDist = 89; // Math.random() * 40 + 65.0;
 		System.out.println("Depth: " + zDist);
 
 		double xDist = 0; // Math.random() * 50;
@@ -42,26 +43,33 @@ public class testingVectors {
 				/* BotLeft */new Point3D(xDist - (10 * cos(angle)),
 						yDist - 6.0, zDist - (10 * sin(angle))),
 				/* BotRight */new Point3D(xDist + (10 * cos(angle)),
-						yDist - 6.0, zDist + (10 * sin(angle)))
-				};
+						yDist - 6.0, zDist + (10 * sin(angle))) };
 
 		for (int i = 0; i < goalPoints.length; i++) {
-			double a = Math.atan(goalPoints[i].getY() / goalPoints[i].getZ());
-			double yShift = (a - kPhi) / (kFOVV / 2.0);
+			double a = Math.atan(goalPoints[i].getY() / goalPoints[i].getZ()) - kPhi;
+			double yShift = a / (kFOVV / 2.0) * 300;
 
 			a = Math.atan(goalPoints[i].getX()
 					/ (Math.sqrt(goalPoints[i].getZ() * goalPoints[i].getZ()
 							+ goalPoints[i].getY() * goalPoints[i].getY())));
-			double xShift = (a) / (kFOVH / 2.0);
+			double xShift = a / (kFOVH / 2.0) * 400;
 
-			goalPoints[i] = new Point3D(xShift, yShift, 3);
+			goalPoints[i] = new Point3D(xShift, yShift, 300);
 			System.out.println(goalPoints[i].getX() + "\t"
 					+ goalPoints[i].getY());
 		}
+		
+		Point3D[] goalPoints2 = {
+				new Point3D(-47, -28, 300),
+				new Point3D( 56, -29, 300),
+				new Point3D(-54, -77, 300),
+				new Point3D( 60, -77, 300)
+		};
 
 		return goalPoints;
 	}
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		// NetworkTable.setClientMode();
 		// NetworkTable.setIPAddress("roboRIO-4946-frc.local");
@@ -116,10 +124,10 @@ public class testingVectors {
 
 			// System.out.println(horizAvg + ", " + vertAvg);
 
-			Vector3D p1 = new Vector3D(0, 0, 200);
+			Vector3D p1 = new Vector3D(0, 0, 2);
 			Vector3D p2 = new Vector3D(p1.getX(), cos(kPhi) + p1.getY(),
 					sin(kPhi) + p1.getZ());
-
+			
 			// Calculate the distance and print it
 			double distanceInches = calculateDistance(p1, p2, topLeft,
 					topRight, botRight, botLeft);
@@ -133,19 +141,53 @@ public class testingVectors {
 		}
 	}
 
+	/**
+	 * Takes 4 points on the camera and finds the distance 
+	 * to the base of the goal.
+	 * @param p1 
+	 * @param p2 
+	 * @param q1 
+	 * @param q2 
+	 * @param q3 
+	 * @param q4 
+	 * @return 
+	 */
 	private static double calculateDistance(Vector3D p1, Vector3D p2,
 			Point3D q1, Point3D q2, Point3D q3, Point3D q4) {
-
+		
+		Point3D[] points = {q1, q2, q3, q4};
+		
+		// Take all the points on the camera,
+		// and convert them to 3D vectors exiting from the camera lens.
+		for (int i = 0; i < points.length; i++) {
+			
+			double x = points[i].getX();
+			
+			// Turn x into an angle from the center of vision
+			x *= kFOVH / 800.0;
+			x = arbitraryZ * Math.tan(x);
+			
+			double y = points[i].getY();
+			
+			// Turn y into an angle from the center of vision
+			y *= kFOVV / 600.0;
+			y = arbitraryZ * Math.tan(y);
+			
+			points[i] = new Point3D(x, y, arbitraryZ);
+			
+		}
+		
+		
 		// All sets of points to check
-		Point3D[][] cornerPoints = { { q1, q2, q3 }, { q2, q3, q4 },
-				{ q3, q4, q1 }, { q4, q1, q2 } };
+		Point3D[][] cornerPoints = { { points[0], points[1], points[2] }, { points[1], points[2], points[3] },
+				{ points[2], points[3], points[0] }, { points[3], points[0], points[1] } };
 
 		// Create vars to hold the best angle found
 		Plane bestPlane = null;
-		double minError = 1000;
+		double minError = 100000;
 
 		// Iterate through all allowed angles of the plane
-		for (int i = -kAngleErrorMax; i <= kAngleErrorMax; i++) {
+		for (double i = -kAngleErrorMax; i <= kAngleErrorMax; i+=0.001) {
 			double alpha = Math.toRadians(i);
 
 			// Find the third point that defines the plane
@@ -181,16 +223,15 @@ public class testingVectors {
 		}
 
 		// Otherwise, get the best points as projected on the plane
-		Point3D[] points = { q1, q2, q3, q4 };
 		points = getPointsOnPlane(bestPlane, points);
 
 		// And calculate the distance between the points, in arbitrary units
-		// double width = points[0].distance(points[1]);
+		double width = points[0].distance(points[1]);
 		double height = points[1].distance(points[2]);
 
-		goalRatio = height / (points[0].distance(points[1]));
+		goalRatio = height / width;
 
-		double towerHeight = height * (70 / 12);
+		double towerHeight = height * (71.5 / 12.0);
 
 		double x = (points[2].getX() + points[3].getX()) / 2;
 		double y = (points[2].getY() + points[3].getY()) / 2;
@@ -201,19 +242,17 @@ public class testingVectors {
 		Point3D origin = new Point3D(0, 0, 0);
 		double distance = towerBase.distance(origin);
 
-		// TODO: Linear eqn to convert arbitrary units to inches or meters
-		return distance;
+		double k = (height/12.0 + width/20.0) / 2.0;
 
+		// TODO: Linear eqn to convert arbitrary units to inches or meters
+		return distance / k;
 	}
 
 	/**
 	 * Map the intersections of vectors <code>v1, v2, v3</code> and a given
 	 * plane
-	 * 
-	 * @param plane
-	 *            the plane on which to project the vectors
-	 * @param points
-	 *            The array of vectors to project
+	 * @param plane the plane on which to project the vectors
+	 * @param points The array of vectors to project
 	 * @return the intersections points, as a {@code Point3D[]}
 	 */
 	public static Point3D[] getPointsOnPlane(Plane plane, Point3D[] points) {
@@ -234,15 +273,10 @@ public class testingVectors {
 
 	/**
 	 * Get the angle of q1,q2,q3 through q2.
-	 * 
-	 * @param plane
-	 *            the plane on which q1,q2,q3 should be projected
-	 * @param q1
-	 *            An endpoint of the angle to find
-	 * @param q2
-	 *            The vertex of the angle to find
-	 * @param q3
-	 *            An endpoint of the angle to find
+	 * @param plane the plane on which q1,q2,q3 should be projected
+	 * @param q1 An endpoint of the angle to find
+	 * @param q2 The vertex of the angle to find
+	 * @param q3 An endpoint of the angle to find
 	 * @return The angle, in degrees
 	 */
 	public static double getAngle(Plane plane, Point3D q1, Point3D q2,
@@ -259,9 +293,7 @@ public class testingVectors {
 
 	/**
 	 * Convert an {@link Vector3D} to a {@link Point3D}
-	 * 
-	 * @param vec
-	 *            the {@code Point3D}
+	 * @param vec the {@code Point3D}
 	 * @return the converted {@code Vector3D}
 	 */
 	public static Vector3D ptToVec(Point3D point) {
@@ -270,9 +302,7 @@ public class testingVectors {
 
 	/**
 	 * Convert an {@link Point3D} to a {@link Vector3D}
-	 * 
-	 * @param vec
-	 *            the {@code Vector3D}
+	 * @param vec the {@code Vector3D}
 	 * @return the converted {@code Point3D}
 	 */
 	public static Point3D vecToPt(Vector3D vec) {
@@ -281,9 +311,7 @@ public class testingVectors {
 
 	/**
 	 * Cosine of x
-	 * 
-	 * @param x
-	 *            radians
+	 * @param x radians
 	 * @see Math#cos(double)
 	 */
 	public static double cos(double x) {
@@ -292,12 +320,19 @@ public class testingVectors {
 
 	/**
 	 * Sine of x
-	 * 
-	 * @param x
-	 *            radians
+	 * @param x radians
 	 * @see Math#sin(double)
 	 */
 	public static double sin(double x) {
 		return Math.sin(x);
+	}
+	
+	/**
+	 * Tangent of x
+	 * @param x radians
+	 * @see Math#tan(double)
+	 */
+	public static double tan(double x) {
+		return Math.tan(x);
 	}
 }
