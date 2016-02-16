@@ -47,7 +47,7 @@ public class Robot extends IterativeRobot {
 		winchSubsystem = new WinchSubsystem();
 		intakeSubsystem = new IntakeSubsystem();
 		feederSubsystem = new FeederSubsystem();
-		driveTrainSubsystem = null;//new DriveTrainSubsystem();
+		driveTrainSubsystem = new DriveTrainSubsystem();
 
 		oi = new OI();
 

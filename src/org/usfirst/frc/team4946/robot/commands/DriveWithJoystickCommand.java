@@ -11,15 +11,14 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
  */
 public class DriveWithJoystickCommand extends Command {
 
-	private Gyro m_gyro;
+	// private Gyro m_gyro;
 
 	public DriveWithJoystickCommand() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 
 		requires(Robot.driveTrainSubsystem);
-
-		m_gyro = Robot.driveTrainSubsystem.driveTrainGyro;
+		// m_gyro = Robot.driveTrainSubsystem.driveTrainGyro;
 
 	}
 
@@ -33,16 +32,14 @@ public class DriveWithJoystickCommand extends Command {
 
 		Joystick stick = Robot.oi.getDriveStick();
 
-		double drive = stick.getRawAxis(0);
-		double curve = stick.getRawAxis(1);
-		double throttle = stick.getRawAxis(2);
-
+		double drive = -1 * stick.getRawAxis(1);
+		double curve = -1 * stick.getRawAxis(0);
+		double throttle = stick.getRawAxis(3);
 		Robot.driveTrainSubsystem.drive(drive, curve, throttle);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-
 		return false;
 	}
 

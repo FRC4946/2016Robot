@@ -25,7 +25,7 @@ public class ArmControlWithJoystick extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double speed = Robot.oi.getOperatorStick().getRawAxis(0);
+    	double speed = -0.3*Robot.oi.getOperatorStick().getRawAxis(1);
     	Robot.armSubsystem.setArmSpeed(speed);
     }
 

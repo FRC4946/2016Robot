@@ -22,8 +22,10 @@ public class RollerSpeedWithJoystick extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {    	
-    	Robot.shooterSubsystem.setVelocityJoystick(Robot.oi.getOperatorStick().getRawAxis(3));
+    protected void execute() {
+    	double speed = Robot.oi.getOperatorStick().getRawAxis(3);
+    	speed = (-speed + 1.0)/2.0;
+    	Robot.shooterSubsystem.setVelocityJoystick(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

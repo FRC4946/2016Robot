@@ -1,16 +1,4 @@
-<head><version>2.79.16</version></head>
-<Load_Image disabled>
-  <filename>.\Target\0.jpg</filename>
-  <frame_delay>10000</frame_delay>
-  <load_destination>2</load_destination>
-  <load_numbered_images>FALSE</load_numbered_images>
-  <loop_playback>1</loop_playback>
-  <monitor_folder>FALSE</monitor_folder>
-  <numerical_sort>TRUE</numerical_sort>
-  <page_number>1</page_number>
-  <recursive>TRUE</recursive>
-  <reload_on_change>FALSE</reload_on_change>
-</Load_Image>
+<head><version>2.79.17</version></head>
 <Axis_Internet_Camera>
   <auto_back_light>TRUE</auto_back_light>
   <auto_exposure>FALSE</auto_exposure>
@@ -18,9 +6,8 @@
   <brightness_value>21</brightness_value>
   <camera_type>1</camera_type>
   <color_level_value>50</color_level_value>
-  <compression_index>2</compression_index>
   <contrast_value>100</contrast_value>
-  <ip_address>10.49.46.20</ip_address>
+  <ip_address>10.49.46.15</ip_address>
   <is_active>TRUE</is_active>
   <mirrot>FALSE</mirrot>
   <password>FRC</password>
@@ -29,7 +16,7 @@
   <sharpness_value>100</sharpness_value>
   <username>FRC</username>
 </Axis_Internet_Camera>
-<Radial_Distortion disabled>
+<Radial_Distortion>
   <center_x>0.5</center_x>
   <center_y>0.5</center_y>
   <coeff_a>-1121</coeff_a>
@@ -52,7 +39,7 @@
   <channel>2</channel>
   <hue_value>50</hue_value>
   <hysteresis>0</hysteresis>
-  <min_value>100</min_value>
+  <min_value>75</min_value>
   <result_type>1</result_type>
 </RGB_Filter>
 <Marker>
@@ -116,24 +103,34 @@
   <four_pixel_connectivity>TRUE</four_pixel_connectivity>
   <size>0</size>
 </Fill>
-<Convex_Hull disabled/>
+<Convex_Hull/>
 <Colorize>
   <rgb>#FFFFFF</rgb>
 </Colorize>
-<Harris_Corners disabled>
-  <color_index>8</color_index>
+<Harris_Corners>
+  <color_index>5</color_index>
   <fast_harris>TRUE</fast_harris>
   <harris_corners_array>TRUE</harris_corners_array>
   <isolation>1</isolation>
-  <shape_index>3</shape_index>
-  <size_index>1</size_index>
+  <shape_index>1</shape_index>
   <threshold>1</threshold>
   <use_color>FALSE</use_color>
   <use_non_maxima>TRUE</use_non_maxima>
 </Harris_Corners>
-<JScript_Program disabled>
+<Ring_Corner>
+  <color_index>3</color_index>
+  <isolation>5</isolation>
+  <ring_corner_array>TRUE</ring_corner_array>
+  <shape_index>7</shape_index>
+  <size_index>1</size_index>
+  <threshold>0</threshold>
+  <use_color_or_gray>1</use_color_or_gray>
+  <use_non_maximal>TRUE</use_non_maximal>
+</Ring_Corner>
+<JScript_Program>
   <auto_reload>TRUE</auto_reload>
   <continue_on_errors>FALSE</continue_on_errors>
+  <filename>.\ProcessVision.js</filename>
   <script>function isWithinRange(x,y){
 
 	var border = 15;
@@ -310,10 +307,10 @@ if(length &lt; 8){
 }
 
 SetVariable("COG_X", GetVariable("BLOBS:0")/GetVariable("IMAGE_WIDTH"));</script>
-  <source_mode>gui</source_mode>
+  <source_mode>file</source_mode>
   <tab_size_index>1</tab_size_index>
 </JScript_Program>
-<Target_Localization>
+<Target_Localization disabled>
   <center_map_on_robot>TRUE</center_map_on_robot>
   <center_on_robot>TRUE</center_on_robot>
   <color_index>3</color_index>
@@ -395,9 +392,10 @@ Write("Distance: " + distance);</script>
   <source_mode>gui</source_mode>
   <tab_size_index>1</tab_size_index>
 </JScript_Program>
-<JScript_Program>
+<JScript_Program disabled>
   <auto_reload>TRUE</auto_reload>
   <continue_on_errors>FALSE</continue_on_errors>
+  <filename>.\NewtonMethod.js</filename>
   <script>var y = GetVariable("TL_ROBOT_Y")*GetVariable("TL_ROBOT_Y") * 1.0;
 var x = GetVariable("TL_ROBOT_X")*GetVariable("TL_ROBOT_X");
 var dist = Math.sqrt(x+y);
@@ -405,40 +403,53 @@ dist = (4.7533*dist) - 74.949;
 Write(GetVariable("TL_TARGET_DISTANCE"))
 
 SetVariable("DISTANCE", dist);</script>
-  <source_mode>gui</source_mode>
+  <source_mode>file</source_mode>
+  <tab_size_index>1</tab_size_index>
+</JScript_Program>
+<JScript_Program disabled>
+  <auto_reload>TRUE</auto_reload>
+  <continue_on_errors>FALSE</continue_on_errors>
+  <filename>.\CalculateVelocityWithDist.js</filename>
+  <source_mode>file</source_mode>
   <tab_size_index>1</tab_size_index>
 </JScript_Program>
 <NetworkTables>
   <delay>10</delay>
   <filter_type_index>0</filter_type_index>
-  <hostname>localhost</hostname>
+  <hostname>roboRIO-4946-frc.local</hostname>
   <port>1735</port>
   <prefix>/RoboRealm/</prefix>
   <variables_to_send>BOT_LEFT_X
 BOT_LEFT_Y
 BOT_RIGHT_X
 BOT_RIGHT_Y
-COG_X
-EDGE_PROXIMITY
-HAS_CORNERS
-TL_ROBOT_X
-TL_ROBOT_Y
+DISTANCE_FINAL
+RPM_FINAL
 TL_TARGET_DISTANCE
-TL_TARGET_HORIZ_ANGLE
-TL_TARGET_VERT_ANGLE
 TOP_LEFT_X
 TOP_LEFT_Y
 TOP_RIGHT_X
-TOP_RIGHT_Y</variables_to_send>
+TOP_RIGHT_Y
+VELOCITY_FINAL</variables_to_send>
   <variable_type_index>0</variable_type_index>
 </NetworkTables>
-<Display_Variables disabled>
+<Display_Variables>
   <border_color>red</border_color>
   <dim_background>TRUE</dim_background>
   <display_as_annotation>FALSE</display_as_annotation>
   <display_value_only>FALSE</display_value_only>
+  <east>TL_ROBOT_Y
+TL_ROBOT_X
+</east>
   <font_color>white</font_color>
-  <font_size>Ginormous (48pt)</font_size>
+  <font_size>Large (12pt)</font_size>
+  <northwest>TL_Y_ROTATION
+TL_Z_ROTATION
+TL_X_ROTATION
+</northwest>
   <southeast>DISTANCE
 </southeast>
+  <west>VELOCITY_FINAL
+RPM_FINAL
+</west>
 </Display_Variables>
