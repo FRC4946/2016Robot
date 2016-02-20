@@ -137,7 +137,7 @@ public class testingVectors {
 
 			double distanceMeters = distanceInches * 0.0254;
 			double vel = CalculateVelocityWithDrag.calcVelocity(distanceMeters);
-			double rpm = ((0.1016 * Math.PI) * vel) * 60;
+			double rpm = (vel/(0.1016 * Math.PI)) * 60;
 
 			// TODO: Convert inches to meters, v0, RPM. Send values back onto
 			// the network tables
