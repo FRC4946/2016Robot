@@ -2,6 +2,9 @@ package org.usfirst.frc.team4946.robot;
 
 import org.usfirst.frc.team4946.robot.commands.IntakeRollerBackward;
 import org.usfirst.frc.team4946.robot.commands.IntakeRollerForward;
+import org.usfirst.frc.team4946.robot.commands.RollerSpeedWithJoystickNoPID;
+import org.usfirst.frc.team4946.robot.commands.RollerSpeedWithJoystickPID;
+import org.usfirst.frc.team4946.robot.commands.RollerSpeedWithVision;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -45,6 +48,8 @@ public class OI {
 	private Button intakeForward = new JoystickButton(taskStick, 1);
 	private Button intakeReverse = new JoystickButton(taskStick, 2);
 
+	private Button shootWithJoystickPID = new JoystickButton(driveStick, 5);
+	private Button shootWithVision = new JoystickButton(driveStick, 6);
 	private Button shootButton = new JoystickButton(driveStick, 0);
 
 	public OI() {
@@ -56,6 +61,9 @@ public class OI {
 
 		intakeForward.whileHeld(new IntakeRollerForward());
 		intakeReverse.whileHeld(new IntakeRollerBackward());
+		
+		shootWithJoystickPID.whileHeld(new RollerSpeedWithJoystickPID());
+		shootWithVision.whileHeld(new RollerSpeedWithVision());
 
 		//shootButton.whenPressed(new RollerSpeedWithJoystick());
 	}

@@ -28,7 +28,7 @@ public class RollerSpeedWithVision extends Command {
 	protected void execute() {
 		fRPM = Vision.getRequiredRPM();
 		if (fRPM > 0) {
-			Robot.shooterSubsystem.setVelocity(fRPM);
+			Robot.shooterSubsystem.setVelocityPID(fRPM);
 		}
 	}
 
