@@ -1,7 +1,22 @@
+<<<<<<< HEAD
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="var" path="wpilib" sourcepath="/wpilib.sources"/>
+	<classpathentry kind="var" path="networktables" sourcepath="networktables.sources"/>
+	<classpathentry kind="lib" path="lib/commons-math3-3.6/commons-math3-3.6.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/AlphaDogs2016Robot/lib/commons-math3-3.6/commons-math3-3.6-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_66"/>
+	<classpathentry kind="output" path="bin"/>
+=======
 <classpath>
   <classpathentry kind="src" path="src"/>
   <classpathentry kind="var" path="wpilib" sourcepath="wpilib.sources"/>
   <classpathentry kind="var" path="networktables" sourcepath="networktables.sources"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
   <classpathentry kind="output" path="bin"/>
+>>>>>>> master
 </classpath>
