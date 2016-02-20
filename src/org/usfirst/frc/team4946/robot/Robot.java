@@ -1,14 +1,17 @@
 package org.usfirst.frc.team4946.robot;
 
+import org.usfirst.frc.team4946.robot.subsystems.ArmSubsystem;
+import org.usfirst.frc.team4946.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team4946.robot.subsystems.FeederSubsystem;
+import org.usfirst.frc.team4946.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team4946.robot.subsystems.ShooterSubsystem;
+import org.usfirst.frc.team4946.robot.subsystems.WinchSubsystem;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-
-import org.usfirst.frc.team4946.robot.commands.ExampleCommand;
-import org.usfirst.frc.team4946.robot.subsystems.ExampleSubsystem;
-
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,26 +24,39 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+	public static ShooterSubsystem shooterSubsystem;
+	public static ArmSubsystem armSubsystem;
+	public static WinchSubsystem winchSubsystem; 
+	public static IntakeSubsystem intakeSubsystem;
+	public static FeederSubsystem feederSubsystem;
+	public static DriveTrainSubsystem driveTrainSubsystem; 
+
 	public static OI oi;
 	public static NetworkTable networkTable;
 
-	Command autonomousCommand;
-	SendableChooser chooser;
-	
-
+	// Command autonomousCommand;
+	// SendableChooser chooser;
 
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+		shooterSubsystem = new ShooterSubsystem();
+		armSubsystem = new ArmSubsystem();
+		winchSubsystem = new WinchSubsystem();
+		intakeSubsystem = new IntakeSubsystem();
+		feederSubsystem = new FeederSubsystem();
+		driveTrainSubsystem = new DriveTrainSubsystem();
+
 		oi = new OI();
-		chooser = new SendableChooser();
-		chooser.addDefault("Default Auto", new ExampleCommand());
+
+		// chooser = new SendableChooser();
+		// chooser.addDefault("Default Auto", new ExampleCommand());
+
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
-		networkTable = NetworkTable.getTable("RoboRealm");
+		// SmartDashboard.putData("Auto mode", chooser);
+		// networkTable = NetworkTable.getTable("RoboRealm");
 	}
 
 	/**
@@ -68,18 +84,19 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings & commands.
 	 */
 	public void autonomousInit() {
-		autonomousCommand = (Command) chooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		// autonomousCommand = (Command) chooser.getSelected();
+		//
+		// /*
+		// * String autoSelected = SmartDashboard.getString("Auto Selector",
+		// * "Default"); switch(autoSelected) { case "My Auto":
+		// autonomousCommand
+		// * = new MyAutoCommand(); break; case "Default Auto": default:
+		// * autonomousCommand = new ExampleCommand(); break; }
+		// */
+		//
+		// // schedule the autonomous command (example)
+		// if (autonomousCommand != null)
+		// autonomousCommand.start();
 	}
 
 	/**
@@ -94,8 +111,8 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
+		// if (autonomousCommand != null)
+		// autonomousCommand.cancel();
 	}
 
 	/**

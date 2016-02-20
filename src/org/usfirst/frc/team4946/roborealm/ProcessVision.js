@@ -74,8 +74,9 @@ function getPointDistance(pX, pY, startX, startY, endX, endY) {
 // =*=*=*=*=*= MAIN ENTRY POINT =*=*=*=*=*= \\
 
 // Get the array of corners from RoboRealm
-var corners = GetArrayVariable("HARRIS_CORNERS");
-var length = corners.length;
+var hcorners = GetArrayVariable("HARRIS_CORNERS");
+var rcorners = GetArrayVariable("RING_CORNER");
+var length = hcorners.length + rcorners.length;
 
 // If we got less than 8 corners, return
 if (length < 8) {
@@ -97,10 +98,15 @@ else {
 	SetVariable("EDGE_PROXIMITY", false);
 
 	// Pull all of the points from the RoboRealm to a local JS array
-	for (var i = 0; i < length; i++) {
-		corners[i] = GetVariable("HARRIS_CORNERS:" + i);
+	for (var i = 0; i < hcorners.length; i++) {
+		hcorners[i] = GetVariable("HARRIS_CORNERS:" + i);
 	}
-
+	for (var i = 0; i < rcorners.length; i++) {
+		rcorners[i] = GetVariable("RING_CORNER:" + i);
+	}
+	
+	var corners = hcorners.concat(rcorners);
+	
 	// Get the first and the last point to use as the initial line
 	var startX = corners[0];
 	var startY = corners[1];
@@ -118,7 +124,7 @@ else {
 	var botRightY = 0;
 
 	// Loop
-	var iterations = 3;
+	var iterations = 10;
 	for (var loop = 0; loop < iterations; loop++) {
 
 		var maxDistance = 0;
@@ -150,7 +156,7 @@ else {
 		endX = minX;
 		endY = minY;
 
-		if (loop == 1) {
+		if (loop == iterations-2) {
 
 			// The greater XVal will always be on the right
 			if (maxX > minX) {
@@ -164,7 +170,7 @@ else {
 				botRightX = minX;
 				botRightY = minY;
 			}
-		} else if (loop == 2) {
+		} else if (loop == iterations-1) {
 
 			// The greater XVal will always be on the right
 			if (topRightX == 0) {
@@ -205,5 +211,3 @@ else {
 	//Write("BR: (" + botRightX + "," + botRightY + ")\n");
 
 }
-
-SetVariable("COG_X", GetVariable("BLOBS:0") / GetVariable("IMAGE_WIDTH"));

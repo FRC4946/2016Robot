@@ -6,7 +6,6 @@
   <brightness_value>21</brightness_value>
   <camera_type>1</camera_type>
   <color_level_value>50</color_level_value>
-  <compression_index>2</compression_index>
   <contrast_value>100</contrast_value>
   <ip_address>10.49.46.15</ip_address>
   <is_active>TRUE</is_active>
@@ -17,7 +16,7 @@
   <sharpness_value>100</sharpness_value>
   <username>FRC</username>
 </Axis_Internet_Camera>
-<Radial_Distortion disabled>
+<Radial_Distortion>
   <center_x>0.5</center_x>
   <center_y>0.5</center_y>
   <coeff_a>-1121</coeff_a>
@@ -40,7 +39,7 @@
   <channel>2</channel>
   <hue_value>50</hue_value>
   <hysteresis>0</hysteresis>
-  <min_value>100</min_value>
+  <min_value>75</min_value>
   <result_type>1</result_type>
 </RGB_Filter>
 <Marker>
@@ -109,19 +108,36 @@
   <rgb>#FFFFFF</rgb>
 </Colorize>
 <Harris_Corners>
+<<<<<<< HEAD
   <color_index>8</color_index>
+=======
+  <color_index>5</color_index>
+>>>>>>> master
   <fast_harris>TRUE</fast_harris>
   <harris_corners_array>TRUE</harris_corners_array>
   <isolation>1</isolation>
-  <shape_index>3</shape_index>
-  <size_index>1</size_index>
+  <shape_index>1</shape_index>
   <threshold>1</threshold>
   <use_color>FALSE</use_color>
   <use_non_maxima>TRUE</use_non_maxima>
 </Harris_Corners>
+<<<<<<< HEAD
+=======
+<Ring_Corner>
+  <color_index>3</color_index>
+  <isolation>5</isolation>
+  <ring_corner_array>TRUE</ring_corner_array>
+  <shape_index>7</shape_index>
+  <size_index>1</size_index>
+  <threshold>0</threshold>
+  <use_color_or_gray>1</use_color_or_gray>
+  <use_non_maximal>TRUE</use_non_maximal>
+</Ring_Corner>
+>>>>>>> master
 <JScript_Program>
   <auto_reload>TRUE</auto_reload>
   <continue_on_errors>FALSE</continue_on_errors>
+  <filename>.\ProcessVision.js</filename>
   <script>function isWithinRange(x,y){
 
 	var border = 15;
@@ -298,7 +314,7 @@ if(length &lt; 8){
 }
 
 SetVariable("COG_X", GetVariable("BLOBS:0")/GetVariable("IMAGE_WIDTH"));</script>
-  <source_mode>gui</source_mode>
+  <source_mode>file</source_mode>
   <tab_size_index>1</tab_size_index>
 </JScript_Program>
 <Target_Localization disabled>
