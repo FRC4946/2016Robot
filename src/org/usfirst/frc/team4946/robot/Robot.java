@@ -1,11 +1,19 @@
+
 package org.usfirst.frc.team4946.robot;
 
 import org.usfirst.frc.team4946.robot.commands.autonomous.AutonomousWrapper;
+import org.usfirst.frc.team4946.robot.subsystems.ArmSubsystem;
+import org.usfirst.frc.team4946.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team4946.robot.subsystems.FeederSubsystem;
+import org.usfirst.frc.team4946.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team4946.robot.subsystems.ShooterSubsystem;
+import org.usfirst.frc.team4946.robot.subsystems.WinchSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -17,8 +25,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
+	
+	public static ShooterSubsystem shooterSubsystem;
+	public static ArmSubsystem armSubsystem;
+	public static WinchSubsystem winchSubsystem; 
+	public static IntakeSubsystem intakeSubsystem;
+	public static FeederSubsystem feederSubsystem;
+	public static DriveTrainSubsystem driveTrainSubsystem; 
+	
 	public static OI oi;
+	public static NetworkTable networkTable;
 
 	private CommandGroup m_autonomousCommandGroup;
 	private SendableChooser m_autoDefense;
@@ -48,7 +64,15 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		oi = new OI();
+		
+		shooterSubsystem = new ShooterSubsystem();
+	armSubsystem = new ArmSubsystem();
+	winchSubsystem = new WinchSubsystem();
+	intakeSubsystem = new IntakeSubsystem();
+	feederSubsystem = new FeederSubsystem();
+	driveTrainSubsystem = new DriveTrainSubsystem();
+
+	oi = new OI();
 
 		// Create the selector on the SmartDashboard for the defense to traverse
 		m_autoDefense = new SendableChooser();
@@ -74,6 +98,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Autonomous - Defense", m_autoDefense);
 		SmartDashboard
 				.putData("Autonomous - Starting Position", m_autoPosition);
+	
+		 networkTable = NetworkTable.getTable("RoboRealm");
+
 	}
 
 	/**
@@ -130,3 +157,4 @@ public class Robot extends IterativeRobot {
 		LiveWindow.run();
 	}
 }
+>>>>>>> Autonomous

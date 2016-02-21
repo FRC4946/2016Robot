@@ -1,0 +1,462 @@
+<head><version>2.79.17</version></head>
+<Axis_Internet_Camera>
+  <auto_back_light>TRUE</auto_back_light>
+  <auto_exposure>FALSE</auto_exposure>
+  <auto_white_balance>TRUE</auto_white_balance>
+  <brightness_value>21</brightness_value>
+  <camera_type>1</camera_type>
+  <color_level_value>50</color_level_value>
+  <contrast_value>100</contrast_value>
+  <ip_address>10.49.46.15</ip_address>
+  <is_active>TRUE</is_active>
+  <mirrot>FALSE</mirrot>
+  <password>FRC</password>
+  <port>80</port>
+  <resolution>800x600</resolution>
+  <sharpness_value>100</sharpness_value>
+  <username>FRC</username>
+</Axis_Internet_Camera>
+<Radial_Distortion>
+  <center_x>0.5</center_x>
+  <center_y>0.5</center_y>
+  <coeff_a>-1121</coeff_a>
+  <coeff_b>0.525</coeff_b>
+  <coeff_c>0.0</coeff_c>
+  <coeff_d>0.0</coeff_d>
+  <coeff_e>0.0</coeff_e>
+  <crop_image>FALSE</crop_image>
+  <grayscale>FALSE</grayscale>
+  <image_height>600</image_height>
+  <image_width>800</image_width>
+  <scale>950</scale>
+</Radial_Distortion>
+<Marker>
+  <include_graphics>0</include_graphics>
+  <name>De-Fisheyed</name>
+  <revert_to>Current</revert_to>
+</Marker>
+<RGB_Filter>
+  <channel>2</channel>
+  <hue_value>50</hue_value>
+  <hysteresis>0</hysteresis>
+  <min_value>75</min_value>
+  <result_type>1</result_type>
+</RGB_Filter>
+<Marker>
+  <include_graphics>0</include_graphics>
+  <name>Thresholded</name>
+  <revert_to>Current</revert_to>
+</Marker>
+<Blob_Filter>
+  <create_blob_array_variable>TRUE</create_blob_array_variable>
+  <filters>
+    <tab>
+      <filter>
+        <count_threshold>0</count_threshold>
+        <create_array>0</create_array>
+        <filter_id>8</filter_id>
+        <invert_count>0</invert_count>
+        <invert_threshold>0</invert_threshold>
+        <minimum_size>200</minimum_size>
+        <weight_threshold>0.5</weight_threshold>
+      </filter>
+      <filter:2>
+        <count_threshold>0</count_threshold>
+        <create_array>0</create_array>
+        <filter_id>56</filter_id>
+        <invert_count>0</invert_count>
+        <invert_threshold>1</invert_threshold>
+        <weight_threshold>0.4</weight_threshold>
+      </filter:2>
+      <filter:3>
+        <count_threshold>0</count_threshold>
+        <create_array>0</create_array>
+        <filter_id>155</filter_id>
+        <invert_count>0</invert_count>
+        <invert_threshold>0</invert_threshold>
+        <weight_threshold>0.5</weight_threshold>
+      </filter:3>
+      <filter:4>
+        <count_threshold>0</count_threshold>
+        <create_array>0</create_array>
+        <filter_id>21</filter_id>
+        <invert_count>0</invert_count>
+        <invert_threshold>0</invert_threshold>
+        <weight_threshold>0.5</weight_threshold>
+      </filter:4>
+    </tab>
+    <tab:2/>
+    <tab:3/>
+    <tab:4/>
+    <tab:5/>
+    <tab:6/>
+  </filters>
+  <font_size>Normal (10pt)</font_size>
+  <largest_is_background>FALSE</largest_is_background>
+  <show_weights>FALSE</show_weights>
+  <sort_array_on_x>FALSE</sort_array_on_x>
+  <sort_array_on_y>FALSE</sort_array_on_y>
+</Blob_Filter>
+<Fill>
+  <check_border>FALSE</check_border>
+  <fill_with_average_color>TRUE</fill_with_average_color>
+  <four_pixel_connectivity>TRUE</four_pixel_connectivity>
+  <size>0</size>
+</Fill>
+<Convex_Hull/>
+<Colorize>
+  <rgb>#FFFFFF</rgb>
+</Colorize>
+<Harris_Corners>
+<<<<<<< HEAD
+  <color_index>8</color_index>
+=======
+  <color_index>5</color_index>
+>>>>>>> master
+  <fast_harris>TRUE</fast_harris>
+  <harris_corners_array>TRUE</harris_corners_array>
+  <isolation>1</isolation>
+  <shape_index>1</shape_index>
+  <threshold>1</threshold>
+  <use_color>FALSE</use_color>
+  <use_non_maxima>TRUE</use_non_maxima>
+</Harris_Corners>
+<<<<<<< HEAD
+=======
+<Ring_Corner>
+  <color_index>3</color_index>
+  <isolation>5</isolation>
+  <ring_corner_array>TRUE</ring_corner_array>
+  <shape_index>7</shape_index>
+  <size_index>1</size_index>
+  <threshold>0</threshold>
+  <use_color_or_gray>1</use_color_or_gray>
+  <use_non_maximal>TRUE</use_non_maximal>
+</Ring_Corner>
+>>>>>>> master
+<JScript_Program>
+  <auto_reload>TRUE</auto_reload>
+  <continue_on_errors>FALSE</continue_on_errors>
+  <filename>.\ProcessVision.js</filename>
+  <script>function isWithinRange(x,y){
+
+	var border = 15;
+
+
+	if(y &gt; (GetVariable("IMAGE_HEIGHT")-border) || y &lt; border){
+		return false;
+	}
+	if(x &gt; (GetVariable("IMAGE_WIDTH")-border) || x &lt; border){
+		return false;
+	}
+	return true;
+}
+
+function calculateSlope(startX,startY,endX,endY){
+	var rise = endY-startY;
+  var run = endX-startX;
+	return rise/run;
+}
+
+function calculateIntercept(startX,startY,endX,endY){
+	var slope = calculateSlope(startX,startY,endX,endY);
+	return ((slope*startX)-startY)*-1;
+}
+
+
+function getDistance(pX,pY,startX,startY,endX,endY){
+	
+   	var slope = calculateSlope(startX,startY,endX,endY);
+    var intercept = calculateIntercept(startX,startY,endX,endY);
+    
+    var inverseSlope = -1/slope;
+    var inverseIntercept = ((inverseSlope * pX) - pY)*-1;
+    
+    var xInt = (intercept - inverseIntercept)/(inverseSlope-slope);
+   	var yInt = (slope*xInt) + intercept;
+		var distance = sqrt((pX-xInt)*(pX-xInt) + (pY-yInt)*(pY-yInt));
+		
+		if(pY &lt; (slope*pX + intercept)){
+			distance *= -1;
+		}
+	
+	return distance;
+}
+
+var corners = GetArrayVariable("HARRIS_CORNERS");
+var length = corners.length;
+
+if(length &lt; 8){
+	Write("Not enough corners");
+	SetVariable("MAX_1_X", -1);
+	SetVariable("MAX_1_Y", -1);
+	SetVariable("MAX_2_X", -1);
+	SetVariable("MAX_2_Y", -1);
+	SetVariable("MAX_3_X", -1);
+	SetVariable("MAX_3_Y", -1);
+	SetVariable("MAX_4_X", -1);
+	SetVariable("MAX_4_Y", -1);
+	SetVariable("HAS_CORNERS", false);
+
+} else {
+	SetVariable("HAS_CORNERS", true);
+	SetVariable("EDGE_PROXIMITY", false);
+
+
+	var startX = GetVariable("HARRIS_CORNERS:0"); // corners[0];
+	var startY = GetVariable("HARRIS_CORNERS:1"); //corners[1];
+	var endX = GetVariable("HARRIS_CORNERS:" + (length-1)); //corners[length-1];
+	var endY = GetVariable("HARRIS_CORNERS:" + (length-2)); //corners[length-2];
+	
+	var topLeftX = 0;
+	var topRightX = 0;
+	var botLeftX = 0;
+	var botRightX = 0;
+	var topLeftY = 0;
+	var topRightY = 0;
+	var botLeftY = 0;
+	var botRightY = 0;
+
+	
+	for(var loop = 0; loop &lt; 3; loop ++){
+	
+		var maxDistance = 0;
+		var minDistance = 0;
+		var maxX = 0;
+		var maxY = 0;
+		var minX = 0;
+		var minY = 0;
+
+	
+		for(var i = 0; i &lt; length; i += 2){
+			corners[i] = GetVariable("HARRIS_CORNERS:" + i);
+			corners[i+1] = GetVariable("HARRIS_CORNERS:" + (i+1));
+
+	
+			var distance = getDistance(corners[i], corners[i+1], startX, startY, endX, endY);
+		
+		
+			if(distance &gt; maxDistance){
+				maxDistance = distance;
+				maxX = corners[i];
+				maxY = corners[i+1];
+			} else if (distance &lt; minDistance){
+				minDistance = distance;
+				minX = corners[i];
+				minY = corners[i+1];
+			}
+		}
+		
+		startX = maxX;
+		startY = maxY;
+		endX = minX;
+		endY = minY;
+		
+		//Write("Vals: (" + maxX + "," + maxY + "), (" + minX + "," + minY + ").\n");
+		//Write("Eqn:   y=" + calculateSlope(maxX,maxY,minX,minY) + "x + " + calculateIntercept(maxX,maxY,minX,minY) + ".\n");
+		
+		if(loop == 1){
+		
+			// The greater XVal will always be on the right
+			if(maxX &gt; minX){
+				topRightX = maxX;
+				topRightY = maxY;
+				botLeftX = minX;
+				botLeftY = minY;
+			} else {
+				topLeftX = maxX;
+				topLeftY = maxY;
+				botRightX = minX;
+				botRightY = minY;
+			}
+		} else if(loop == 2){
+		
+			// The greater XVal will always be on the right
+			if(topRightX == 0){
+				topRightX = maxX;
+				topRightY = maxY;
+				botLeftX = minX;
+				botLeftY = minY;
+			} else {
+				topLeftX = maxX;
+				topLeftY = maxY;
+				botRightX = minX;
+				botRightY = minY;
+			}
+		}
+		
+		if(loop &gt;= 1){
+			var num = (loop-1)*2
+		
+			//SetVariable("MAX_" + (1+num) + "_X", maxX);
+			//SetVariable("MAX_" + (1+num) + "_Y", maxY);
+			//SetVariable("MAX_" + (2+num) + "_X", minX);
+			//SetVariable("MAX_" + (2+num) + "_Y", minY);
+			//SetVariable("Corners" + loop, "Corners: (" + maxX + "," + maxY + "), (" + minX + "," + minY + ").");
+			
+			if(!isWithinRange(maxX,maxY) || !isWithinRange(minX,minY)){
+				SetVariable("EDGE_PROXIMITY", true);
+			}
+			
+		}
+	}
+	
+	SetVariable("TOP_LEFT_X", topLeftX);		SetVariable("TOP_LEFT_Y", topLeftY);
+	SetVariable("TOP_RIGHT_X", topRightX);	SetVariable("TOP_RIGHT_Y", topRightY);
+	SetVariable("BOT_LEFT_X", botLeftX);		SetVariable("BOT_LEFT_Y", botLeftY);
+	SetVariable("BOT_RIGHT_X", botRightX);	SetVariable("BOT_RIGHT_Y", botRightY);
+
+	Write("TL: (" + topLeftX + "," + topLeftY + ")\n");
+	Write("TR: (" + topRightX + "," + topRightY + ")\n");
+	Write("BL: (" + botLeftX + "," + botLeftY + ")\n");
+	Write("BR: (" + botRightX + "," + botRightY + ")\n");
+
+}
+
+SetVariable("COG_X", GetVariable("BLOBS:0")/GetVariable("IMAGE_WIDTH"));</script>
+  <source_mode>file</source_mode>
+  <tab_size_index>1</tab_size_index>
+</JScript_Program>
+<Target_Localization disabled>
+  <center_map_on_robot>TRUE</center_map_on_robot>
+  <center_on_robot>TRUE</center_on_robot>
+  <color_index>3</color_index>
+  <contrast_threshold>50</contrast_threshold>
+  <display_as_annotation>FALSE</display_as_annotation>
+  <enable_tracking>TRUE</enable_tracking>
+  <field_of_view>67</field_of_view>
+  <fill_target>FALSE</fill_target>
+  <focal_length>1800</focal_length>
+  <high_accuracy>TRUE</high_accuracy>
+  <map_target_x>0</map_target_x>
+  <map_target_y>0</map_target_y>
+  <match_threshold>35</match_threshold>
+  <max_change_distance>20</max_change_distance>
+  <robot_color>3</robot_color>
+  <route_color>3</route_color>
+  <show_features>FALSE</show_features>
+  <smoothing_size_index>2</smoothing_size_index>
+  <target_real_height>14</target_real_height>
+  <target_real_width>20</target_real_width>
+  <target_template>.\TargetTemplate_12.gif</target_template>
+  <template_image>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</template_image>
+  <use_radian>FALSE</use_radian>
+</Target_Localization>
+<Display_Variables disabled>
+  <border_color>red</border_color>
+  <dim_background>TRUE</dim_background>
+  <display_as_annotation>FALSE</display_as_annotation>
+  <display_value_only>FALSE</display_value_only>
+  <font_color>white</font_color>
+  <font_size>Normal (10pt)</font_size>
+  <north>TL_TARGET_DISTANCE
+TL_TARGET_HORIZ_ANGLE
+TL_TARGET_VERT_ANGLE
+TL_Y_TRANSLATION
+TL_X_TRANSLATION
+</north>
+  <northwest>TL_DETECTED
+TL_COG_X
+TL_COG_Y
+TL_MATCH_SCORE
+TL_ROBOT_X
+TL_ROBOT_Y
+TL_SCALE
+</northwest>
+  <west>TL_Z_ROTATION
+TL_Y_ROTATION
+TL_X_ROTATION
+</west>
+</Display_Variables>
+<JScript_Program disabled>
+  <auto_reload>TRUE</auto_reload>
+  <continue_on_errors>FALSE</continue_on_errors>
+  <script>Math.toRadians = function(angle) {
+  return angle * (Math.PI / 180);
+}
+
+Math.toDegrees = function(radians) {
+  return radians * 180 / Math.PI;
+};
+
+//CAMERA
+var FOVdeg=67;
+var FOV_PX = GetVariable("IMAGE_WIDTH");
+
+// TARGET
+var deltaX = GetVariable("BOT_RIGHT_X") - GetVariable("BOT_LEFT_X");
+var deltaY = GetVariable("BOT_RIGHT_Y") - GetVariable("BOT_LEFT_Y");
+
+var targetWidthPX = sqrt((deltaX*deltaX) + (deltaY*deltaY));
+var targetWidthIN = 20;
+
+Write(targetWidthPX + "|" + targetWidthIN + "\n");
+
+//DISTANCE
+var distance = targetWidthIN*FOV_PX/(2*targetWidthPX* Math.tan(Math.toRadians(FOVdeg/2)) );
+
+Write("Distance: " + distance);</script>
+  <source_mode>gui</source_mode>
+  <tab_size_index>1</tab_size_index>
+</JScript_Program>
+<JScript_Program disabled>
+  <auto_reload>TRUE</auto_reload>
+  <continue_on_errors>FALSE</continue_on_errors>
+  <filename>.\NewtonMethod.js</filename>
+  <script>var y = GetVariable("TL_ROBOT_Y")*GetVariable("TL_ROBOT_Y") * 1.0;
+var x = GetVariable("TL_ROBOT_X")*GetVariable("TL_ROBOT_X");
+var dist = Math.sqrt(x+y);
+dist = (4.7533*dist) - 74.949;
+Write(GetVariable("TL_TARGET_DISTANCE"))
+
+SetVariable("DISTANCE", dist);</script>
+  <source_mode>file</source_mode>
+  <tab_size_index>1</tab_size_index>
+</JScript_Program>
+<JScript_Program disabled>
+  <auto_reload>TRUE</auto_reload>
+  <continue_on_errors>FALSE</continue_on_errors>
+  <filename>.\CalculateVelocityWithDist.js</filename>
+  <source_mode>file</source_mode>
+  <tab_size_index>1</tab_size_index>
+</JScript_Program>
+<NetworkTables>
+  <delay>10</delay>
+  <filter_type_index>0</filter_type_index>
+  <hostname>roboRIO-4946-frc.local</hostname>
+  <port>1735</port>
+  <prefix>/RoboRealm/</prefix>
+  <variables_to_send>BOT_LEFT_X
+BOT_LEFT_Y
+BOT_RIGHT_X
+BOT_RIGHT_Y
+DISTANCE_FINAL
+RPM_FINAL
+TL_TARGET_DISTANCE
+TOP_LEFT_X
+TOP_LEFT_Y
+TOP_RIGHT_X
+TOP_RIGHT_Y
+VELOCITY_FINAL</variables_to_send>
+  <variable_type_index>0</variable_type_index>
+</NetworkTables>
+<Display_Variables>
+  <border_color>red</border_color>
+  <dim_background>TRUE</dim_background>
+  <display_as_annotation>FALSE</display_as_annotation>
+  <display_value_only>FALSE</display_value_only>
+  <east>TL_ROBOT_Y
+TL_ROBOT_X
+</east>
+  <font_color>white</font_color>
+  <font_size>Large (12pt)</font_size>
+  <northwest>TL_Y_ROTATION
+TL_Z_ROTATION
+TL_X_ROTATION
+</northwest>
+  <southeast>DISTANCE
+</southeast>
+  <west>VELOCITY_FINAL
+RPM_FINAL
+</west>
+</Display_Variables>
