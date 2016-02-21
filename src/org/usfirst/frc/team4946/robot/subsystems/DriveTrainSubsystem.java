@@ -2,11 +2,10 @@ package org.usfirst.frc.team4946.robot.subsystems;
 
 import org.usfirst.frc.team4946.robot.RobotMap;
 import org.usfirst.frc.team4946.robot.commands.DriveWithJoystickCommand;
+import org.usfirst.frc.team4946.robot.util.SimplePIController;
+import org.usfirst.frc.team4946.robot.util.VisionAnglePIDSource;
 
-import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -44,6 +43,9 @@ public class DriveTrainSubsystem extends Subsystem {
 
 	public RobotDrive robotDrive = new RobotDrive(frontLeftMotor,
 			backLeftMotor, frontRightMotor, backRightMotor);
+
+	private SimplePIController pid = new SimplePIController(0.1, 0.0,
+			new VisionAnglePIDSource());
 
 	// Encoder may pulse 1000 times per revolution
 	// Assuming the wheel is 6 inches circumference is 6*pi inches.
@@ -95,24 +97,8 @@ public class DriveTrainSubsystem extends Subsystem {
 
 	}
 
-	public void driveBackLeftMotor(double speed) {
-		backLeftMotor.set(speed);
-
+	
+	public double getPIDOutput(){
+		return pid.getOutput();
 	}
-
-	public void driveBackRightMotor(double speed) {
-		backRightMotor.set(speed);
-
-	}
-
-	public void driveFrontRightMotor(double speed) {
-		frontRightMotor.set(speed);
-
-	}
-
-	public void driveFrontLeftMotor(double speed) {
-		frontLeftMotor.set(speed);
-
-	}
-
 }

@@ -7,15 +7,6 @@ package org.usfirst.frc.team4946.robot;
  * floating around.
  */
 public class RobotMap {
-	// For example to map the left and right motors, you could define the
-	// following variables to use with your drivetrain subsystem.
-	// public static int leftMotor = 1;
-	// public static int rightMotor = 2;
-
-	// If you are using multiple modules, make sure to define both the port
-	// number and the module. For example you with a rangefinder:
-	// public static int rangefinderPort = 1;
-	// public static int rangefinderModule = 1;
 
 	public static final int JOYSTICK_DRIVE_PORT = 0;
 	public static final int JOYSTICK_OPERATOR_PORT = 1;
@@ -26,6 +17,7 @@ public class RobotMap {
 	public static final int CAN_TALON_SHOOTER_RIGHT = 1;
 	public static final int CAN_TALON_ARM = 2;
 	public static final int CAN_TALON_WINCH = 3;
+	
 	public static final int PWM_VICTOR_SP_FRONT_RIGHT_DRIVE = 0;
 	public static final int PWM_VICTOR_SP_FRONT_LEFT_DRIVE = 2;
 	public static final int PWM_VICTOR_SP_REAR_RIGHT_DRIVE = 1;
@@ -36,14 +28,14 @@ public class RobotMap {
 
 	public static final int ANALOG_GYRO = 1;
 	public static final int ANALOG_POT = 2;
-	public static final int LEFT_ENCODER_CHANNEL_A = 2;
-	public static final int LEFT_ENCODER_CHANNEL_B = 3;
-
-	public static final int RIGHT_ENCODER_CHANNEL_A = 4;
-	public static final int RIGHT_ENCODER_CHANNEL_B = 5;
 	
+	public static final int DIO_ENCODER_DRIVETRAIN_RIGHT_A = 0;
+	public static final int DIO_ENCODER_DRIVETRAIN_RIGHT_B = 1;
+	public static final int DIO_ENCODER_DRIVETRAIN_LEFT_A = 2;
+	public static final int DIO_ENCODER_DRIVETRAIN_LEFT_B = 3;
+	public static final int DIO_LIMIT_SWITCH_FEEDER = 9;
+
 	
 	// For Velocity Math
-	public static final double MAX_RPM = 10400;
-	
+	public static final double MAX_RPM = 10400;	
 }

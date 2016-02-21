@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4946.robot.commands;
 
 import org.usfirst.frc.team4946.robot.Robot;
-import org.usfirst.frc.team4946.robot.subsystems.Vision;
+import org.usfirst.frc.team4946.robot.subsystems.Vision2;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -26,7 +26,7 @@ public class RollerSpeedWithVision extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		fRPM = Vision.getRequiredRPM();
+		fRPM = Vision2.getRPM();
 		if (fRPM > 0) {
 			Robot.shooterSubsystem.setVelocityPID(fRPM);
 		}

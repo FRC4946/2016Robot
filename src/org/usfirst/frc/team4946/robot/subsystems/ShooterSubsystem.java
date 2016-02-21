@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4946.robot.subsystems;
 
 import org.usfirst.frc.team4946.robot.RobotMap;
-import org.usfirst.frc.team4946.robot.commands.RollerSpeedWithJoystickPID;
+import org.usfirst.frc.team4946.robot.commands.RollerSpeedWithJoystickNoPID;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;

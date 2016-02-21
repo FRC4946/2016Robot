@@ -13,7 +13,7 @@ public class IntakeSubsystem extends Subsystem {
 	VictorSP intakeRollerVictorSP = new VictorSP(RobotMap.PWM_VICTOR_SP_INTAKE);
 
 	public void setInRollerSpeed(double rollerSpeed) {
-		intakeRollerVictorSP.set(rollerSpeed);
+		intakeRollerVictorSP.set(-rollerSpeed);
 	}
 
 	// Put methods for controlling this subsystem

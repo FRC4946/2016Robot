@@ -56,7 +56,7 @@ public class Robot extends IterativeRobot {
 
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		// SmartDashboard.putData("Auto mode", chooser);
-		// networkTable = NetworkTable.getTable("RoboRealm");
+		 networkTable = NetworkTable.getTable("RoboRealm");
 	}
 
 	/**
