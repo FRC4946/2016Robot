@@ -1,48 +1,50 @@
-package org.usfirst.frc.team4946.robot.commands;
+package org.usfirst.frc.team4946.robot.commands.shooter;
 
 import org.usfirst.frc.team4946.robot.Robot;
+import org.usfirst.frc.team4946.robot.subsystems.Vision2;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class RetractWinchWithTimer extends Command {
+public class RollerSpeedWithVision extends Command {
 
-	private Timer m_winchTimer = new Timer();
-	private double m_timeoutSeconds;
+	// Gets the needed initial velocity and RPM
+	private double fRPM = 0;//Robot.shooterSubsystem.getVel();
 
-	public RetractWinchWithTimer(double timeoutSeconds) {
-		requires(Robot.winchSubsystem);
-		this.m_timeoutSeconds = timeoutSeconds;
+	public RollerSpeedWithVision() {
+		// Use requires() here to declare subsystem dependencies
+		// eg. requires(chassis);
+		requires(Robot.shooterSubsystem);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		m_winchTimer.reset();
-		m_winchTimer.start();
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.winchSubsystem.setMotor(-1.0);
-
+		fRPM = Vision2.getRPM();
+		if (fRPM > 0) {
+			Robot.shooterSubsystem.setVelocityPID(fRPM);
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return m_winchTimer.get() > m_timeoutSeconds;
+		return false;
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.winchSubsystem.stopMotor();
+
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.winchSubsystem.stopMotor();
+
 	}
 }

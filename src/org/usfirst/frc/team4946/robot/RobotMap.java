@@ -17,7 +17,7 @@ public class RobotMap {
 	public static final int CAN_TALON_SHOOTER_RIGHT = 1;
 	public static final int CAN_TALON_ARM = 2;
 	public static final int CAN_TALON_WINCH = 3;
-	
+
 	public static final int PWM_VICTOR_SP_FRONT_RIGHT_DRIVE = 0;
 	public static final int PWM_VICTOR_SP_FRONT_LEFT_DRIVE = 2;
 	public static final int PWM_VICTOR_SP_REAR_RIGHT_DRIVE = 1;
@@ -28,14 +28,17 @@ public class RobotMap {
 
 	public static final int ANALOG_GYRO = 1;
 	public static final int ANALOG_POT = 2;
-	
+
 	public static final int DIO_ENCODER_DRIVETRAIN_RIGHT_A = 0;
 	public static final int DIO_ENCODER_DRIVETRAIN_RIGHT_B = 1;
 	public static final int DIO_ENCODER_DRIVETRAIN_LEFT_A = 2;
 	public static final int DIO_ENCODER_DRIVETRAIN_LEFT_B = 3;
+	public static final int DIO_COUNTER_SHOOTER_LEFT = 4;
+	public static final int DIO_COUNTER_SHOOTER_RIGHT = 5;
+	public static final int DIO_LIMIT_SWITCH_ARM_DOWN = 7;
+	public static final int DIO_LIMIT_SWITCH_ARM_UP = 8;
 	public static final int DIO_LIMIT_SWITCH_FEEDER = 9;
 
-	
 	// For Velocity Math
-	public static final double MAX_RPM = 10400;	
+	public static final double MAX_RPM = 10400;
 }

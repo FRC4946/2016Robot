@@ -1,11 +1,13 @@
 package org.usfirst.frc.team4946.robot;
 
-import org.usfirst.frc.team4946.robot.commands.IntakeRollerBackward;
-import org.usfirst.frc.team4946.robot.commands.IntakeRollerForward;
-import org.usfirst.frc.team4946.robot.commands.IntakeUntilLimitSwitch;
-import org.usfirst.frc.team4946.robot.commands.RollerSpeedWithJoystickPID;
-import org.usfirst.frc.team4946.robot.commands.RollerSpeedWithVision;
-import org.usfirst.frc.team4946.robot.commands.TurnToFaceGoal;
+import org.usfirst.frc.team4946.robot.commands.SwitchToFrontCam;
+import org.usfirst.frc.team4946.robot.commands.SwitchToRearCam;
+import org.usfirst.frc.team4946.robot.commands.drivetrain.TurnToFaceGoal;
+import org.usfirst.frc.team4946.robot.commands.feederIntake.IntakeRollerBackward;
+import org.usfirst.frc.team4946.robot.commands.feederIntake.IntakeRollerForward;
+import org.usfirst.frc.team4946.robot.commands.feederIntake.IntakeUntilLimitSwitch;
+import org.usfirst.frc.team4946.robot.commands.shooter.RollerSpeedWithJoystickPID;
+import org.usfirst.frc.team4946.robot.commands.shooter.RollerSpeedWithVision;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -41,10 +43,10 @@ public class OI {
 	private Joystick driveStick = new Joystick(RobotMap.JOYSTICK_DRIVE_PORT);
 	private Joystick taskStick = new Joystick(RobotMap.JOYSTICK_OPERATOR_PORT);
 
-//	private Button armUpButton = new JoystickButton(taskStick, 0);
-//	private Button armDownButton = new JoystickButton(taskStick, 1);
-//	private Button winchUpButton = new JoystickButton(taskStick, 2);
-//	private Button winchDownButton = new JoystickButton(taskStick, 3);
+	// private Button armUpButton = new JoystickButton(taskStick, 0);
+	// private Button armDownButton = new JoystickButton(taskStick, 1);
+	// private Button winchUpButton = new JoystickButton(taskStick, 2);
+	// private Button winchDownButton = new JoystickButton(taskStick, 3);
 
 	private Button intakeForward = new JoystickButton(taskStick, 2);
 	private Button intakeReverse = new JoystickButton(taskStick, 3);
@@ -52,8 +54,10 @@ public class OI {
 
 	private Button shootWithJoystickPID = new JoystickButton(taskStick, 5);
 	private Button shootWithVision = new JoystickButton(taskStick, 6);
-	
+
 	private Button turnToGoal = new JoystickButton(driveStick, 2);
+	private Button camFront = new JoystickButton(driveStick, 3);
+	private Button camRear = new JoystickButton(driveStick, 4);
 
 	public OI() {
 		//
@@ -65,11 +69,14 @@ public class OI {
 		shootButton.whileHeld(new IntakeRollerForward());
 		intakeForward.whileHeld(new IntakeUntilLimitSwitch());
 		intakeReverse.whileHeld(new IntakeRollerBackward());
-		
+
 		shootWithJoystickPID.whileHeld(new RollerSpeedWithJoystickPID());
 		shootWithVision.whileHeld(new RollerSpeedWithVision());
-		
+
 		turnToGoal.whileHeld(new TurnToFaceGoal());
+
+		camFront.whenPressed(new SwitchToFrontCam());
+		camRear.whenPressed(new SwitchToRearCam());
 	}
 
 	// Start the command when the button is pressed and let it run the command

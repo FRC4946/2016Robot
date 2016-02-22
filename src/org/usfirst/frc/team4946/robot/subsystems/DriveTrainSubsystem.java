@@ -1,89 +1,93 @@
 package org.usfirst.frc.team4946.robot.subsystems;
 
+import org.usfirst.frc.team4946.robot.Robot;
 import org.usfirst.frc.team4946.robot.RobotMap;
-import org.usfirst.frc.team4946.robot.commands.DriveWithJoystickCommand;
+import org.usfirst.frc.team4946.robot.commands.drivetrain.DriveWithJoystickCommand;
+import org.usfirst.frc.team4946.robot.util.NewVisionAnglePIDSource;
 import org.usfirst.frc.team4946.robot.util.SimplePIController;
 import org.usfirst.frc.team4946.robot.util.VisionAnglePIDSource;
 
-import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class DriveTrainSubsystem extends Subsystem {
 
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
-
-	// add 4 encoders
-
-	public VictorSP frontRightMotor = new VictorSP(
+	// Motors and RobotDrive
+	private VictorSP frontRightMotor = new VictorSP(
 			RobotMap.PWM_VICTOR_SP_FRONT_RIGHT_DRIVE);
-	public VictorSP frontLeftMotor = new VictorSP(
+	private VictorSP frontLeftMotor = new VictorSP(
 			RobotMap.PWM_VICTOR_SP_FRONT_LEFT_DRIVE);
-	public VictorSP backRightMotor = new VictorSP(
+	private VictorSP backRightMotor = new VictorSP(
 			RobotMap.PWM_VICTOR_SP_REAR_RIGHT_DRIVE);
-	public VictorSP backLeftMotor = new VictorSP(
+	private VictorSP backLeftMotor = new VictorSP(
 			RobotMap.PWM_VICTOR_SP_REAR_LEFT_DRIVE);
-
-	// public Encoder encoderRight = new
-	// Encoder(RobotMap.RIGHT_ENCODER_CHANNEL_A,RobotMap.RIGHT_ENCODER_CHANNEL_B,false,
-	// Encoder.EncodingType.k4X);
-	// public Encoder encoderLeft = new
-	// Encoder(RobotMap.LEFT_ENCODER_CHANNEL_A,RobotMap.LEFT_ENCODER_CHANNEL_B,
-	// false, Encoder.EncodingType.k4X);
-
-	// public AnalogGyro driveTrainGyro = new AnalogGyro(RobotMap.ANALOG_GYRO);
-
-	// PIDController gyroControl = new PIDController(0.1,0.001,0.0,
-	// driveTrainGyro, backLeftMotor);
-
-	public RobotDrive robotDrive = new RobotDrive(frontLeftMotor,
+	private RobotDrive robotDrive = new RobotDrive(frontLeftMotor,
 			backLeftMotor, frontRightMotor, backRightMotor);
 
-	private SimplePIController pid = new SimplePIController(0.1, 0.0,
-			new VisionAnglePIDSource());
+	// Encoders
+	private Encoder encoderRight = new Encoder(
+			RobotMap.DIO_ENCODER_DRIVETRAIN_RIGHT_A,
+			RobotMap.DIO_ENCODER_DRIVETRAIN_RIGHT_B, false,
+			Encoder.EncodingType.k4X);
+	private Encoder encoderLeft = new Encoder(
+			RobotMap.DIO_ENCODER_DRIVETRAIN_LEFT_A,
+			RobotMap.DIO_ENCODER_DRIVETRAIN_LEFT_B, false,
+			Encoder.EncodingType.k4X);
 
-	// Encoder may pulse 1000 times per revolution
-	// Assuming the wheel is 6 inches circumference is 6*pi inches.
-	// Each encoder pulse will be (0.006*pi) inches.
-	double kDistancePerPulse = 0.006 * Math.PI;
+	// Gyroscope
+	private AnalogGyro gyro = new AnalogGyro(RobotMap.ANALOG_GYRO);
 
+	// PID stuff
+	private VisionAnglePIDSource turnPidSource = new VisionAnglePIDSource(
+			encoderLeft, encoderRight);
+	private NewVisionAnglePIDSource newTurnPidSource = new NewVisionAnglePIDSource(
+			gyro);
+	private SimplePIController turnPid;
+
+	/**
+	 * CONSTRUCTOR
+	 */
 	public DriveTrainSubsystem() {
+		Robot.networkTable.addTableListener("FINAL_ANGLE_TO_GOAL",
+				turnPidSource, false);
 
-		// driveTrainGyro.setSensitivity(0.007);
+		robotDrive.setExpiration(0.5);
 
-		// encoderRight.setDistancePerPulse(1.0);
-		// encoderRight.setPIDSourceType(PIDSourceType.kRate);
-		//
-		//
-		//
-		// encoderLeft.setDistancePerPulse(1.0);
-		// encoderLeft.setPIDSourceType(PIDSourceType.kRate);
-		//
+		double wheelCirc = 8.0 * Math.PI;
+		double pulsesPerRevolution = 250.0 * 50.0 / 24.0;
+		encoderRight.setDistancePerPulse(wheelCirc / pulsesPerRevolution);
+		encoderLeft.setDistancePerPulse(wheelCirc / pulsesPerRevolution);
+		encoderRight.setReverseDirection(true);
+		encoderLeft.setReverseDirection(true);
+		encoderRight.reset();
+		encoderLeft.reset();
 
+		gyro.calibrate();
+		gyro.setPIDSourceType(PIDSourceType.kDisplacement);
+		turnPid = new SimplePIController(0.3, 0.05, gyro);
+		// turnPid = new SimplePIController(0.025, 0.02, turnPidSource);
+		turnPid.setContinuous(true);
+		turnPid.setDirection(false);
+		turnPid.setInputRange(0, 360);
+		turnPid.setOutputRange(-0.5, 0.5);
+		turnPid.setTolerence(3);
 	}
 
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
-
-		// driveTrainGyro.reset();
-
-		// encoderLeft.setDistancePerPulse(kDistancePerPulse);
-		// encoderRight.setDistancePerPulse(kDistancePerPulse);
-
 		setDefaultCommand(new DriveWithJoystickCommand());
-
 	}
 
 	public void drive(double drive, double curve) {
-
 		robotDrive.arcadeDrive(drive, curve);
-
 	}
 
 	public void drive(double drive, double curve, double throttle) {
@@ -95,10 +99,50 @@ public class DriveTrainSubsystem extends Subsystem {
 
 		robotDrive.arcadeDrive(drive, curve);
 
+		SmartDashboard.putNumber("gyro", Robot.driveTrainSubsystem.getGyro());
+
+		SmartDashboard.putNumber("LeftWheelDist", encoderLeft.getDistance());
+		SmartDashboard.putNumber("LeftWheelSpeed", encoderLeft.getRate());
+		SmartDashboard.putNumber("LeftWheelRPM", encoderLeft.getRate()
+				/ (8 * Math.PI) * 60);
+		SmartDashboard.putNumber("RightWheelDist", encoderRight.getDistance());
+		SmartDashboard.putNumber("RightWheelSpeed", encoderRight.getRate());
+		SmartDashboard.putNumber("RightWheelRPM", encoderRight.getRate()
+				/ (8 * Math.PI) * 60);
 	}
 
-	
-	public double getPIDOutput(){
-		return pid.getOutput();
+	public void resetEncoders() {
+		encoderLeft.reset();
+		encoderRight.reset();
 	}
+
+	public double getDistance() {
+		double dist = (encoderLeft.getDistance() + encoderRight.getDistance()) / 2.0;
+		return dist;
+	}
+
+	public void resetGyro() {
+		gyro.reset();
+	}
+
+	public void setSetpoint(double setPointAngleDegrees) {
+		turnPid.setSetpoint(setPointAngleDegrees);
+	}
+
+	public double getGyro() {
+		return gyro.getAngle();
+	}
+
+	public double getTurnPIDOutput() {
+		return turnPid.getOutput();
+	}
+
+	public boolean isPIDOnTarget() {
+		return turnPid.onTarget();
+	}
+	
+	public double getError(){
+		return turnPid.getError();
+	}
+
 }

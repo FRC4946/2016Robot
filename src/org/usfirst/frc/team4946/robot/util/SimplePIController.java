@@ -83,8 +83,8 @@ public class SimplePIController {
 
 		// Calculate the elapsed time since the function was last called
 		double now = System.currentTimeMillis();
-		lastTime = now;
 		double timeChange = (double) (now - lastTime); // Should hopefully always be 20ms, but we can't be sure
+		lastTime = now;
 
 		// Compute all the working error variables
 		double error = m_setpoint - m_inputVal;
@@ -105,7 +105,7 @@ public class SimplePIController {
 		else if (integralTerm < m_minimumOutput) integralTerm = m_minimumOutput;
 
 		// Compute the output, limiting it to the boundaries
-		m_output = kp * error + ki * integralTerm;
+		m_output = (kp * error) + integralTerm;
 		if (m_output > m_maximumOutput) m_output = m_maximumOutput;
 		else if (m_output < m_minimumOutput) m_output = m_minimumOutput;
 	}
@@ -153,5 +153,10 @@ public class SimplePIController {
 	public boolean onTarget() {
 		this.updateInputVal();
 		return (Math.abs(m_setpoint - m_inputVal) < m_tolerance / 100 * (m_maximumInput - m_minimumInput));
+	}
+	
+	public double getError(){
+		this.updateInputVal();
+		return m_setpoint - m_inputVal;
 	}
 }

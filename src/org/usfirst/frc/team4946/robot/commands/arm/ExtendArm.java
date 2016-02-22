@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4946.robot.commands;
+package org.usfirst.frc.team4946.robot.commands.arm;
 
 import org.usfirst.frc.team4946.robot.Robot;
 
@@ -8,13 +8,14 @@ import edu.wpi.first.wpilibj.Timer;
 /**
  *
  */
-public class RetractArm extends Command {
+public class ExtendArm extends Command {
 
 	private Timer m_timer = new Timer();
 	
-    public RetractArm(boolean isExtend) {
+    public ExtendArm(boolean isExtend) {
         
     	requires(Robot.armSubsystem);
+//    	Robot.armSubsystem.
     	
     }
 
@@ -29,7 +30,7 @@ public class RetractArm extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	Robot.armSubsystem.retractArm();
+//    	Robot.armSubsystem.extendArm();
     	
     }
 
@@ -47,10 +48,12 @@ public class RetractArm extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+//    	Robot.armSubsystem.stopMotor();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+//    	Robot.armSubsystem.stopMotor();
     }
 }

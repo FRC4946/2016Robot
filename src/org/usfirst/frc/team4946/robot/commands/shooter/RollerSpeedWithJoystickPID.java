@@ -1,32 +1,34 @@
-package org.usfirst.frc.team4946.robot.commands;
+package org.usfirst.frc.team4946.robot.commands.shooter;
 
 import org.usfirst.frc.team4946.robot.Robot;
+import org.usfirst.frc.team4946.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ArmControlWithJoystick extends Command {
+public class RollerSpeedWithJoystickPID extends Command {
 
-    public ArmControlWithJoystick() {
+	static double maxRPM = RobotMap.MAX_RPM;
+	
+    public RollerSpeedWithJoystickPID() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.armSubsystem);
+    	requires(Robot.shooterSubsystem);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
-    	Robot.armSubsystem.setPIDEnabled(false);
-    	
     }
 
-
-	// Called repeatedly when this Command is scheduled to run
+    // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double speed = -0.3*Robot.oi.getOperatorStick().getRawAxis(1);
-    	Robot.armSubsystem.setArmSpeed(speed);
+    	double speed = Robot.oi.getOperatorStick().getRawAxis(3);
+    	// Speed has a range from 0 to maxRPM.
+    	speed = (-speed + 1.0)/2.0 * maxRPM;
+    	Robot.shooterSubsystem.setVelocityPID(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

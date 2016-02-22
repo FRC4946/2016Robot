@@ -31,6 +31,7 @@ public class Vision2 {
 		return ERROR_NO_DISTANCE;
 	}
 
+	
 	public static double getAngle() {
 		return Robot.networkTable.getNumber("FINAL_ANGLE_TO_GOAL", ERROR_NO_ANGLE);
 	}
