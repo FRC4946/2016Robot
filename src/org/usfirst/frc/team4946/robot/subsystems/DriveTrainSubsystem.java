@@ -9,7 +9,6 @@ import org.usfirst.frc.team4946.robot.util.VisionAnglePIDSource;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -52,6 +51,8 @@ public class DriveTrainSubsystem extends Subsystem {
 	private NewVisionAnglePIDSource newTurnPidSource = new NewVisionAnglePIDSource(
 			gyro);
 	private SimplePIController turnPid;
+//	private PIDController pid;
+//	private PIDController pid2;
 
 	/**
 	 * CONSTRUCTOR
@@ -61,6 +62,7 @@ public class DriveTrainSubsystem extends Subsystem {
 				turnPidSource, false);
 
 		robotDrive.setExpiration(0.5);
+		robotDrive.setSafetyEnabled(false);
 
 		double wheelCirc = 8.0 * Math.PI;
 		double pulsesPerRevolution = 250.0 * 50.0 / 24.0;
@@ -73,13 +75,24 @@ public class DriveTrainSubsystem extends Subsystem {
 
 		gyro.calibrate();
 		gyro.setPIDSourceType(PIDSourceType.kDisplacement);
-		turnPid = new SimplePIController(0.3, 0.05, gyro);
-		// turnPid = new SimplePIController(0.025, 0.02, turnPidSource);
+		
+//		pid = new PIDController(0.0125, 0.01, 0.0, gyro, frontRightMotor);
+//		pid2 = new PIDController(0.0125, 0.01, 0.0, gyro, frontLeftMotor);
+
+//		pid.setContinuous(true);
+//		pid.setInputRange(0, 360);
+//		pid.setAbsoluteTolerance(3);
+//		pid2.setContinuous(true);
+//		pid2.setInputRange(0, 360);
+//		pid2.setAbsoluteTolerance(3);
+
+		turnPid = new SimplePIController(0.0125, 0.00001, gyro);
+//		 turnPid = new SimplePIController(0.025, 0.02, turnPidSource);
 		turnPid.setContinuous(true);
 		turnPid.setDirection(false);
 		turnPid.setInputRange(0, 360);
-		turnPid.setOutputRange(-0.5, 0.5);
-		turnPid.setTolerence(3);
+		turnPid.setOutputRange(-0.8, 0.8);
+		turnPid.setTolerence(5);
 	}
 
 	public void initDefaultCommand() {
@@ -99,16 +112,18 @@ public class DriveTrainSubsystem extends Subsystem {
 
 		robotDrive.arcadeDrive(drive, curve);
 
-		SmartDashboard.putNumber("gyro", Robot.driveTrainSubsystem.getGyro());
+		SmartDashboard.putNumber("gyro", gyro.getAngle());
 
-		SmartDashboard.putNumber("LeftWheelDist", encoderLeft.getDistance());
-		SmartDashboard.putNumber("LeftWheelSpeed", encoderLeft.getRate());
-		SmartDashboard.putNumber("LeftWheelRPM", encoderLeft.getRate()
-				/ (8 * Math.PI) * 60);
-		SmartDashboard.putNumber("RightWheelDist", encoderRight.getDistance());
-		SmartDashboard.putNumber("RightWheelSpeed", encoderRight.getRate());
-		SmartDashboard.putNumber("RightWheelRPM", encoderRight.getRate()
-				/ (8 * Math.PI) * 60);
+//		SmartDashboard.putNumber("LeftWheelDist", encoderLeft.getDistance());
+//		SmartDashboard.putNumber("LeftWheelSpeed", encoderLeft.getRate());
+//		SmartDashboard.putNumber("LeftWheelRPM", encoderLeft.getRate()
+//				/ (8 * Math.PI) * 60);
+//		SmartDashboard.putNumber("RightWheelDist", encoderRight.getDistance());
+//		SmartDashboard.putNumber("RightWheelSpeed", encoderRight.getRate());
+//		SmartDashboard.putNumber("RightWheelRPM", encoderRight.getRate()
+//				/ (8 * Math.PI) * 60);
+		
+		SmartDashboard.putNumber("Dist", this.getDistance());
 	}
 
 	public void resetEncoders() {
@@ -127,6 +142,8 @@ public class DriveTrainSubsystem extends Subsystem {
 
 	public void setSetpoint(double setPointAngleDegrees) {
 		turnPid.setSetpoint(setPointAngleDegrees);
+//		pid.setSetpoint(setPointAngleDegrees);
+//		pid2.setSetpoint(setPointAngleDegrees);
 	}
 
 	public double getGyro() {

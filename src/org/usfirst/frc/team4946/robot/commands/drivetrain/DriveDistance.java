@@ -3,6 +3,7 @@ package org.usfirst.frc.team4946.robot.commands.drivetrain;
 import org.usfirst.frc.team4946.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -17,25 +18,33 @@ public class DriveDistance extends Command {
 		requires(Robot.driveTrainSubsystem);
 		m_distanceInches = distanceInches;
 		m_speed = speed;
+		Robot.driveTrainSubsystem.resetEncoders();
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.driveTrainSubsystem.resetEncoders();
+		SmartDashboard.putNumber("Dist",
+				Robot.driveTrainSubsystem.getDistance());
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		Robot.driveTrainSubsystem.drive(m_speed, 0.0);
+		System.out.println(m_speed);
+		SmartDashboard.putNumber("Dist",
+				Robot.driveTrainSubsystem.getDistance());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Robot.driveTrainSubsystem.getDistance() >= (m_distanceInches - (m_speed * 3.0));
+		
+		return Math.abs(Robot.driveTrainSubsystem.getDistance()) >= (m_distanceInches - (m_speed * 3.0));
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
+		System.out.println("done");
 		Robot.driveTrainSubsystem.drive(0.0, 0.0);
 	}
 

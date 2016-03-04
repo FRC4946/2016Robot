@@ -1,20 +1,22 @@
-package org.usfirst.frc.team4946.robot.commands.shooter;
+package org.usfirst.frc.team4946.robot.commands.arm;
 
 import org.usfirst.frc.team4946.robot.Robot;
-import org.usfirst.frc.team4946.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * DOES NOT RETURN!!
  */
-public class RollerSpeedWithJoystickPID extends Command {
+public class LowerArm extends Command {
 
-	public RollerSpeedWithJoystickPID() {
-		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
-		requires(Robot.shooterSubsystem);
+	private double m_speed = 0.25;
+	
+	public LowerArm() {
+		requires(Robot.armSubsystem);
+	}
+	public LowerArm(double speed){
+		requires(Robot.armSubsystem);
+		m_speed = speed;
 	}
 
 	// Called just before this Command runs the first time
@@ -23,11 +25,9 @@ public class RollerSpeedWithJoystickPID extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double speed = Robot.oi.getOperatorStick().getRawAxis(3);
-		// Speed has a range from 0 to maxRPM.
-		speed = (-speed + 1.0) / 2.0 * RobotMap.MAX_RPM;
-		
-		Robot.shooterSubsystem.setVelocityPID(speed);
+
+		Robot.armSubsystem.setArmSpeed(m_speed);
+
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -37,10 +37,12 @@ public class RollerSpeedWithJoystickPID extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
+		Robot.armSubsystem.setArmSpeed(0.0);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		Robot.armSubsystem.setArmSpeed(0.0);
 	}
 }

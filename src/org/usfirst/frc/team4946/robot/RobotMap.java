@@ -40,5 +40,5 @@ public class RobotMap {
 	public static final int DIO_LIMIT_SWITCH_FEEDER = 9;
 
 	// For Velocity Math
-	public static final double MAX_RPM = 10400;
+	public static final double MAX_RPM = 7000;
 }

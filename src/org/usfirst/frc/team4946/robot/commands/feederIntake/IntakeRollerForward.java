@@ -23,7 +23,7 @@ public class IntakeRollerForward extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.intakeSubsystem.setInRollerSpeed(1.0);
+		Robot.intakeSubsystem.setInRollerSpeed(0.4);
 		Robot.feederSubsystem.setSpeed(1.0);
 	}
 

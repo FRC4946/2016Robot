@@ -7,28 +7,40 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class CalibrateArm extends Command {
+public class Wait extends Command {
 
-	public CalibrateArm() {
-		// Use requires() here to declare subsystem dependencies
+	double m_delayCycles;
+	int counter;
+
+	public Wait(double delaySecs) {
+
 		requires(Robot.armSubsystem);
+		requires(Robot.driveTrainSubsystem);
+		requires(Robot.feederSubsystem);
+		requires(Robot.intakeSubsystem);
+		requires(Robot.shooterSubsystem);
+		requires(Robot.winchSubsystem);
+		m_delayCycles = delaySecs * 50;
+
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		counter = 0;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (!Robot.armSubsystem.getArmIsUpright()) {
-			Robot.armSubsystem.setArmSpeed(-0.5);
-		}
+		counter++;
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return true;
-		//return Robot.armSubsystem.getArmIsUpright();
+		if (counter >= m_delayCycles) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	// Called once after isFinished returns true

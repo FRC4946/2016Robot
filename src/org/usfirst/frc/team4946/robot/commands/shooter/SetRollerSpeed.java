@@ -9,12 +9,15 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class RollerSpeedWithJoystickPID extends Command {
+public class SetRollerSpeed extends Command {
 
-	public RollerSpeedWithJoystickPID() {
+	double m_speed = 0;
+	
+	public SetRollerSpeed(double speed) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.shooterSubsystem);
+		m_speed = speed;
 	}
 
 	// Called just before this Command runs the first time
@@ -23,11 +26,7 @@ public class RollerSpeedWithJoystickPID extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double speed = Robot.oi.getOperatorStick().getRawAxis(3);
-		// Speed has a range from 0 to maxRPM.
-		speed = (-speed + 1.0) / 2.0 * RobotMap.MAX_RPM;
-		
-		Robot.shooterSubsystem.setVelocityPID(speed);
+		Robot.shooterSubsystem.setVelocityNoPID(m_speed);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

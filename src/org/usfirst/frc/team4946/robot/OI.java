@@ -2,12 +2,14 @@ package org.usfirst.frc.team4946.robot;
 
 import org.usfirst.frc.team4946.robot.commands.SwitchToFrontCam;
 import org.usfirst.frc.team4946.robot.commands.SwitchToRearCam;
+import org.usfirst.frc.team4946.robot.commands.autonomous.RotateToAngle;
 import org.usfirst.frc.team4946.robot.commands.drivetrain.TurnToFaceGoal;
 import org.usfirst.frc.team4946.robot.commands.feederIntake.IntakeRollerBackward;
 import org.usfirst.frc.team4946.robot.commands.feederIntake.IntakeRollerForward;
 import org.usfirst.frc.team4946.robot.commands.feederIntake.IntakeUntilLimitSwitch;
 import org.usfirst.frc.team4946.robot.commands.shooter.RollerSpeedWithJoystickPID;
 import org.usfirst.frc.team4946.robot.commands.shooter.RollerSpeedWithVision;
+import org.usfirst.frc.team4946.robot.commands.shooter.SetRollerSpeed;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -52,10 +54,16 @@ public class OI {
 	private Button intakeReverse = new JoystickButton(taskStick, 3);
 	private Button shootButton = new JoystickButton(taskStick, 1);
 
+	private Button preset1 = new JoystickButton(taskStick, 11);
+	private Button preset2 = new JoystickButton(taskStick, 12);
+	private Button preset3 = new JoystickButton(taskStick, 9);
+	private Button preset4 = new JoystickButton(taskStick, 10);
+
 	private Button shootWithJoystickPID = new JoystickButton(taskStick, 5);
 	private Button shootWithVision = new JoystickButton(taskStick, 6);
 
 	private Button turnToGoal = new JoystickButton(driveStick, 2);
+	private Button turn90 = new JoystickButton(driveStick, 1);
 	private Button camFront = new JoystickButton(driveStick, 3);
 	private Button camRear = new JoystickButton(driveStick, 4);
 
@@ -75,8 +83,12 @@ public class OI {
 
 		turnToGoal.whileHeld(new TurnToFaceGoal());
 
-		camFront.whenPressed(new SwitchToFrontCam());
-		camRear.whenPressed(new SwitchToRearCam());
+//		camFront.whenPressed(new SwitchToFrontCam());
+//		camRear.whenPressed(new SwitchToRearCam());
+		
+		preset1.whileHeld(new SetRollerSpeed(0.7));
+		preset2.whileHeld(new SetRollerSpeed(0.65));
+
 	}
 
 	// Start the command when the button is pressed and let it run the command

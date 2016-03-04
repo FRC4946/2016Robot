@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4946.robot.commands.autonomous;
 
 import org.usfirst.frc.team4946.robot.commands.drivetrain.DriveDistance;
+import org.usfirst.frc.team4946.robot.commands.drivetrain.DriveDistanceWithOrientation;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -16,14 +17,13 @@ public class RampartsScript extends CommandGroup {
 
 	public RampartsScript() {
 
-		// Drive from the outside of the neutral zone to the edge of the outer
-		// works
-		addSequential(new DriveDistance(
-				AutonomousWrapper.DISTANCE_AUTO_ZONE_INCHES
-						- AutonomousWrapper.ROBOT_LENGTH_INCHES, 1.0));
+//		// Drive from the outside of the neutral zone to the edge of the outer
+//		// works
+//		addSequential(new DriveDistance(
+//				AutonomousWrapper.DISTANCE_AUTO_ZONE_INCHES, 0.5));
 
 		// Reduce speed. Traverse the defense.
-		addSequential(new DriveDistance(
+		addSequential(new DriveDistanceWithOrientation(
 				AutonomousWrapper.DISTANCE_DEFENSE_WIDTH_INCHES, 0.75));
 
 	}

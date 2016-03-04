@@ -60,10 +60,6 @@ public class ArmSubsystem extends Subsystem {
 		}
 
 		m_armMotor.set(speed);
-
-		SmartDashboard.putNumber("Arm Speed", speed);
-		SmartDashboard.putBoolean("Arm Is Down", !m_limitDown.get());
-		SmartDashboard.putBoolean("Arm Is Up", !m_limitUp.get());
 	}
 
 	public boolean getArmIsUpright() {

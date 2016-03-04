@@ -9,10 +9,6 @@ import org.usfirst.frc.team4946.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team4946.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4946.robot.subsystems.WinchSubsystem;
 
-import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.FlipAxis;
-
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -93,6 +89,7 @@ public class Robot extends IterativeRobot {
 		m_autoDefense.addObject("Sally Port", Defenses.SALLY_PORT);
 		m_autoDefense.addObject("Rock Wall", Defenses.ROCK_WALL);
 		m_autoDefense.addObject("Rough Terrain", Defenses.ROUGH_TERRAIN);
+		m_autoDefense.addObject("DO NOTHING", 9);
 
 		// Create the selector on the SmartDashboard for the starting position
 		m_autoPosition = new SendableChooser();
@@ -101,11 +98,12 @@ public class Robot extends IterativeRobot {
 		m_autoPosition.addObject("Pos 3", 3);
 		m_autoPosition.addObject("Pos 4", 4);
 		m_autoPosition.addObject("Pos 5 (Next to Secret Passage)", 5);
+		m_autoPosition.addObject("DO NOTHING", 6);
+
 
 		// Place the two selectors on the SmartDashboard
 		SmartDashboard.putData("Autonomous - Defense", m_autoDefense);
-		SmartDashboard
-				.putData("Autonomous - Starting Position", m_autoPosition);
+		SmartDashboard.putData("Autonomous - Starting Position", m_autoPosition);
 	}
 
 	/**

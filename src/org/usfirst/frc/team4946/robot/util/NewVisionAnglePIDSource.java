@@ -34,7 +34,7 @@ public class NewVisionAnglePIDSource implements PIDSource, ITableListener {
 	public double pidGet() {
 
 		if (hasFreshValue == false) {
-			SmartDashboard.putNumber("Thing Angle", 0.0);
+//			SmartDashboard.putNumber("Thing Angle", 0.0);
 			return 0.0;
 		}
 
@@ -44,7 +44,7 @@ public class NewVisionAnglePIDSource implements PIDSource, ITableListener {
 
 		m_gyro.reset();
 
-		SmartDashboard.putNumber("Thing Angle", visionAngle);
+//		SmartDashboard.putNumber("Thing Angle", visionAngle);
 		return visionAngle;
 	}
 
@@ -54,7 +54,7 @@ public class NewVisionAnglePIDSource implements PIDSource, ITableListener {
 		hasFreshValue = true;
 		m_gyro.reset();
 
-		SmartDashboard.putNumber("Cam Angle", visionAngle);
+//		SmartDashboard.putNumber("Cam Angle", visionAngle);
 		visionAngle = source.getNumber("FINAL_ANGLE_TO_GOAL", 0);
 	}
 

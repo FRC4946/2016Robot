@@ -23,7 +23,6 @@ public class RateCounter extends Counter implements PIDSource {
 			rate = 1.0 / period * 60.0;
 
 		return rate;
-
 	}
 
 	public double pidGet() {
