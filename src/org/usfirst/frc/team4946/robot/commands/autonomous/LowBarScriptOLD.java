@@ -12,18 +12,17 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * 
  * 1. Drive forwards 6 feet to traverse from neutral to courtyard. 2. Done.
  */
-public class LowBarScript extends CommandGroup {
+public class LowBarScriptOLD extends CommandGroup {
 
-	public LowBarScript() {
-		// Lower the arm
+	public LowBarScriptOLD() {
+		// Lower the arm while driving forwards
 		addSequential(new LowerArm(), 1.5);
-		
-		// Drive forwards
-		addSequential(new DriveDistance(AutonomousWrapper.DISTANCE_AUTO_ZONE_INCHES, 0.7));
+		addSequential(new DriveDistance(AutonomousWrapper.DISTANCE_AUTO_ZONE_INCHES, -0.7));
 		addSequential(new DriveDistance(
-				AutonomousWrapper.DISTANCE_DEFENSE_WIDTH_INCHES+10, 0.7));
-		
-		// Raise the arm
+				AutonomousWrapper.DISTANCE_DEFENSE_WIDTH_INCHES+10, -0.7));
 		addSequential(new RaiseArm(), 1.5);
+//		addSequential(new Wait(1));
+		addSequential(new RotateToAngle(180), 5);
+
 	}
 }

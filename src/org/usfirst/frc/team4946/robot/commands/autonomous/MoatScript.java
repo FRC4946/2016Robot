@@ -20,11 +20,14 @@ public class MoatScript extends CommandGroup {
 
 		// Save this position as the angle 0
 		Robot.driveTrainSubsystem.resetGyro();
+
+		addSequential(new DriveDistance(
+				AutonomousWrapper.DISTANCE_AUTO_ZONE_INCHES, 0.5));
 		
-		// Reduce speed. Traverse the defense.
+		// Change speed. Traverse the defense.
 		addSequential(new DriveDistance(
 				AutonomousWrapper.DISTANCE_DEFENSE_WIDTH_INCHES + 60, 0.8));
 
-		addSequential(new ReturnToZeroAngle());
+		addSequential(new ReturnToZeroAngle(), 3);
 	}
 }

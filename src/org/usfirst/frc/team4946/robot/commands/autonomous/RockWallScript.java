@@ -1,7 +1,9 @@
 package org.usfirst.frc.team4946.robot.commands.autonomous;
 
+import org.usfirst.frc.team4946.robot.Robot;
 import org.usfirst.frc.team4946.robot.commands.drivetrain.DriveDistance;
 import org.usfirst.frc.team4946.robot.commands.drivetrain.DriveDistanceWithOrientation;
+import org.usfirst.frc.team4946.robot.commands.drivetrain.ReturnToZeroAngle;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -16,14 +18,18 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class RockWallScript extends CommandGroup {
 
 	public RockWallScript() {
-//		// Drive from the outside of the neutral zone to the edge of the outer
-//		// works
-//		addSequential(new DriveDistance(
-//				AutonomousWrapper.DISTANCE_AUTO_ZONE_INCHES, 0.5));
-//
-//		
+		// Save this position as the angle 0
+		Robot.driveTrainSubsystem.resetGyro();
+		
+		// Drive from the outside of the neutral zone to the edge of the outer
+		// works
+		addSequential(new DriveDistance(
+				AutonomousWrapper.DISTANCE_AUTO_ZONE_INCHES, 0.7));
+		
 		// Reduce speed. Traverse the defense.
-		addSequential(new DriveDistanceWithOrientation(AutonomousWrapper.DISTANCE_DEFENSE_WIDTH_INCHES, 0.75));
+		addSequential(new DriveDistance(AutonomousWrapper.DISTANCE_DEFENSE_WIDTH_INCHES+60, 0.8));
 	
+		addSequential(new ReturnToZeroAngle(), 3);
+		
 	}
 }

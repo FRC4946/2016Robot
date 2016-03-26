@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4946.robot;
 
 import org.usfirst.frc.team4946.robot.commands.autonomous.AutonomousWrapper;
+import org.usfirst.frc.team4946.robot.commands.autonomous.Team188Script;
 import org.usfirst.frc.team4946.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team4946.robot.subsystems.Cameras;
 import org.usfirst.frc.team4946.robot.subsystems.DriveTrainSubsystem;
@@ -38,6 +39,7 @@ public class Robot extends IterativeRobot {
 	public static Cameras cameras;
 
 	private CommandGroup m_autonomousCommandGroup;
+	private SendableChooser m_autoScript;
 	private SendableChooser m_autoDefense;
 	private SendableChooser m_autoPosition;
 
@@ -49,6 +51,7 @@ public class Robot extends IterativeRobot {
 	 *
 	 */
 	public static class Defenses {
+		public static final int NOTHING = -1;
 		public static final int LOW_BAR = 0;
 		public static final int PORTCULLIS = 1;
 		public static final int CHEVAL_DE_FRISE = 2;
@@ -58,6 +61,8 @@ public class Robot extends IterativeRobot {
 		public static final int SALLY_PORT = 6;
 		public static final int ROCK_WALL = 7;
 		public static final int ROUGH_TERRAIN = 8;
+		public static final int SALLY_PORT_FAST = 9;
+		public static final int LOW_BAR_OLD = 10;
 	}
 
 	/**
@@ -78,9 +83,15 @@ public class Robot extends IterativeRobot {
 
 		oi = new OI();
 
+		m_autoScript = new SendableChooser();
+		m_autoScript.addDefault("Cross then shoot", 1);
+		m_autoScript.addObject("188 Script", 2);
+		m_autoScript.addObject("Do Nothing", -1);
+
 		// Create the selector on the SmartDashboard for the defense to traverse
 		m_autoDefense = new SendableChooser();
-		m_autoDefense.addDefault("Low Bar", Defenses.LOW_BAR);
+		m_autoDefense.addDefault("Low Bar NO TURN", Defenses.LOW_BAR);
+		m_autoDefense.addObject("Low Bar OLD", Defenses.LOW_BAR_OLD);
 		m_autoDefense.addObject("Portcullis", Defenses.PORTCULLIS);
 		m_autoDefense.addObject("Cheval de Frise", Defenses.CHEVAL_DE_FRISE);
 		m_autoDefense.addObject("Moat", Defenses.MOAT);
@@ -89,7 +100,8 @@ public class Robot extends IterativeRobot {
 		m_autoDefense.addObject("Sally Port", Defenses.SALLY_PORT);
 		m_autoDefense.addObject("Rock Wall", Defenses.ROCK_WALL);
 		m_autoDefense.addObject("Rough Terrain", Defenses.ROUGH_TERRAIN);
-		m_autoDefense.addObject("DO NOTHING", 9);
+		m_autoDefense.addObject("Sally Port FAST", Defenses.SALLY_PORT_FAST);
+		m_autoDefense.addObject("DO NOTHING", Defenses.NOTHING);
 
 		// Create the selector on the SmartDashboard for the starting position
 		m_autoPosition = new SendableChooser();
@@ -97,13 +109,15 @@ public class Robot extends IterativeRobot {
 		m_autoPosition.addObject("Pos 2", 2);
 		m_autoPosition.addObject("Pos 3", 3);
 		m_autoPosition.addObject("Pos 4", 4);
-		m_autoPosition.addObject("Pos 5 (Next to Secret Passage)", 5);
-		m_autoPosition.addObject("DO NOTHING", 6);
-
+		m_autoPosition.addObject("Pos 5 NOT PERP (Next to Secret Passage)", 5);
+		m_autoPosition.addObject("Pos 5 PERP (Next to Secret Passage)", 6);
+		m_autoPosition.addObject("DO NOTHING", -1);
 
 		// Place the two selectors on the SmartDashboard
+		SmartDashboard.putData("Autonomous - Script", m_autoScript);
 		SmartDashboard.putData("Autonomous - Defense", m_autoDefense);
-		SmartDashboard.putData("Autonomous - Starting Position", m_autoPosition);
+		SmartDashboard
+				.putData("Autonomous - Starting Position", m_autoPosition);
 	}
 
 	/**
@@ -121,12 +135,30 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousInit() {
 
-		// Get the user-selected position and defense
-		int defense = (int) m_autoDefense.getSelected();
-		int position = (int) m_autoPosition.getSelected();
+		// Get the user-selected auto script
+		int script = (int) m_autoScript.getSelected();
+		
+		// If they selected "Do Nothing", return.
+		if (script == -1) {
+			return;
+		}
+		
+		// If they selected "188 Script", run the 188 script
+		else if (script == 2) {
+			// Create the autonomous command using the user-selected values
+			m_autonomousCommandGroup = new Team188Script();
+		}
+		
+		// If they selected "Cross then Shoot", run the multi-script
+		else {
+			
+			// Get the user-selected position and defense
+			int defense = (int) m_autoDefense.getSelected();
+			int position = (int) m_autoPosition.getSelected();
 
-		// Create the autonomous command using the user-selected values
-		m_autonomousCommandGroup = new AutonomousWrapper(defense, position);
+			// Create the autonomous command using the user-selected values
+			m_autonomousCommandGroup = new AutonomousWrapper(defense, position);
+		}
 
 		// Start the autonomous command
 		m_autonomousCommandGroup.start();

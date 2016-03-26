@@ -18,19 +18,21 @@ public class RoughTerrainScript extends CommandGroup {
 
 	public RoughTerrainScript() {
 
-		// // Drive from the outside of the neutral zone to the edge of the
-		// outer
-		// // works
-		// addSequential(new DriveDistance(
-		// AutonomousWrapper.DISTANCE_AUTO_ZONE_INCHES, 0.5));
+		// Save this position as the angle 0
+		Robot.driveTrainSubsystem.resetGyro();
+
+		// Drive from the outside of the neutral zone to the edge of the outer
+		// works
+		addSequential(new DriveDistance(
+				AutonomousWrapper.DISTANCE_AUTO_ZONE_INCHES, 0.5));
 
 		// Save this position as the angle 0
 		Robot.driveTrainSubsystem.resetGyro();
 
-		// Reduce speed. Traverse the defense.
+		// Change speed. Traverse the defense.
 		addSequential(new DriveDistance(
 				AutonomousWrapper.DISTANCE_DEFENSE_WIDTH_INCHES, 0.7));
 
-		addSequential(new ReturnToZeroAngle());
+		addSequential(new ReturnToZeroAngle(), 3);
 	}
 }

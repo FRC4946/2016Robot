@@ -1,8 +1,8 @@
 package org.usfirst.frc.team4946.robot;
 
-import org.usfirst.frc.team4946.robot.commands.SwitchToFrontCam;
-import org.usfirst.frc.team4946.robot.commands.SwitchToRearCam;
-import org.usfirst.frc.team4946.robot.commands.autonomous.RotateToAngle;
+import org.usfirst.frc.team4946.robot.commands.SallyPortPreset;
+import org.usfirst.frc.team4946.robot.commands.arm.ArmDoNothing;
+import org.usfirst.frc.team4946.robot.commands.drivetrain.DriveWithJoystickCommand;
 import org.usfirst.frc.team4946.robot.commands.drivetrain.TurnToFaceGoal;
 import org.usfirst.frc.team4946.robot.commands.feederIntake.IntakeRollerBackward;
 import org.usfirst.frc.team4946.robot.commands.feederIntake.IntakeRollerForward;
@@ -56,16 +56,17 @@ public class OI {
 
 	private Button preset1 = new JoystickButton(taskStick, 11);
 	private Button preset2 = new JoystickButton(taskStick, 12);
-	private Button preset3 = new JoystickButton(taskStick, 9);
-	private Button preset4 = new JoystickButton(taskStick, 10);
+//	private Button preset3 = new JoystickButton(taskStick, 9);
+//	private Button preset4 = new JoystickButton(taskStick, 10);
 
-	private Button shootWithJoystickPID = new JoystickButton(taskStick, 5);
-	private Button shootWithVision = new JoystickButton(taskStick, 6);
+	private Button shootWithJoystickPID = new JoystickButton(taskStick, 4);
+//	private Button shootWithVision = new JoystickButton(taskStick, 6);
 
-	private Button turnToGoal = new JoystickButton(driveStick, 2);
-	private Button turn90 = new JoystickButton(driveStick, 1);
-	private Button camFront = new JoystickButton(driveStick, 3);
-	private Button camRear = new JoystickButton(driveStick, 4);
+//	private Button turnToGoal = new JoystickButton(driveStick, 2);
+	private Button sallyPortPreset = new JoystickButton(driveStick, 7);
+//	private Button turn90 = new JoystickButton(driveStick, 1);
+//	private Button camFront = new JoystickButton(driveStick, 3);
+//	private Button camRear = new JoystickButton(driveStick, 4);
 
 	public OI() {
 		//
@@ -79,9 +80,12 @@ public class OI {
 		intakeReverse.whileHeld(new IntakeRollerBackward());
 
 		shootWithJoystickPID.whileHeld(new RollerSpeedWithJoystickPID());
-		shootWithVision.whileHeld(new RollerSpeedWithVision());
+//		shootWithVision.whileHeld(new RollerSpeedWithVision());
 
-		turnToGoal.whileHeld(new TurnToFaceGoal());
+//		turnToGoal.whileHeld(new TurnToFaceGoal());
+		sallyPortPreset.whenPressed(new SallyPortPreset());
+		sallyPortPreset.whenReleased(new DriveWithJoystickCommand());
+		sallyPortPreset.whenReleased(new ArmDoNothing());
 
 //		camFront.whenPressed(new SwitchToFrontCam());
 //		camRear.whenPressed(new SwitchToRearCam());

@@ -12,12 +12,23 @@ public class DriveDistance extends Command {
 
 	private double m_distanceInches;
 	private double m_speed;
+	private double m_turn;
 
 	public DriveDistance(double distanceInches, double speed) {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.driveTrainSubsystem);
 		m_distanceInches = distanceInches;
 		m_speed = speed;
+		Robot.driveTrainSubsystem.resetEncoders();
+		m_turn = 0;
+	}
+
+	public DriveDistance(double distanceInches, double speed, double turn) {
+		// Use requires() here to declare subsystem dependencies
+		requires(Robot.driveTrainSubsystem);
+		m_distanceInches = distanceInches;
+		m_speed = speed;
+		m_turn = turn;
 		Robot.driveTrainSubsystem.resetEncoders();
 	}
 
@@ -30,7 +41,7 @@ public class DriveDistance extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.driveTrainSubsystem.drive(m_speed, 0.0);
+		Robot.driveTrainSubsystem.drive(m_speed, m_turn);
 		System.out.println(m_speed);
 		SmartDashboard.putNumber("Dist",
 				Robot.driveTrainSubsystem.getDistance());
@@ -38,7 +49,7 @@ public class DriveDistance extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		
+
 		return Math.abs(Robot.driveTrainSubsystem.getDistance()) >= (m_distanceInches - (m_speed * 3.0));
 	}
 
