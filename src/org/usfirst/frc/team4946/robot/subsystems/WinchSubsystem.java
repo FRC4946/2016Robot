@@ -2,7 +2,7 @@ package org.usfirst.frc.team4946.robot.subsystems;
 
 import org.usfirst.frc.team4946.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -10,17 +10,19 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class WinchSubsystem extends Subsystem {
 
-	private CANTalon m_winchMotor = new CANTalon(RobotMap.CAN_TALON_WINCH);
+	public static double EXTEND_SPEED = 0.8;
+	public static double RETRACT_SPEED = -0.5;
+
+	
+	private VictorSP m_leftWinchMotor = new VictorSP(RobotMap.PWM_VICTOR_SP_WINCH_LEFT);
+	private VictorSP m_rightWinchMotor = new VictorSP(RobotMap.PWM_VICTOR_SP_WINCH_RIGHT);
 
 	public void initDefaultCommand() {
 	}
 
-	public void setMotor(double speed) {
-		m_winchMotor.set(speed);
-	}
-
-	public void stopMotor() {
-		m_winchMotor.set(0.0);
+	public void setSpeed(double speed) {
+		m_leftWinchMotor.set(speed);
+		m_rightWinchMotor.set(-speed);
 	}
 
 }

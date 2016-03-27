@@ -16,13 +16,15 @@ public class RobotMap {
 	public static final int CAN_TALON_SHOOTER_LEFT = 0;
 	public static final int CAN_TALON_SHOOTER_RIGHT = 1;
 	public static final int CAN_TALON_ARM = 2;
-	public static final int CAN_TALON_WINCH = 3;
+//	public static final int CAN_TALON_WINCH = 3;
 
 	public static final int PWM_VICTOR_SP_FRONT_RIGHT_DRIVE = 0;
 	public static final int PWM_VICTOR_SP_FRONT_LEFT_DRIVE = 2;
 	public static final int PWM_VICTOR_SP_REAR_RIGHT_DRIVE = 1;
 	public static final int PWM_VICTOR_SP_REAR_LEFT_DRIVE = 3;
 	public static final int PWM_VICTOR_SP_INTAKE = 4;
+	public static final int PWM_VICTOR_SP_WINCH_LEFT = 6;
+	public static final int PWM_VICTOR_SP_WINCH_RIGHT = 7;
 	public static final int PWM_VICTOR_SP_FEEDER_LEFT = 9;
 	public static final int PWM_VICTOR_SP_FEEDER_RIGHT = 8;
 
